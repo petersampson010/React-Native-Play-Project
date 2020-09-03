@@ -1,21 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import OpenerScreen from './screens/opener';
+import LoginScreen from './screens/login';
+import AdminAccountSetupScreen from './screens/adminAccountSetup';
+import NewTeamSetupScreen from './screens/newTeamSetup';
+import ContactUsScreen from './screens/contactUs';
+import HomeScreen from './screens/home';
 
-export default function App() {
+
+const Stack = createStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Opener">
+        <Stack.Screen name="Opener" component={OpenerScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="AdminAccountSetup" component={AdminAccountSetupScreen} />
+        <Stack.Screen name="NewTeamSetup" component={NewTeamSetupScreen} />
+        <Stack.Screen name="ContactUs" component={ContactUsScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

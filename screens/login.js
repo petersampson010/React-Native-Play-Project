@@ -3,6 +3,8 @@ import { View, Text, Button, Switch } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { login } from '../actions';
+import { fetchAllUsers } from '../APIcalls'; 
+// unsure on how to call the function from somewhere else  when i need the whole process to be asynchronous otherwise the function in this file will still try to send data to the reducer which is yet to be fetched
 
 
 class LoginScreen extends Component {
@@ -31,16 +33,15 @@ class LoginScreen extends Component {
     })
   }
   
-  handleSubmit = () => {
-    console.log("HIT")
-    fetch('http://localhost:3000/users')
-    .then(res => res.json())
-    .then(data => data.filter(x => x.username===this.state.email && x.password===this.state.password)[0])
-    .then(user => this.handleReturn(user))
+  async handleSubmit() {
+    const res = await fetch('http://localhost:3000/users');
+    const json = await res.json();
+    const user = await json[0];
+    this.handleReturn(user);
   }
     
   handleReturn = user => {
-    console.log("here")
+    console.log("here: " + user);
     if (user !== undefined && user !== null) {
       this.props.login(user);
       this.props.navigation.navigate('Home');
@@ -73,8 +74,11 @@ class LoginScreen extends Component {
     }
   }
 
-  const mapDispatchToProps = {
-      login
+  const mapDispatchToProps = dispatch => {
+    return {
+      login: user => dispatch(login(user)),
+
+    }
   }
 
   // export default LoginScreen;

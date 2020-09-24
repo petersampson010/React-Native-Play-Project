@@ -8,6 +8,8 @@ import AdminAccountSetupScreen from './screens/adminAccountSetup';
 import NewTeamSetupScreen from './screens/newTeamSetup';
 import ContactUsScreen from './screens/contactUs';
 import HomeScreen from './screens/home';
+import TransfersScreen from './screens/transfers';
+import LeagueScreen from './screens/league';
 
 
 const Stack = createStackNavigator();
@@ -22,6 +24,9 @@ function App() {
         <Stack.Screen name="NewTeamSetup" component={NewTeamSetupScreen} />
         <Stack.Screen name="ContactUs" component={ContactUsScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Transfers" component={TransfersScreen} />
+        <Stack.Screen name="League" component={LeagueScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

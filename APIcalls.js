@@ -34,3 +34,25 @@ export const postAdminUser = aUser => {
     return fetch('http://localhost:3000/admin_users', configObj)
     .then(res=>res.json())
 }
+
+export const postPlayer = (player, aUserId) => {
+    console.log(typeof player.price);
+    console.log(typeof aUserId);
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            first_name: player.name.split(' ')[0],
+            last_name: player.name.split(' ')[1],
+            position: player.position,
+            price: parseInt(player.price),
+            availability: 'a',
+            admin_user_id: aUserId
+        })
+    };
+    return fetch('http://localhost:3000/players', configObj)
+    .then(res=>res.json())
+}

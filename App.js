@@ -10,6 +10,7 @@ import ContactUsScreen from './screens/contactUs';
 import HomeScreen from './screens/home';
 import TransfersScreen from './screens/transfers';
 import LeagueScreen from './screens/league';
+import ClubSetupScreen from './screens/clubSetup';
 
 
 const Stack = createStackNavigator();
@@ -26,7 +27,7 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Transfers" component={TransfersScreen} />
         <Stack.Screen name="League" component={LeagueScreen} />
-
+        <Stack.Screen name="ClubSetup" component={ClubSetupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

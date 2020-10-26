@@ -53,7 +53,6 @@ class AdminAccountSetupScreen extends Component {
     // loop1:
     for (let i=0;i<allAdminUsers.length;i++) {
       let user = allAdminUsers[i];
-      console.log(user);
       if (user.username===this.state.aUserObj.email) {
         this.setState({...this.state, error: "Email already exists, please try again or go back and try to login using this email"});
         valid = false;
@@ -83,11 +82,12 @@ class AdminAccountSetupScreen extends Component {
       if (validAccount) {
         let adminUser = await postAdminUser(this.state.aUserObj);
         this.props.addAdminUser(adminUser);
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('ClubSetup');
       }
     } catch(e) {
       console.warn(e);
     }
+    return;
   }
 
   render() {

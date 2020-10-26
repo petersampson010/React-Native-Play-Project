@@ -16,8 +16,8 @@ class HomeScreen extends Component {
                     onDismiss={this.props.reverseHomeScreenMenuVisibility}
                     anchor={<Button onPress={this.props.reverseHomeScreenMenuVisibility}>Show Menu</Button>}
                     >
-                        <Menu.Item onPress={()=> this.props.navigation.navigate('transfers')} title="Transfers"/>
-                        <Menu.Item onPress={()=> this.props.navigation.navigate('league')} title="League"/>
+                        <Menu.Item onPress={()=> this.props.navigation.navigate('Transfers')} title="Transfers"/>
+                        <Menu.Item onPress={()=> this.props.navigation.navigate('League')} title="League"/>
                         {/* <Menu.Item onPress={()=> navigation.navigate('transfers')} title="Transfers"/> */}
                     </Menu>
                 </View>

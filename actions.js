@@ -11,3 +11,10 @@ export const reverseHomeScreenMenuVisibility = () => {
         type: 'REVERSEHOMESCREENMENUVISIBILITY'
     }
 }
+
+export const addAdminUser = aUser => {
+    return {
+        type: 'ADDADMINUSER',
+        aUser
+    }
+}

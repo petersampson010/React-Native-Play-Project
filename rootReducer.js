@@ -1,6 +1,7 @@
 const initialState = {
     user: {},
-    homeScreenMenuVisibility: false
+    homeScreenMenuVisibility: false,
+    aUser: {}
 }
 
 
@@ -9,8 +10,9 @@ const rootReducer = (state = initialState, action) => {
         case 'LOGIN':
             return {...state, user: action.user};
         case 'REVERSEHOMESCREENMENUVISIBILITY':
-            console.log({...state, homeScreenMenuVisibility: !state.homeScreenMenuVisibility})
             return {...state, homeScreenMenuVisibility: !state.homeScreenMenuVisibility}
+        case 'ADDADMINUSER':
+            return {...state, aUser: action.aUser}
         default:
             return state;
     }

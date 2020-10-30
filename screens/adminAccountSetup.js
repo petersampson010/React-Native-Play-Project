@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, Button, Switch } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { addAdminUser } from '../actions';
-import { fetchAllAdminUsers, postAdminUser } from '../APIcalls'; 
+import { setAdminUser } from '../actions';
+import { fetchAllAdminUsers, postAdminUser } from '../functions/APIcalls'; 
 
 class AdminAccountSetupScreen extends Component {
 
@@ -35,10 +35,6 @@ class AdminAccountSetupScreen extends Component {
       ...this.state, aUserObj: {...this.state.aUserObj, terms: !this.state.terms}
     })
   }
-
-  // trying to make checkValidAccount asynchronous so that the fetch of all users can check of them can be performed before returning the value 'valid'
-  // However, it needs to return true/false but async functions return promises 
-  // DILEMMA 
 
   checkValidAccount = (allAdminUsers) => {
     if (this.checkEmailUsername(allAdminUsers) && this.checkPassword()) {
@@ -81,7 +77,7 @@ class AdminAccountSetupScreen extends Component {
       let validAccount = this.checkValidAccount(allAdminUsers);
       if (validAccount) {
         let adminUser = await postAdminUser(this.state.aUserObj);
-        this.props.addAdminUser(adminUser);
+        this.props.setAdminUser(adminUser);
         this.props.navigation.navigate('ClubSetup');
       }
     } catch(e) {
@@ -114,7 +110,7 @@ class AdminAccountSetupScreen extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addAdminUser: aUser => dispatch(addAdminUser(aUser)),
+    setAdminUser: aUser => dispatch(setAdminUser(aUser)),
   }
 }
 

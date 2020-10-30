@@ -3,40 +3,40 @@ import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet, SectionList, ScrollView, Picker } from 'react-native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { Table, Row, Rows } from 'react-native-table-component';
-import { postPlayer } from '../APIcalls';
+import { postPlayer } from '../functions/APIcalls';
+import  { validatePlayer } from '../functions/validity'
 
 
 class ClubSetupScreen extends Component {
 
     state = {
-        tableHeaders: ['Name', 'Position', 'Price (£) 0.1-12.0'],
-        noOfPlayers: 0,
+        tableHeaders: ['Name', 'Position', 'Price, £m, 0-99'],
         players: {
-            0: {name: '', position:"Goalkeeper", price: 0.00},
-            1: {name: '', position:"Goalkeeper", price: 0.00},
-            2: {name: '', position:"Goalkeeper", price: 0.00},
-            3: {name: '', position:"Goalkeeper", price: 0.00},
-            4: {name: '', position:"Goalkeeper", price: 0.00},
-            5: {name: '', position:"Goalkeeper", price: 0.00},
-            6: {name: '', position:"Goalkeeper", price: 0.00},
-            7: {name: '', position:"Goalkeeper", price: 0.00},
-            8: {name: '', position:"Goalkeeper", price: 0.00},
-            9: {name: '', position:"Goalkeeper", price: 0.00},
-            10: {name: '', position:"Goalkeeper", price: 0.00},
-            11: {name: '', position:"Goalkeeper", price: 0.00},
-            12: {name: '', position:"Goalkeeper", price: 0.00},
-            12: {name: '', position:"Goalkeeper", price: 0.00},
-            13: {name: '', position:"Goalkeeper", price: 0.00},
-            14: {name: '', position:"Goalkeeper", price: 0.00},
-            15: {name: '', position:"Goalkeeper", price: 0.00},
-            16: {name: '', position:"Goalkeeper", price: 0.00},
-            17: {name: '', position:"Goalkeeper", price: 0.00},
-            18: {name: '', position:"Goalkeeper", price: 0.00},
-            19: {name: '', position:"Goalkeeper", price: 0.00},
-            20: {name: '', position:"Goalkeeper", price: 0.00},
-            21: {name: '', position:"Goalkeeper", price: 0.00},
-            22: {name: '', position:"Goalkeeper", price: 0.00},
-            23: {name: '', position:"Goalkeeper", price: 0.00}
+            0: {name: '', position:"Goalkeeper", price: ''},
+            1: {name: '', position:"Goalkeeper", price: ''},
+            2: {name: '', position:"Goalkeeper", price: ''},
+            3: {name: '', position:"Goalkeeper", price: ''},
+            4: {name: '', position:"Goalkeeper", price: ''},
+            5: {name: '', position:"Goalkeeper", price: ''},
+            6: {name: '', position:"Goalkeeper", price: ''},
+            7: {name: '', position:"Goalkeeper", price: ''},
+            8: {name: '', position:"Goalkeeper", price: ''},
+            9: {name: '', position:"Goalkeeper", price: ''},
+            10: {name: '', position:"Goalkeeper", price: ''},
+            11: {name: '', position:"Goalkeeper", price: ''},
+            12: {name: '', position:"Goalkeeper", price: ''},
+            12: {name: '', position:"Goalkeeper", price: ''},
+            13: {name: '', position:"Goalkeeper", price: ''},
+            14: {name: '', position:"Goalkeeper", price: ''},
+            15: {name: '', position:"Goalkeeper", price: ''},
+            16: {name: '', position:"Goalkeeper", price: ''},
+            17: {name: '', position:"Goalkeeper", price: ''},
+            18: {name: '', position:"Goalkeeper", price: ''},
+            19: {name: '', position:"Goalkeeper", price: ''},
+            21: {name: '', position:"Goalkeeper", price: ''},
+            20: {name: '', position:"Goalkeeper", price: ''},
+            22: {name: '', position:"Goalkeeper", price: ''},
+            23: {name: '', position:"Goalkeeper", price: ''}
         }
     }
 
@@ -44,21 +44,34 @@ class ClubSetupScreen extends Component {
         this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], position: selectedValue}}})
     }
 
+    updatePrice = (text, i) => {
+        if (text.match('^[1-9]{1,2}$')) {
+            this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: text}}})
+        } else if (text.match('^[0-9]{3,}$')) {
+            this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: text.substring(0,2)}}})
+        } else {
+            this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: ''}}})
+        }
+    }
+
+
     renderRow = (i)  => <Row style={styles.row} data={
         [<TextInput value={this.state.players[i].name} onChange={el=>this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], name: el.nativeEvent.text}}})}/>, 
         <Picker style={styles.picker} key={i} selectedValue={this.state.players[i].position} onValueChange={value=>this.updatePosition(i, value)}>
             <Picker.Item label="GK" value="Goalkeeper"/>
             <Picker.Item label="DEF" value="Defender"/>
             <Picker.Item label="MID" value="Midfielder"/>
-            <Picker.Item label="FWD" value="Forward"/></Picker>,
-        <TextInput value={this.state.players[i].price} onChange={el=>this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: el.nativeEvent.text}}})}/>]
+            <Picker.Item label="FWD" value="Forward"/>
+        </Picker>,
+        <TextInput 
+        placeholder='£1m - £99m'
+        value={this.state.players[i].price} 
+        onChange={el=>this.updatePrice(el.nativeEvent.text, i)}
+        />]
     }/>
 
     submitPlayers = () => {
-        console.log('hit');
-        this.countPlayers();
-        console.log(this.state.noOfPlayers);
-        if (this.state.noOfPlayers>0) {
+        if (this.countPlayers()>1) {
             this.postPlayers();
         } else {
             console.warn('not enough players ya get me')
@@ -67,29 +80,17 @@ class ClubSetupScreen extends Component {
 
     postPlayers = async() => {
         try {
-            let i=0;
-            console.log(this.props.aUserId)
-            while (i<24) {
-                if (this.validatePlayer(this.state.players[i])) {
-                    console.log('before');
-                    let player = await postPlayer(this.state.players[i], this.props.aUserId);
-                    console.log(player);
-                    console.log("after");
+            for (let i=0;i<24;i++) {
+                let entry = this.state.players[i];
+                if (validatePlayer(entry)) {
+                    await postPlayer(entry, this.props.aUserId);
+                } else {
+                    console.warn('invalid entry: ' + i);
                 }
-                i++;
             }
-            return;
-        } catch(e) {
+            this.props.navigation.navigate('Home');
+        } catch(e)  {
             console.warn(e);
-        }
-        return;
-    }
-
-    validatePlayer = player => {
-        if (player.name!==''&&player.price!==0) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -101,7 +102,7 @@ class ClubSetupScreen extends Component {
                 noOfPlayers++;
             }
         }
-        this.setState({...this.state, noOfPlayers: noOfPlayers});
+        return noOfPlayers;
     }
 
     render() {
@@ -109,7 +110,7 @@ class ClubSetupScreen extends Component {
           <ScrollView >
             <View style={styles.topBar}>
                 <Text>Club Setup</Text>
-                <Button title="Submit Club Players" onClick={this.submitPlayers}/>
+                <Button title="Submit Club Players" onPress={this.submitPlayers}/>
             </View>
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                 <Row style={styles.head} data={this.state.tableHeaders}/>
@@ -145,7 +146,7 @@ class ClubSetupScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        aUserId: state.aUser.id
+        aUserId: state.aUser.admin_user_id
     }
 }
 

@@ -18,7 +18,7 @@ class OpenerScreen extends Component {
                     <Text style={styles.text}>Dont have an account for your club, set up a new admin account and team for your players to join</Text>
                 </View>
                 <View style={styles.optionContainer}>
-                    <Button title="New Fantasy Team"/>
+                    <Button title="New Fantasy Team" onPress={()=>this.props.navigation.navigate('nts1')}/>
                     <Text style={styles.text}>Does your club already have an account with us, but you dont have a team. Set one up here</Text>
                 </View>
                 <View style={styles.optionContainer}>

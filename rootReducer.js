@@ -1,18 +1,30 @@
 const initialState = {
+    admin: false,
     user: {},
+    aUser: {},
     homeScreenMenuVisibility: false,
-    aUser: {}
+    aUser: {},
+    clubPlayers: [],
+    menu: false,
 }
 
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGIN':
-            return {...state, user: action.user};
-        case 'REVERSEHOMESCREENMENUVISIBILITY':
-            return {...state, homeScreenMenuVisibility: !state.homeScreenMenuVisibility}
-        case 'ADDADMINUSER':
+            if (action.user.user_id===undefined) {
+                return {...this.state, aUser: action.user, admin: true}
+            } else {
+                return {...state, user: action.user};
+            }
+        case 'REVERSEMENU':
+            return {...state, menu: !state.menu}
+        case 'SETADMINUSER':
             return {...state, aUser: action.aUser}
+        case 'SETCLUBPLAYERS':
+            return {...state, clubPlayers: action.players}
+        case 'SETUSER':
+            return {...state, user: action.user}
         default:
             return state;
     }

@@ -1,20 +1,33 @@
 export const login = user => {
-    console.log("login: " + user);
     return {
         type: 'LOGIN',
         user
     }
 }
 
-export const reverseHomeScreenMenuVisibility = () => {
+export const reverseMenu = () => {
     return {
-        type: 'REVERSEHOMESCREENMENUVISIBILITY'
+        type: 'REVERSEMENU'
     }
 }
 
-export const addAdminUser = aUser => {
+export const setAdminUser = aUser => {
     return {
-        type: 'ADDADMINUSER',
+        type: 'SETADMINUSER',
         aUser
+    }
+}
+
+export const setClubPlayers = players => {
+    return {
+        type: 'SETCLUBPLAYERS',
+        players
+    }
+}
+
+export const setUser = user => {
+    return {
+        type: 'SETUSER',
+        user
     }
 }

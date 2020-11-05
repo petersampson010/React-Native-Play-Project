@@ -11,32 +11,33 @@ class ClubSetupScreen extends Component {
 
     state = {
         tableHeaders: ['Name', 'Position', 'Price, £m, 0-99'],
+        totalPrice: 0,
         players: {
-            0: {name: '', position:"Goalkeeper", price: ''},
-            1: {name: '', position:"Goalkeeper", price: ''},
-            2: {name: '', position:"Goalkeeper", price: ''},
-            3: {name: '', position:"Goalkeeper", price: ''},
-            4: {name: '', position:"Goalkeeper", price: ''},
-            5: {name: '', position:"Goalkeeper", price: ''},
-            6: {name: '', position:"Goalkeeper", price: ''},
-            7: {name: '', position:"Goalkeeper", price: ''},
-            8: {name: '', position:"Goalkeeper", price: ''},
-            9: {name: '', position:"Goalkeeper", price: ''},
-            10: {name: '', position:"Goalkeeper", price: ''},
-            11: {name: '', position:"Goalkeeper", price: ''},
-            12: {name: '', position:"Goalkeeper", price: ''},
-            12: {name: '', position:"Goalkeeper", price: ''},
-            13: {name: '', position:"Goalkeeper", price: ''},
-            14: {name: '', position:"Goalkeeper", price: ''},
-            15: {name: '', position:"Goalkeeper", price: ''},
-            16: {name: '', position:"Goalkeeper", price: ''},
-            17: {name: '', position:"Goalkeeper", price: ''},
-            18: {name: '', position:"Goalkeeper", price: ''},
-            19: {name: '', position:"Goalkeeper", price: ''},
-            21: {name: '', position:"Goalkeeper", price: ''},
-            20: {name: '', position:"Goalkeeper", price: ''},
-            22: {name: '', position:"Goalkeeper", price: ''},
-            23: {name: '', position:"Goalkeeper", price: ''}
+            0: {name: '', position:1, price: ''},
+            1: {name: '', position:1, price: ''},
+            2: {name: '', position:1, price: ''},
+            3: {name: '', position:1, price: ''},
+            4: {name: '', position:1, price: ''},
+            5: {name: '', position:1, price: ''},
+            6: {name: '', position:1, price: ''},
+            7: {name: '', position:1, price: ''},
+            8: {name: '', position:1, price: ''},
+            9: {name: '', position:1, price: ''},
+            10: {name: '', position:1, price: ''},
+            11: {name: '', position:1, price: ''},
+            12: {name: '', position:1, price: ''},
+            12: {name: '', position:1, price: ''},
+            13: {name: '', position:1, price: ''},
+            14: {name: '', position:1, price: ''},
+            15: {name: '', position:1, price: ''},
+            16: {name: '', position:1, price: ''},
+            17: {name: '', position:1, price: ''},
+            18: {name: '', position:1, price: ''},
+            19: {name: '', position:1, price: ''},
+            21: {name: '', position:1, price: ''},
+            20: {name: '', position:1, price: ''},
+            22: {name: '', position:1, price: ''},
+            23: {name: '', position:1, price: ''}
         }
     }
 
@@ -45,8 +46,8 @@ class ClubSetupScreen extends Component {
     }
 
     updatePrice = (text, i) => {
-        if (text.match('^[1-9]{1,2}$')) {
-            this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: text}}})
+        if (text.match('^[0-9]{1,2}$')) {
+            this.setState({...this.state, averagePrice: this.state.totalPrice, players: {...this.state.players, [i]: {...this.state.players[i], price: text}}})
         } else if (text.match('^[0-9]{3,}$')) {
             this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: text.substring(0,2)}}})
         } else {
@@ -58,10 +59,10 @@ class ClubSetupScreen extends Component {
     renderRow = (i)  => <Row style={styles.row} data={
         [<TextInput value={this.state.players[i].name} onChange={el=>this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], name: el.nativeEvent.text}}})}/>, 
         <Picker style={styles.picker} key={i} selectedValue={this.state.players[i].position} onValueChange={value=>this.updatePosition(i, value)}>
-            <Picker.Item label="GK" value="Goalkeeper"/>
-            <Picker.Item label="DEF" value="Defender"/>
-            <Picker.Item label="MID" value="Midfielder"/>
-            <Picker.Item label="FWD" value="Forward"/>
+            <Picker.Item label="GK" value={1}/>
+            <Picker.Item label="DEF" value={2}/>
+            <Picker.Item label="MID" value={3}/>
+            <Picker.Item label="FWD" value={4}/>
         </Picker>,
         <TextInput 
         placeholder='£1m - £99m'
@@ -112,6 +113,7 @@ class ClubSetupScreen extends Component {
                 <Text>Club Setup</Text>
                 <Button title="Submit Club Players" onPress={this.submitPlayers}/>
             </View>
+            <Text>Average Player Price: £{this.state.averagePrice}m</Text>
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                 <Row style={styles.head} data={this.state.tableHeaders}/>
                 {this.renderRow(0)}

@@ -25,11 +25,6 @@ class PlayerGraphic extends Component {
     render() { 
         return ( 
             <View style={styles.container} onStartShouldSetResponder={()=>this.props.deselect(this.props.player)}>
-                {/* <Image
-                source={shirtImg}
-                style={styles.shirt}
-                > */}
-                {/* </Image> */}
                 <Text style={styles.number}>{this.playerNumber()}</Text>
                 <Text style={styles.name}>{this.playerName()}</Text>
             </View>
@@ -42,14 +37,7 @@ export default PlayerGraphic;
 const styles = StyleSheet.create({
     container: {
     },
-    // shirt: {
-    //     width: 90,
-    //     height: 120,
-    //     resizeMode: 'center',
-    //     backgroundColor: 'green'
-    // },
     number: {
-        // marginTop: ,
         fontSize: 18
     },
     name: {

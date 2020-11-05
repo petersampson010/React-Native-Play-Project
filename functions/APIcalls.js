@@ -6,25 +6,41 @@ export const fetchAllAdminUsers = () => {
     return fetch('http://localhost:3000/admin_users')
     .then(res=>res.json());
 }
+export const fetchAllPlayers = () => {
+    return fetch('http://localhost:3000/players')
+    .then(res => res.json())
+}
 export const fetchAllPlayersOfAdminUser = id => {
     return fetch('http://localhost:3000/players')
     .then(res => res.json())
     .then(data => data.filter(x=>x.admin_user_id===id))
 }
 
+export const fetchAllPlayerUserJoinersOfUser = id => {
+    return fetch('http://localhost:3000/player_user_joiners')
+    .then(res => res.json())
+    .then(data => data.filter(x=>x.user_id===id))
+}
+
+
 
 export const fetchUser = userObj => {
     return fetchAllUsers()
-    .then(users=>users.find(x=>x.username===userObj.email))
+    .then(users=>users.find(x=>x.email===userObj.email))
 }
 export const fetchAdminUser = aUserObj => {
     return fetchAllAdminUsers()
-    .then(aUsers=>aUsers.find(x=>x.username===aUserObj.email))
+    .then(aUsers=>aUsers.find(x=>x.email===aUserObj.email))
 }
 
 export const fetchAdminUserById = id => {
     return fetchAllAdminUsers()
     .then(aUsers => aUsers.find(x=>x.admin_user_id===id))
+}
+
+export const fetchPlayerFromId = id => {
+    return fetchAllPlayers()
+    .then(players => players.find(x=>x.player_id===id))
 }
 
 
@@ -36,9 +52,9 @@ export const postAdminUser = aUser => {
             "Accept": "application/json"
         },
         body: JSON.stringify({
-            username: aUser.email,
+            email: aUser.email,
             password: aUser.password,
-            club_name: aUser.clubName
+            club_name: aUser.email
         })
     };
     return fetch('http://localhost:3000/admin_users', configObj)
@@ -71,8 +87,8 @@ export const postUser = (userObj) => {
             "Accept": "application/json"
         },
         body: JSON.stringify({
-            username: userObj.email,
-            teamname: userObj.clubName,
+            email: userObj.email,
+            teamname: userObj.teamName,
             password: userObj.password,
             transfers: 0,
             admin_user_id: userObj.clubId

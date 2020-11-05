@@ -12,6 +12,7 @@ import HomeScreen from './screens/home';
 import TransfersScreen from './screens/transfers';
 import LeagueScreen from './screens/league';
 import ClubSetupScreen from './screens/clubSetup';
+import PickTeamScreen from './screens/pickTeam';
 
 import PlayerGraphic from './components/playerGraphic'
 
@@ -31,6 +32,7 @@ function App() {
         <Stack.Screen name="Transfers" component={TransfersScreen} />
         <Stack.Screen name="League" component={LeagueScreen} />
         <Stack.Screen name="ClubSetup" component={ClubSetupScreen} />
+        <Stack.Screen name="PickTeam" component={PickTeamScreen} />
       </Stack.Navigator>
     </NavigationContainer>
     // <PlayerGraphic/>

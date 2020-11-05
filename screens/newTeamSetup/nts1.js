@@ -13,7 +13,7 @@ class ntsScreen1 extends Component {
   state = {
     userObj: {
       email: '',
-      clubName: '',
+      teamName: '',
       password: '',
       rePassword: '',
       clubId: '',
@@ -28,8 +28,8 @@ class ntsScreen1 extends Component {
       case 'email': 
         this.setState({...this.state, userObj: {...this.state.userObj, email: entry}})
         break;
-      case 'clubName': 
-        this.setState({...this.state, userObj: {...this.state.userObj, clubName: entry}})
+      case 'teamName': 
+        this.setState({...this.state, userObj: {...this.state.userObj, teamName: entry}})
         break;
       case 'password': 
         this.setState({...this.state, userObj: {...this.state.userObj, password: entry}})
@@ -42,13 +42,26 @@ class ntsScreen1 extends Component {
     }
   }
 
-  handleSubmit = async() => {
+  fetchInfo = async() => {
     const { userObj } = this.state;
     try {
       let allUsers = await fetchAllUsers();
       let allAdminUsers = await fetchAllAdminUsers();
       let aUser = await fetchAdminUserById(parseInt(userObj.clubId));
-      if (validateUser(allUsers, allAdminUsers, userObj)) {
+      let { result, error } = validateUser(allUsers, allAdminUsers, userObj);
+      if (result) {
+        this.handleSubmit(allUsers, allAdminUsers, aUser);
+      } else {
+        this.setState({...this.state, error});
+      }
+    } catch(e) {
+      this.setState({...this.state, error: 'Network Issues: Please try again in 5 minutes'});
+    }
+  }
+
+  handleSubmit = async(allUsers, allAdminUsers, aUser) => {
+    const { userObj } = this.state;
+    try {
         await postUser(userObj)
         .then(result=>{
           if (result.transfers===0) {
@@ -61,9 +74,6 @@ class ntsScreen1 extends Component {
           } else {
             console.warn("fetch return: ", result)
           }})
-      } else {
-        console.warn("Invalid user");
-      }
     } catch(e) {
       console.warn(e);
     }
@@ -77,7 +87,7 @@ class ntsScreen1 extends Component {
           <Text>Email</Text>
           <TextInput value={this.state.userObj.email} onChange={el => this.formChange('email', el.nativeEvent.text)}/>
           <Text>Club Name</Text>
-          <TextInput value={this.state.userObj.clubName} onChange={el => this.formChange('clubName', el.nativeEvent.text)}/>
+          <TextInput value={this.state.userObj.teamName} onChange={el => this.formChange('teamName', el.nativeEvent.text)}/>
           <Text>Password</Text>
           <TextInput value={this.state.userObj.password} onChange={el => this.formChange('password', el.nativeEvent.text)}/>
           <Text>Re-enter Password</Text>
@@ -85,7 +95,7 @@ class ntsScreen1 extends Component {
           <Text>Club ID</Text>
           <TextInput value={this.state.userObj.clubId} onChange={el => this.formChange('clubID', el.nativeEvent.text)}/>
           <Text style={{color: 'red'}}>{this.state.error}</Text>
-          <Button title="Sign Up" onPress={this.handleSubmit}/>
+          <Button title="Sign Up" onPress={this.fetchInfo}/>
         </View>
       </View>
     );

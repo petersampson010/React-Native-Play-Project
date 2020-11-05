@@ -8,8 +8,7 @@ class HomeScreen extends Component {
     render() { 
         return ( 
             <View>
-                <MyHeader title="title of APP" navigate={page=>this.props.navigation.navigate(page)}/>
-                
+                <MyHeader title="title of APP" navigate={page=>this.props.navigation.navigate(page)}/> 
             </View>
          );
     }

@@ -31,3 +31,17 @@ export const setUser = user => {
         user
     }
 }
+
+export const setTeamPlayers = players => {
+    return {
+        type: 'SETTEAMPLAYERS',
+        players
+    }
+}
+
+export const addTeamPlayer = player => {
+    return {
+        type: 'ADDTEAMPLAYER',
+        player
+    }
+}

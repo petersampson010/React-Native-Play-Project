@@ -10,18 +10,20 @@ export const validatePlayer = player => {
 }
 
 export const validateUser = (allUsers, allAdminUsers, user) => {
+    let result = true;
+    let error = ''
     let clubId = parseInt(user.clubId);
     let allAdminUserIds = allAdminUsers.map(x=>x.admin_user_id);
     if (allAdminUserIds.includes(clubId))  {
         allUsers.forEach(x => {
-            if (x.username===user.email) {
-                console.log("email address already registered!")
-                return false;
+            if (x.email===user.email) {
+                error = "email address already registered!";
+                result = false;
             }
         })
-        return true;
     } else {
-        console.log('Invalid Club ID');
-        return false;
+        error = 'Invalid Club ID';
+        result = false;
     }
+    return { result, error };
 }

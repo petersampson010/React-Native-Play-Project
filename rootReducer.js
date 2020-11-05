@@ -2,10 +2,8 @@ const initialState = {
     admin: false,
     user: {},
     aUser: {},
-    homeScreenMenuVisibility: false,
-    aUser: {},
     clubPlayers: [],
-    menu: false,
+    teamPlayers: []
 }
 
 
@@ -17,14 +15,14 @@ const rootReducer = (state = initialState, action) => {
             } else {
                 return {...state, user: action.user};
             }
-        case 'REVERSEMENU':
-            return {...state, menu: !state.menu}
         case 'SETADMINUSER':
             return {...state, aUser: action.aUser}
         case 'SETCLUBPLAYERS':
             return {...state, clubPlayers: action.players}
         case 'SETUSER':
             return {...state, user: action.user}
+        case 'ADDTEAMPLAYER':
+            return {...state, teamPlayers: [...state.teamPlayers, action.player]}
         default:
             return state;
     }

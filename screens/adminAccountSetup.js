@@ -37,19 +37,19 @@ class AdminAccountSetupScreen extends Component {
   }
 
   checkValidAccount = (allAdminUsers) => {
-    if (this.checkEmailUsername(allAdminUsers) && this.checkPassword()) {
+    if (this.checkEmail(allAdminUsers) && this.checkPassword()) {
       return true;
     } else {
       return false;
     }
   }
 
-  checkEmailUsername = allAdminUsers => {
+  checkEmail = allAdminUsers => {
     let valid = true;
     // loop1:
     for (let i=0;i<allAdminUsers.length;i++) {
       let user = allAdminUsers[i];
-      if (user.username===this.state.aUserObj.email) {
+      if (user.email===this.state.aUserObj.email) {
         this.setState({...this.state, error: "Email already exists, please try again or go back and try to login using this email"});
         valid = false;
         break;

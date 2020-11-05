@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { View, Text, Button, Switch } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { login } from '../actions';
-import { fetchUser, fetchAdminUser } from '../functions/APIcalls'; 
-// unsure on how to call the function from somewhere else  when i need the whole process to be asynchronous otherwise the function in this file will still try to send data to the reducer which is yet to be fetched
+import { login, addTeamPlayer } from '../actions';
+import { fetchUser, fetchAdminUser, fetchPlayerFromId, fetchAllPlayerUserJoinersOfUser } from '../functions/APIcalls'; 
 
 
 class LoginScreen extends Component {
   
   state = {
     userObj: {
-      email: "p",
-      password: 'p'
+      email: 'V',
+      password: 'V'
     },
     error: '',
     admin: false
@@ -64,14 +63,23 @@ class LoginScreen extends Component {
     }
   }
     
-  handleReturn = user => {
-    if (user !== undefined && user !== null) {
-      this.props.login(user);
-      this.props.navigation.navigate('Home');
-    } else {
-      this.setState({email: "p",
-      password: 'p',
-      error: 'login failed, please try again!'});
+  handleReturn = async(user) => {
+    try {
+      if (user !== undefined && user !== null) {
+        this.props.login(user);
+        let puJoiners = await fetchAllPlayerUserJoinersOfUser(user.user_id);
+        for (let i=0;i<puJoiners.length;i++) {
+          let player = await fetchPlayerFromId(puJoiners[i].player_id);
+          this.props.addTeamPlayer(player);
+        }
+        this.props.navigation.navigate('Home');
+      } else {
+        this.setState({email: 'V',
+        password: 'V',
+        error: 'login failed, please try again!'});
+      }
+    } catch(e) {
+      console.warn(e);
     }
   }
 
@@ -96,7 +104,7 @@ class LoginScreen extends Component {
   const mapDispatchToProps = dispatch => {
     return {
       login: user => dispatch(login(user)),
-
+      addTeamPlayer: player => dispatch(addTeamPlayer(player))
     }
   }
 

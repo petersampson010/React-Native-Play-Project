@@ -7,7 +7,7 @@ class Pitch extends Component {
     state = {  }
 
     componentDidMount() {
-        console.log(this.props.teamPlayers[1][1]);
+
     }
     render() { 
         return ( 
@@ -16,16 +16,16 @@ class Pitch extends Component {
                 {/* <Text>{this.props.teamPlayers[2][1].first_name}</Text> */}
                 <View style={styles.starters}>
                     <View style={styles.goalkeeper}>
-                        {this.props.teamPlayers[1].map((player, i) => <PlayerGraphic player={player} key={i} num={i+1} deselect={this.props.deselect}/>)}
+                        {this.props.teamPlayers[1].map((player, i) => <PlayerGraphic player={player} key={i} num={i+1} clickFcn={this.props.clickFcn}/>)}
                     </View>
                     <View style={styles.defender}>
-                        {this.props.teamPlayers[2].map((player, i) => <PlayerGraphic player={player} key={i} num={i+2} deselect={this.props.deselect}/>)}
+                        {this.props.teamPlayers[2].map((player, i) => <PlayerGraphic player={player} key={i} num={i+2} clickFcn={this.props.clickFcn}/>)}
                     </View>
                     <View style={styles.midfielder}>
-                        {this.props.teamPlayers[3].map((player, i) => <PlayerGraphic player={player} key={i} num={i+2+this.props.teamPlayers[2].length} deselect={this.props.deselect}/>)}
+                        {this.props.teamPlayers[3].map((player, i) => <PlayerGraphic player={player} key={i} num={i+2+this.props.teamPlayers[2].length} clickFcn={this.props.clickFcn}/>)}
                     </View>
                     <View style={styles.forward}>
-                        {this.props.teamPlayers[4].map((player, i) => <PlayerGraphic player={player} key={i} num={i+2+this.props.teamPlayers[2].length+this.props.teamPlayers[3].length} deselect={this.props.deselect}/>)}
+                        {this.props.teamPlayers[4].map((player, i) => <PlayerGraphic player={player} key={i} num={i+2+this.props.teamPlayers[2].length+this.props.teamPlayers[3].length} clickFcn={this.props.clickFcn}/>)}
                     </View>
                 </View>
             </View>

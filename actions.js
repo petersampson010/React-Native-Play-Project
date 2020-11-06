@@ -1,13 +1,11 @@
-export const login = user => {
+export const loginUser = (user, clubPlayers, starters, subs, puJoiners) => {
     return {
-        type: 'LOGIN',
-        user
-    }
-}
-
-export const reverseMenu = () => {
-    return {
-        type: 'REVERSEMENU'
+        type: 'LOGINUSER',
+        user,
+        clubPlayers, 
+        starters, 
+        subs,
+        puJoiners
     }
 }
 
@@ -39,9 +37,30 @@ export const setTeamPlayers = players => {
     }
 }
 
-export const addTeamPlayer = player => {
+export const addSub = player => {
     return {
-        type: 'ADDTEAMPLAYER',
+        type: 'ADDSUB',
         player
+    }
+}
+
+export const addStarter = player => {
+    return {
+        type: 'ADDSTARTER',
+        player
+    }
+}
+
+export const updateTeam = (team, subs) => {
+    return {
+        type: 'UPDATETEAM',
+        team,
+        subs
+    }
+}
+
+export const resetTeamPlayers = () => {
+    return {
+        type: 'RESETTEAMPLAYERS'
     }
 }

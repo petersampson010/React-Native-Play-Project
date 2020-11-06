@@ -2,16 +2,22 @@ import React, { Component } from 'react';
 import { View, Text, Button, Switch } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
-import { login, addTeamPlayer } from '../actions';
-import { fetchUser, fetchAdminUser, fetchPlayerFromId, fetchAllPlayerUserJoinersOfUser } from '../functions/APIcalls'; 
+import { loginUser, resetTeamPlayers } from '../actions';
+import { fetchUserByEmail, fetchAdminUser, fetchAllPlayersByAdminUserId, fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId } from '../functions/APIcalls'; 
 
 
 class LoginScreen extends Component {
+
+
+  // EVENTUALLY YOU NEED A CLEAR BREAK BETWEEN LOGGED IN AND NOT 
+  // shouldnt be able to go back to login once logged in 
+  // just have a log out button 
+  // this will clear up the glitch where we had to reset team players as it was rendering double triple players
   
   state = {
     userObj: {
-      email: 'V',
-      password: 'V'
+      email: 'A',
+      password: 'A'
     },
     error: '',
     admin: false
@@ -56,7 +62,7 @@ class LoginScreen extends Component {
   
   handleUserSubmit = async() => {
     try {
-      let user = await fetchUser(this.state.userObj);
+      let user = await fetchUserByEmail(this.state.userObj);
       this.handleReturn(user);
     } catch(e) {
       console.warn(e);
@@ -66,12 +72,11 @@ class LoginScreen extends Component {
   handleReturn = async(user) => {
     try {
       if (user !== undefined && user !== null) {
-        this.props.login(user);
-        let puJoiners = await fetchAllPlayerUserJoinersOfUser(user.user_id);
-        for (let i=0;i<puJoiners.length;i++) {
-          let player = await fetchPlayerFromId(puJoiners[i].player_id);
-          this.props.addTeamPlayer(player);
-        }
+        let clubPlayers = await fetchAllPlayersByAdminUserId(user.admin_user_id)
+        let starters = await fetchStartersByUserId(user.user_id);
+        let subs = await fetchSubsByUserId(user.user_id);
+        let puJoiners = await fetchAllPlayerUserJoinersByUserId(user.user_id);
+        this.props.loginUser(user, clubPlayers, starters, subs, puJoiners);
         this.props.navigation.navigate('Home');
       } else {
         this.setState({email: 'V',
@@ -103,8 +108,10 @@ class LoginScreen extends Component {
 
   const mapDispatchToProps = dispatch => {
     return {
-      login: user => dispatch(login(user)),
-      addTeamPlayer: player => dispatch(addTeamPlayer(player))
+      loginUser: (user, clubPlayers, starters, subs, puJoiners) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners)),
+      resetTeamPlayers: () => dispatch(resetTeamPlayers()),
+      // addSub: player => dispatch(addSub(player)),
+      // addStarter: player => dispatch(addStarter(player))
     }
   }
 

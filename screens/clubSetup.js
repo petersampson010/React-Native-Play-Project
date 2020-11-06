@@ -56,20 +56,25 @@ class ClubSetupScreen extends Component {
     }
 
 
-    renderRow = (i)  => <Row style={styles.row} data={
-        [<TextInput value={this.state.players[i].name} onChange={el=>this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], name: el.nativeEvent.text}}})}/>, 
-        <Picker style={styles.picker} key={i} selectedValue={this.state.players[i].position} onValueChange={value=>this.updatePosition(i, value)}>
-            <Picker.Item label="GK" value={1}/>
-            <Picker.Item label="DEF" value={2}/>
-            <Picker.Item label="MID" value={3}/>
-            <Picker.Item label="FWD" value={4}/>
-        </Picker>,
-        <TextInput 
-        placeholder='£1m - £99m'
-        value={this.state.players[i].price} 
-        onChange={el=>this.updatePrice(el.nativeEvent.text, i)}
-        />]
-    }/>
+    renderRows = () => {
+        return Object.keys(this.state.players).map((i) => {
+            return <Row style={styles.row} data={
+                [<TextInput value={this.state.players[i].name} onChange={el=>this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], name: el.nativeEvent.text}}})}/>, 
+                <Picker style={styles.picker} key={i} selectedValue={this.state.players[i].position} onValueChange={value=>this.updatePosition(i, value)}>
+                    <Picker.Item label="GK" value={1}/>
+                    <Picker.Item label="DEF" value={2}/>
+                    <Picker.Item label="MID" value={3}/>
+                    <Picker.Item label="FWD" value={4}/>
+                </Picker>,
+                <TextInput 
+                placeholder='£1m - £99m'
+                value={this.state.players[i].price} 
+                onChange={el=>this.updatePrice(el.nativeEvent.text, i)}
+                />]
+            }/>
+        })
+    }
+
 
     submitPlayers = () => {
         if (this.countPlayers()>1) {
@@ -116,11 +121,11 @@ class ClubSetupScreen extends Component {
             <Text>Average Player Price: £{this.state.averagePrice}m</Text>
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                 <Row style={styles.head} data={this.state.tableHeaders}/>
-                {this.renderRow(0)}
-                {this.renderRow(1)}
+                {this.renderRows()}
+                {/* {this.renderRow(1)}
                 {this.renderRow(2)}
-                {this.renderRow(3)}
-                {this.renderRow(4)}
+                {this.renderRow(3)} */}
+                {/* {this.renderRow(4)}
                 {this.renderRow(5)}
                 {this.renderRow(6)}
                 {this.renderRow(7)}
@@ -139,7 +144,7 @@ class ClubSetupScreen extends Component {
                 {this.renderRow(20)}
                 {this.renderRow(21)}
                 {this.renderRow(22)}
-                {this.renderRow(23)}
+                {this.renderRow(23)} */}
             </Table>
           </ScrollView>
         );

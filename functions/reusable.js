@@ -13,15 +13,37 @@ export const positionString = (num) => {
     }
 }
 
-export const teamPlayersArrayToObj = (teamPlayersArr) => {
+export const playersArrayToObj = arr => {
     let obj = {
         1: [],
         2: [],
         3: [],
         4: []
     };
-    for (let i=0;i<teamPlayersArr.length;i++) {
-        obj[teamPlayersArr[i].position].push(teamPlayersArr[i]);
+    for (let i=0;i<arr.length;i++) {
+        obj[arr[i].position].push(arr[i]);
     }
     return obj;
+}
+
+export const playersObjToArray = obj => {
+    return Object.entries(obj).flat(Infinity);
+}
+
+export const isCaptain = (player, puJoiners) => {
+    let puJoiner = puJoiners.find(x=>x.player_id===player.player_id);
+    if (puJoiner.captain) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export const isVCaptain = (player, puJoiners) => {
+    let puJoiner = puJoiners.find(x=>x.player_id===player.player_id);
+    if (puJoiner.vice_captain) {
+        return true;
+    } else {
+        return false;
+    }
 }

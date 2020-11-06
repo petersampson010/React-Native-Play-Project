@@ -11,7 +11,7 @@ import { positionString } from '../../functions/reusable';
 
 class ntsScreen2 extends Component {
     state = { 
-        budget: 500,
+        budget: 600,
         num: 1,
         positionFilter: 0,
         error: '',
@@ -26,7 +26,7 @@ class ntsScreen2 extends Component {
     select = player => {
         const { selectedPlayers } = this.state;
         let newBudget = this.state.budget - player.price;
-        if (selectedPlayers.length>8) {
+        if (selectedPlayers.length>7) {
             this.setState({...this.state, error: 'too many players, please deselect a player before adding anymore'});
         } else if (newBudget<0) {
             this.setState({...this.state, error:  'not enough money'})
@@ -80,20 +80,18 @@ class ntsScreen2 extends Component {
     submitTeam = async() => {
         let selectedPlayers = this.allSelectedPlayers();
         try {
-            if (selectedPlayers.length===7) {
+            if (selectedPlayers.length===8) {
                 if (this.state.selectedPlayers[1].length===1) {
-                    for (let i=0;i<7;i++) {
-                        await postPlayerUserJoiner(selectedPlayers[i], this.props.user.user_id)
-                        .then(console.log)
+                    for (let i=0;i<8;i++) {
+                        await postPlayerUserJoiner(selectedPlayers[i], this.props.user.user_id, i)
                     }
-                    console.log('finished loop');
                     // this.props.setTeamPlayers(selectedPlayers);
-                    this.props.navigation.navigate('Home');
+                    this.props.navigation.navigate('Login');
                 } else {
                     this.setState({...this.state, error: 'You need one goalkeeper selected'});
                 }
             } else {
-                this.setState({...this.state, error: 'You need 7 players in your team!'})
+                this.setState({...this.state, error: 'You need 8 players in your team!'})
             }
         } catch(e) {
             console.warn(e);
@@ -152,7 +150,6 @@ class ntsScreen2 extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.positionFilter);
     }
     
 
@@ -161,7 +158,7 @@ class ntsScreen2 extends Component {
             <ScrollView style={styles.container}>
                 <MyHeader style={styles.header} title='Team Selection'/>
                 <Text>Transfer Budget: £{this.state.budget}m</Text>
-                <Pitch teamPlayers={this.state.selectedPlayers} deselect={this.deselect}/>
+                <Pitch teamPlayers={this.state.selectedPlayers} clickFcn={this.deselect} setup={true}/>
                 <Text style={{color: 'red'}}>{this.state.error}</Text>
                 <Button title="Submit Team" onPress={this.submitTeam}/>
                 <View style={styles.filter}>

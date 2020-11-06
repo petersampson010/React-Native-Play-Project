@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Image, Text, StyleSheet, View } from 'react-native';
-import shirtImg from '../images/shirt.jpg';
+import { Image, Text, StyleSheet, View, Button } from 'react-native';
+
 
 class PlayerGraphic extends Component {
     state = {  }
@@ -22,13 +22,25 @@ class PlayerGraphic extends Component {
             return '';
         }
     }
-    render() { 
-        return ( 
-            <View style={styles.container} onStartShouldSetResponder={()=>this.props.deselect(this.props.player)}>
-                <Text style={styles.number}>{this.playerNumber()}</Text>
-                <Text style={styles.name}>{this.playerName()}</Text>
-            </View>
-         );
+    render() {
+        if (this.props.setup) {
+            return (
+                <View style={styles.container} onPress={()=>this.props.clickFcn(this.props.player)}>
+                    <Text style={styles.number}>{this.playerNumber()}</Text>
+                    <Text style={styles.name}>{this.playerName()}</Text>
+                </View>
+            )
+        } else {
+            return ( 
+                <View style={styles.container}>
+                    <Text style={styles.number}>{this.playerNumber()}</Text>
+                    <Text style={styles.name}>{this.playerName()}</Text>
+                    {this.props.player.captain ? <Text style={{color: 'red'}}>CAPTAIN</Text> : null}
+                    {this.props.player.vCaptain ? <Text style={{color: 'red'}}>VICE - CAPTAIN</Text> : null}
+                    <Button title="SUB" onPress={()=>this.props.clickFcn(this.props.player)}/>
+                </View>
+             );
+        }
     }
 }
  

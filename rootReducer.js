@@ -1,28 +1,32 @@
+import { playersObjToArray } from "./functions/reusable";
+
 const initialState = {
     admin: false,
     user: {},
     aUser: {},
     clubPlayers: [],
-    teamPlayers: []
+    starters: [],
+    subs: [],
+    puJoiners: []
 }
 
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'LOGIN':
-            if (action.user.user_id===undefined) {
-                return {...this.state, aUser: action.user, admin: true}
-            } else {
-                return {...state, user: action.user};
-            }
+        case 'LOGINUSER':
+            return {...state, user: action.user, clubPlayers: action.clubPlayers, starters: action.starters, subs: action.subs, puJoiners: action.puJoiners}
+        case 'LOGINADMINUSER':
+            return;
         case 'SETADMINUSER':
-            return {...state, aUser: action.aUser}
+            return {...state, aUser: action.aUser};
         case 'SETCLUBPLAYERS':
-            return {...state, clubPlayers: action.players}
+            return {...state, clubPlayers: action.players};
         case 'SETUSER':
-            return {...state, user: action.user}
-        case 'ADDTEAMPLAYER':
-            return {...state, teamPlayers: [...state.teamPlayers, action.player]}
+            return {...state, user: action.user};
+        case 'RESETTEAMPLAYERS':
+            return {...state, starters: [], subs: []};
+        case 'UPDATETEAM':
+            return {...state, starters: playersObjToArray(action.team), subs: action.subs}
         default:
             return state;
     }

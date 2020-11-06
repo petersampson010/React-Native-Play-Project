@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Button, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { fetchAdminUserById, fetchAllAdminUsers, fetchAllPlayersOfAdminUser, fetchAllUsers, postUser } from '../../functions/APIcalls';
+import { fetchAdminUserById, fetchAllAdminUsers, fetchAllPlayersByAdminUserId, fetchAllUsers, postUser } from '../../functions/APIcalls';
 import { validateUser } from '../../functions/validity';
 import MyHeader from '../../components/myHeader';
 import { setAdminUser, setClubPlayers, setUser } from '../../actions';
@@ -68,7 +68,7 @@ class ntsScreen1 extends Component {
             this.setState({signedUp: true});
             this.props.setUser(result);
             this.props.setAdminUser(aUser);
-            fetchAllPlayersOfAdminUser(aUser.admin_user_id)
+            fetchAllPlayersByAdminUserId(aUser.admin_user_id)
             .then(players => this.props.setClubPlayers(players))
             .then(() => this.props.navigation.navigate('nts2'));
           } else {

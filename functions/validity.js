@@ -1,4 +1,5 @@
 import { fetchAllUsers } from "./APIcalls";
+import { playersObjToArray } from "./reusable";
 
 
 export const validatePlayer = player => {
@@ -26,4 +27,17 @@ export const validateUser = (allUsers, allAdminUsers, user) => {
         result = false;
     }
     return { result, error };
+}
+
+export const validatePickTeam = (team) => {
+    if (playersObjToArray(team).length===6) {
+        return {
+            result: true
+        }
+    } else {
+        return {
+            error: "You need 7 starting players",
+            result: false
+            }
+    }
 }

@@ -4,7 +4,8 @@ import { View, Text, Button, StyleSheet, SectionList, ScrollView, Picker } from 
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { postPlayer } from '../functions/APIcalls';
-import  { validatePlayer } from '../functions/validity'
+import  { validatePlayer } from '../functions/validity';
+import { capitalize } from '../functions/reusable';
 
 
 class ClubSetupScreen extends Component {
@@ -13,31 +14,31 @@ class ClubSetupScreen extends Component {
         tableHeaders: ['Name', 'Position', 'Price, £m, 0-99'],
         totalPrice: 0,
         players: {
-            0: {name: '', position:1, price: ''},
-            1: {name: '', position:1, price: ''},
-            2: {name: '', position:1, price: ''},
-            3: {name: '', position:1, price: ''},
-            4: {name: '', position:1, price: ''},
-            5: {name: '', position:1, price: ''},
-            6: {name: '', position:1, price: ''},
-            7: {name: '', position:1, price: ''},
-            8: {name: '', position:1, price: ''},
-            9: {name: '', position:1, price: ''},
-            10: {name: '', position:1, price: ''},
-            11: {name: '', position:1, price: ''},
-            12: {name: '', position:1, price: ''},
-            12: {name: '', position:1, price: ''},
-            13: {name: '', position:1, price: ''},
-            14: {name: '', position:1, price: ''},
-            15: {name: '', position:1, price: ''},
-            16: {name: '', position:1, price: ''},
-            17: {name: '', position:1, price: ''},
-            18: {name: '', position:1, price: ''},
-            19: {name: '', position:1, price: ''},
-            21: {name: '', position:1, price: ''},
-            20: {name: '', position:1, price: ''},
-            22: {name: '', position:1, price: ''},
-            23: {name: '', position:1, price: ''}
+            0: {name: '', position:'1', price: ''},
+            1: {name: '', position:'1', price: ''},
+            2: {name: '', position:'1', price: ''},
+            3: {name: '', position:'1', price: ''},
+            4: {name: '', position:'1', price: ''},
+            5: {name: '', position:'1', price: ''},
+            6: {name: '', position:'1', price: ''},
+            7: {name: '', position:'1', price: ''},
+            8: {name: '', position:'1', price: ''},
+            9: {name: '', position:'1', price: ''},
+            10: {name: '', position:'1', price: ''},
+            11: {name: '', position:'1', price: ''},
+            12: {name: '', position:'1', price: ''},
+            12: {name: '', position:'1', price: ''},
+            13: {name: '', position:'1', price: ''},
+            14: {name: '', position:'1', price: ''},
+            15: {name: '', position:'1', price: ''},
+            16: {name: '', position:'1', price: ''},
+            17: {name: '', position:'1', price: ''},
+            18: {name: '', position:'1', price: ''},
+            19: {name: '', position:'1', price: ''},
+            21: {name: '', position:'1', price: ''},
+            20: {name: '', position:'1', price: ''},
+            22: {name: '', position:'1', price: ''},
+            23: {name: '', position:'1', price: ''}
         }
     }
 
@@ -55,16 +56,24 @@ class ClubSetupScreen extends Component {
         }
     }
 
+    updateName = (name, i) => {
+        this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], name}}})
+    }
+
 
     renderRows = () => {
         return Object.keys(this.state.players).map((i) => {
-            return <Row style={styles.row} data={
-                [<TextInput value={this.state.players[i].name} onChange={el=>this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], name: el.nativeEvent.text}}})}/>, 
+            return <Row key={i} style={styles.row} data={
+                [<TextInput 
+                    value={this.state.players[i].name} 
+                    onChange={el=>this.updateName(el.nativeEvent.text, i)}
+                    autoCapitalize = 'words'
+                    />, 
                 <Picker style={styles.picker} key={i} selectedValue={this.state.players[i].position} onValueChange={value=>this.updatePosition(i, value)}>
-                    <Picker.Item label="GK" value={1}/>
-                    <Picker.Item label="DEF" value={2}/>
-                    <Picker.Item label="MID" value={3}/>
-                    <Picker.Item label="FWD" value={4}/>
+                    <Picker.Item label="GK" value='1'/>
+                    <Picker.Item label="DEF" value='2'/>
+                    <Picker.Item label="MID" value='3'/>
+                    <Picker.Item label="FWD" value='4'/>
                 </Picker>,
                 <TextInput 
                 placeholder='£1m - £99m'
@@ -94,7 +103,8 @@ class ClubSetupScreen extends Component {
                     console.warn('invalid entry: ' + i);
                 }
             }
-            this.props.navigation.navigate('Home');
+            console.warn('make a page for the admin account holders - navigate here then')
+            // this.props.navigation.navigate('Home');
         } catch(e)  {
             console.warn(e);
         }
@@ -122,29 +132,6 @@ class ClubSetupScreen extends Component {
             <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                 <Row style={styles.head} data={this.state.tableHeaders}/>
                 {this.renderRows()}
-                {/* {this.renderRow(1)}
-                {this.renderRow(2)}
-                {this.renderRow(3)} */}
-                {/* {this.renderRow(4)}
-                {this.renderRow(5)}
-                {this.renderRow(6)}
-                {this.renderRow(7)}
-                {this.renderRow(8)}
-                {this.renderRow(9)}
-                {this.renderRow(10)}
-                {this.renderRow(11)}
-                {this.renderRow(12)}
-                {this.renderRow(13)}
-                {this.renderRow(14)}
-                {this.renderRow(15)}
-                {this.renderRow(16)}
-                {this.renderRow(17)}
-                {this.renderRow(18)}
-                {this.renderRow(19)}
-                {this.renderRow(20)}
-                {this.renderRow(21)}
-                {this.renderRow(22)}
-                {this.renderRow(23)} */}
             </Table>
           </ScrollView>
         );

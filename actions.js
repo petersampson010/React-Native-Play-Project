@@ -1,11 +1,23 @@
+import { isCaptain, isVCaptain } from "./functions/reusable"
+
 export const loginUser = (user, clubPlayers, starters, subs, puJoiners) => {
+    let captain, vCaptain;
+    for (let i=0;i<starters.length;i++) {
+        if (isCaptain(starters[i], puJoiners)) {
+            captain = starters[i];
+        } else if (isVCaptain(starters[i], puJoiners)) {
+            vCapain = starters[i];
+        }
+    }
     return {
         type: 'LOGINUSER',
         user,
         clubPlayers, 
         starters, 
         subs,
-        puJoiners
+        puJoiners,
+        captain,
+        vCaptain
     }
 }
 
@@ -51,9 +63,9 @@ export const addStarter = player => {
     }
 }
 
-export const updateTeam = (team, subs) => {
+export const pickTeamUpdate = (team, subs) => {
     return {
-        type: 'UPDATETEAM',
+        type: 'PICKTEAMUPDATE',
         team,
         subs
     }

@@ -24,10 +24,25 @@ export const postUser = (userObj) => {
             teamname: userObj.teamName,
             password: userObj.password,
             transfers: 0,
+            budget: 600,
             admin_user_id: userObj.clubId
         })
     };
     return fetch('http://localhost:3000/users', configObj)
+    .then(res=>res.json())
+}
+export const patchUserBUDGET = (budget, user_id) => {
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            budget
+        })
+    };
+    return fetch(`http://localhost:3000/users/${user_id}`, configObj)
     .then(res=>res.json())
 }
 
@@ -127,6 +142,39 @@ export const postPlayerUserJoiner = (player, userId, count) => {
         })
     };
     return fetch('http://localhost:3000/player_user_joiners', configObj)
+    .then(res=>res.json())
+}
+
+export const patchPlayerUserJoinerSUBS = (sub, pu_id) => {
+    console.log(pu_id);
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            sub,
+        })
+    };
+    return fetch(`http://localhost:3000/player_user_joiners/${pu_id}`, configObj)
+    .then(res=>res.json())
+}
+
+export const patchPlayerUserJoinerCAPTAINS = (captain, vice_captain, pu_id) => {
+    console.log(pu_id);
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            captain,
+            vice_captain
+        })
+    };
+    return fetch(`http://localhost:3000/player_user_joiners/${pu_id}`, configObj)
     .then(res=>res.json())
 }
 

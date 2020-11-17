@@ -7,14 +7,21 @@ const initialState = {
     clubPlayers: [],
     starters: [],
     subs: [],
-    puJoiners: []
+    puJoiners: [],
+    loginComplete: false
 }
 
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGINUSER':
-            return {...state, user: action.user, clubPlayers: action.clubPlayers, starters: action.starters, subs: action.subs, puJoiners: action.puJoiners}
+            return {...state, 
+                user: action.user, 
+                clubPlayers: action.clubPlayers, 
+                starters: action.starters,
+                subs: action.subs, 
+                puJoiners: action.puJoiners,
+                loginComplete: true}
         case 'LOGINADMINUSER':
             return;
         case 'SETADMINUSER':
@@ -25,7 +32,7 @@ const rootReducer = (state = initialState, action) => {
             return {...state, user: action.user};
         case 'RESETTEAMPLAYERS':
             return {...state, starters: [], subs: []};
-        case 'UPDATETEAM':
+        case 'PICKTEAMUPDATE':
             return {...state, starters: playersObjToArray(action.team), subs: action.subs}
         default:
             return state;

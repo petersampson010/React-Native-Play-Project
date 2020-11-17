@@ -16,11 +16,12 @@ class LoginScreen extends Component {
   
   state = {
     userObj: {
-      email: 'A',
-      password: 'A'
+      email: 'G',
+      password: 'G'
     },
     error: '',
-    admin: false
+    admin: false,
+    loginComplete: false
   }
   
   formChange = (id, entry) => {
@@ -79,8 +80,8 @@ class LoginScreen extends Component {
         this.props.loginUser(user, clubPlayers, starters, subs, puJoiners);
         this.props.navigation.navigate('Home');
       } else {
-        this.setState({email: 'V',
-        password: 'V',
+        this.setState({email: 'A',
+        password: 'A',
         error: 'login failed, please try again!'});
       }
     } catch(e) {
@@ -103,6 +104,12 @@ class LoginScreen extends Component {
             <Button title="Sign in" onPress={this.handleSubmit}/>
           </View>
         );
+    }
+  }
+
+  const mapStateToProps = state => {
+    return {
+      loginComplete: state.loginComplete
     }
   }
 

@@ -92,14 +92,28 @@ class AdminAccountSetupScreen extends Component {
             <Text>Admin Account Setup Screen</Text>
             <View>
               <Text>Email</Text>
-              <TextInput value={this.state.aUserObj.email} onChange={el => this.formChange('email', el.nativeEvent.text)}/>
+              <TextInput 
+              value={this.state.aUserObj.email} 
+              onChange={el => this.formChange('email', el.nativeEvent.text)}
+              autoCapitalize = 'words'/>
               <Text>Password</Text>
-              <TextInput value={this.state.aUserObj.password} onChange={el => this.formChange('password', el.nativeEvent.text)}/>
+              <TextInput 
+              value={this.state.aUserObj.password} 
+              onChange={el => this.formChange('password', el.nativeEvent.text)}
+              autoCapitalize = 'words'/>
               <Text>Re-enter Password</Text>
-              <TextInput value={this.state.aUserObj.rePassword} onChange={el => this.formChange('rePassword', el.nativeEvent.text)}/>
+              <TextInput 
+              value={this.state.aUserObj.rePassword} 
+              onChange={el => this.formChange('rePassword', el.nativeEvent.text)}
+              autoCapitalize = 'words'/>
               <Text>Club Name</Text>
-              <TextInput value={this.state.aUserObj.clubName} onChange={el => this.formChange('clubName', el.nativeEvent.text)}/>
-              <Switch value={this.state.aUserObj.terms} onValueChange={this.toggleSwitch}/>
+              <TextInput 
+              value={this.state.aUserObj.clubName} 
+              onChange={el => this.formChange('clubName', el.nativeEvent.text)}
+              autoCapitalize = 'words'/>
+              <Switch 
+              value={this.state.aUserObj.terms} 
+              onValueChange={this.toggleSwitch}/>
               <Text style={{color: 'red'}}>{this.state.error}</Text>
             </View>
             <Button title="Sign in" onPress={this.handleSubmit}/>

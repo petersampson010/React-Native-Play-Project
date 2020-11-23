@@ -32,6 +32,7 @@ export const postUser = (userObj) => {
     .then(res=>res.json())
 }
 export const patchUserBUDGET = (budget, user_id) => {
+    console.log(budget)
     let configObj = {
         method: "PATCH",
         headers: {
@@ -146,7 +147,6 @@ export const postPlayerUserJoiner = (player, userId, count) => {
 }
 
 export const patchPlayerUserJoinerSUBS = (sub, pu_id) => {
-    console.log(pu_id);
     let configObj = {
         method: "PATCH",
         headers: {
@@ -162,7 +162,6 @@ export const patchPlayerUserJoinerSUBS = (sub, pu_id) => {
 }
 
 export const patchPlayerUserJoinerCAPTAINS = (captain, vice_captain, pu_id) => {
-    console.log(pu_id);
     let configObj = {
         method: "PATCH",
         headers: {

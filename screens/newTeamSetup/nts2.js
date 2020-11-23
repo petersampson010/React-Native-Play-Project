@@ -3,15 +3,16 @@ import MyHeader from '../../components/myHeader';
 import { ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { patchUserBUDGET, postPlayerUserJoiner } from '../../functions/APIcalls';
-import { setTeamPlayers } from '../../actions';
+import { nts2Login } from '../../actions';
 import Pitch from '../../components/pitch';
 import PlayersList from '../../components/playersList';
+import { showMessage } from 'react-native-flash-message';
+import { allSelectedPlayerIds, allSelectedPlayers } from '../../functions/reusable';
 
 class ntsScreen2 extends Component {
     state = { 
         budget: 600,
         num: 1,
-        error: '',
         team: {
             '1': [],
             '2': [],
@@ -21,7 +22,7 @@ class ntsScreen2 extends Component {
     }
 
     clickFcn = player => {
-        if (this.allSelectedPlayerIds.includes(player.player_id)) {
+        if (allSelectedPlayerIds(this.state.team).includes(player.player_id)) {
             this.deSelect(player);
         } else {
             this.select(player);
@@ -32,37 +33,54 @@ class ntsScreen2 extends Component {
         const { team } = this.state;
         let newBudget = this.state.budget - player.price;
         if (team.length>7) {
-            this.setState({...this.state, error: 'too many players, please deselect a player before adding anymore'});
-        } else if (newBudget<0) {
-            this.setState({...this.state, error:  'not enough money'})
+            showMessage({
+                message: "too many players, please deselect a player before adding anymore",
+                type: "danger"
+            });
         } else {
             switch(player.position) {
                 case '1':
                     if (team[1].length>0) {
-                        this.setState({...this.state, error: 'Keeper already selected'});
+                        showMessage({
+                            message: "Keeper already selected",
+                            description: "If you need a sub-section of error",
+                            type: "warning"
+                        })
                     } else {
-                        this.setState({...this.state, error: '', team: {...this.state.team, 1: [...this.state.team[1], player]}, budget: newBudget})
+                        this.setState({...this.state, team: {...this.state.team, 1: [...this.state.team[1], player]}, budget: newBudget})
                     };
                     break;
                 case '2':
                     if (team[2].length>3) {
-                        this.setState({...this.state, error: 'Too many defenders selected'});
+                        showMessage({
+                            message: "Too many defenders already selected",
+                            description: "If you need a sub-section of error",
+                            type: "warning"
+                        })
                     } else {
-                        this.setState({...this.state, error: '', team: {...this.state.team, 2: [...this.state.team[2], player]}, budget: newBudget})
+                        this.setState({...this.state, team: {...this.state.team, 2: [...this.state.team[2], player]}, budget: newBudget})
                     };
                     break;
                 case '3':
                     if (team[3].length>3) {
-                        this.setState({...this.state, error: 'Too many midfielders selected'});
+                        showMessage({
+                            message: "Too many midfielders already selected",
+                            description: "If you need a sub-section of error",
+                            type: "warning"
+                        })
                     } else {
-                        this.setState({...this.state, error: '', team: {...this.state.team, 3: [...this.state.team[3], player]}, budget: newBudget})
+                        this.setState({...this.state, team: {...this.state.team, 3: [...this.state.team[3], player]}, budget: newBudget})
                     };
                     break;
                 case '4':
                     if (team[4].length>2) {
-                        this.setState({...this.state, error: 'Too many forwards selected'});
+                        showMessage({
+                            message: "Too many forwards already selected",
+                            description: "If you need a sub-section of error",
+                            type: "warning"
+                        })
                     } else {
-                        this.setState({...this.state, error: '', team: {...this.state.team, 4: [...this.state.team[4], player]}, budget: newBudget})
+                        this.setState({...this.state, team: {...this.state.team, 4: [...this.state.team[4], player]}, budget: newBudget})
                     };
                     break;
                 default: 
@@ -76,23 +94,38 @@ class ntsScreen2 extends Component {
         this.setState({...this.state, budget: this.state.budget + player.price, team: {...team, [player.position]: team[player.position].filter(x=>x.player_id!==player.player_id)}});
     }
 
-    allSelectedPlayers = () => [...this.state.team['1'], ...this.state.team['2'], ...this.state.team['3'], ...this.state.team['4']]
-
     submitTeam = async() => {
-        let team = this.allSelectedPlayers();
+        let team = allSelectedPlayers(this.state.team);
         try {
             if (team.length===8) {
-                if (this.state.team['1'].length===1) {
-                    for (let i=0;i<8;i++) {
-                        await postPlayerUserJoiner(team[i], this.props.user.user_id, i)
+                if (this.state.budget>=0) {
+                    if (this.state.team['1'].length===1) {
+                        let puJoiners = []
+                        for (let i=0;i<8;i++) {
+                            let puJoiner = await postPlayerUserJoiner(team[i], this.props.user.user_id, i)
+                            puJoiners.push(puJoiner);
+                        }
+                        let teamPlayers = Object.values(this.state.team).flat(Infinity);
+                        let user = await patchUserBUDGET(this.state.budget, this.props.user.user_id);
+                        this.props.nts2Login(user, teamPlayers.slice(0,6), teamPlayers.slice(-2), puJoiners);
+                        this.props.navigation.navigate('Home');
+                    } else {
+                        showMessage({
+                            message: "You need 1 Goalkeeper selected",
+                            type: "danger"
+                        });
                     }
-                    await patchUserBUDGET(this.state.budget)
-                    this.props.navigation.navigate('Login');
                 } else {
-                    this.setState({...this.state, error: 'You need one goalkeeper selected'});
+                    showMessage({
+                        message: "Not enough funds",
+                        type: "danger"
+                    });
                 }
             } else {
-                this.setState({...this.state, error: 'You need 8 players in your team!'})
+                showMessage({
+                    message: "You need 8 players in your team!",
+                    type: "danger"
+                });
             }
         } catch(e) {
             console.warn(e);
@@ -100,7 +133,7 @@ class ntsScreen2 extends Component {
     }
 
     componentDidMount() {
-        console.log(this.allSelectedPlayers)
+        // console.log(allSelectedPlayers(this.state.team))
     }
     
     render() { 
@@ -110,16 +143,16 @@ class ntsScreen2 extends Component {
                 <Pitch
                 update={this.submitTeam}
                 budget={this.state.budget}
-                error={this.state.error}
                 team={this.state.team}
+                subs={false}
                 clickFcn={this.clickFcn}
                 captain={false}
                 vCaptain={false}
                 />
-                {/* <PlayersList
-                allSelectedPlayerIds={this.allSelectedPlayers.map(x=>x.player_id)}
+                <PlayersList
+                allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
                 clickFcn={this.clickFcn}
-                /> */}
+                />
             </ScrollView>
         );
     }
@@ -134,6 +167,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        nts2Login: (user, starters, subs, puJoiners) => dispatch(nts2Login(user, starters, subs, puJoiners)),
         setTeamPlayers: players => dispatch(setTeamPlayers(players))
     }
 }

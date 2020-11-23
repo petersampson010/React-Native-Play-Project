@@ -33,6 +33,7 @@ function App() {
         <Stack.Screen name="League" component={LeagueScreen} />
         <Stack.Screen name="ClubSetup" component={ClubSetupScreen} />
         <Stack.Screen name="PickTeam" component={PickTeamScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
     // <PlayerGraphic/>

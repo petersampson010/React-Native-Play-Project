@@ -1,3 +1,4 @@
+import { showMessage } from "react-native-flash-message";
 import { fetchAllUsers } from "./APIcalls";
 import { playersObjToArray } from "./reusable";
 
@@ -10,34 +11,36 @@ export const validatePlayer = player => {
     }
 }
 
-export const validateUser = (allUsers, allAdminUsers, user) => {
+export const validateUser = (allUsers, aUser, user) => {
     let result = true;
-    let error = ''
-    let clubId = parseInt(user.clubId);
-    let allAdminUserIds = allAdminUsers.map(x=>x.admin_user_id);
-    if (allAdminUserIds.includes(clubId))  {
+    if (aUser.admin_user_id) {
         allUsers.forEach(x => {
             if (x.email===user.email) {
-                error = "email address already registered!";
+                showMessage({
+                    message: "Email address already in use",
+                    type: "danger"
+                });
                 result = false;
             }
         })
     } else {
-        error = 'Invalid Club ID';
+        showMessage({
+            message: "Invalid club ID",
+            type: "danger"
+        })
         result = false;
     }
-    return { result, error };
+    return result;
 }
 
 export const validatePickTeam = (team) => {
     if (playersObjToArray(team).length===6) {
-        return {
-            result: true
-        }
+        return true;
     } else {
-        return {
-            error: "You need 7 starting players",
-            result: false
-            }
+        showMessage({
+            message: "You need 7 strating players",
+            type: "danger"
+        });
+        return false;
     }
 }

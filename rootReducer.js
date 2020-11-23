@@ -21,7 +21,15 @@ const rootReducer = (state = initialState, action) => {
                 starters: action.starters,
                 subs: action.subs, 
                 puJoiners: action.puJoiners,
-                loginComplete: true}
+                loginComplete: true
+            }
+        case 'NTS2LOGIN':
+            return {...state,
+                user: action.user,
+                starters: action.starters,
+                subs: action.subs,
+                puJoiners: action.puJoiners
+            }
         case 'LOGINADMINUSER':
             return;
         case 'SETADMINUSER':

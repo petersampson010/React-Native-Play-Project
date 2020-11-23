@@ -68,3 +68,7 @@ export const getPuId = (player, puJoiners) => {
     let puJoiner = puJoiners.find(x=>x.player_id===player.player_id);
     return puJoiner.pu_id;
 }
+
+export const allSelectedPlayers = team => Object.values(team).flat(Infinity);
+
+export const allSelectedPlayerIds = team => allSelectedPlayers(team).map(x=>x.player_id);

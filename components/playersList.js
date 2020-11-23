@@ -24,7 +24,7 @@ class PlayersList extends Component {
                 <Row 
                 key={i}
                 data={[`${player.first_name} ${player.last_name}`, positionString(player.position), player.price]}
-                onPress={this.playerSelected(player) ? null : ()=>this.clickFcn(player)}
+                onPress={this.playerSelected(player) ? null : ()=>this.props.clickFcn(player)}
                 style={{opacity: (this.playerSelected(player) ? 0.3 : 1)}}
                 />)
             case '1': 
@@ -32,7 +32,7 @@ class PlayersList extends Component {
                 <Row 
                 key={i}
                 data={[`${player.first_name} ${player.last_name}`, positionString(player.position), player.price]}
-                onPress={this.playerSelected(player) ? null : ()=>this.clickFcn(player)}
+                onPress={this.playerSelected(player) ? null : ()=>this.props.clickFcn(player)}
                 style={{opacity: (this.playerSelected(player) ? 0.3 : 1)}}
                 />)
             case '2': 
@@ -40,7 +40,7 @@ class PlayersList extends Component {
                 <Row 
                 key={i}
                 data={[`${player.first_name} ${player.last_name}`, positionString(player.position), player.price]}
-                onPress={this.playerSelected(player) ? null : ()=>this.clickFcn(player)}
+                onPress={this.playerSelected(player) ? null : ()=>this.props.clickFcn(player)}
                 style={{opacity: (this.playerSelected(player) ? 0.3 : 1)}}
                 />)
             case '3': 
@@ -48,7 +48,7 @@ class PlayersList extends Component {
                 <Row 
                 key={i}
                 data={[`${player.first_name} ${player.last_name}`, positionString(player.position), player.price]}
-                onPress={this.playerSelected(player) ? null : ()=>this.clickFcn(player)}
+                onPress={this.playerSelected(player) ? null : ()=>this.props.clickFcn(player)}
                 style={{opacity: (this.playerSelected(player) ? 0.3 : 1)}}
                 />)
             case '4': 
@@ -56,7 +56,7 @@ class PlayersList extends Component {
                 <Row 
                 key={i}
                 data={[`${player.first_name} ${player.last_name}`, positionString(player.position), player.price]}
-                onPress={this.playerSelected(player) ? null : ()=>this.clickFcn(player)}
+                onPress={this.playerSelected(player) ? null : ()=>this.props.clickFcn(player)}
                 style={{opacity: (this.playerSelected(player) ? 0.3 : 1)}}
                 />)   
             default: 

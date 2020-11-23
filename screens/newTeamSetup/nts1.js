@@ -6,6 +6,7 @@ import { fetchAdminUserById, fetchAllAdminUsers, fetchAllPlayersByAdminUserId, f
 import { validateUser } from '../../functions/validity';
 import MyHeader from '../../components/myHeader';
 import { setAdminUser, setClubPlayers, setUser } from '../../actions';
+import { showMessage } from 'react-native-flash-message';
 
 
 class ntsScreen1 extends Component {
@@ -19,7 +20,6 @@ class ntsScreen1 extends Component {
       clubId: '',
       terms: ''
     },
-    error: 'make sure this updates at some point with errors',
     signedUp: false,
   }
 
@@ -48,14 +48,15 @@ class ntsScreen1 extends Component {
       let allUsers = await fetchAllUsers();
       let allAdminUsers = await fetchAllAdminUsers();
       let aUser = await fetchAdminUserById(parseInt(userObj.clubId));
-      let { result, error } = validateUser(allUsers, allAdminUsers, userObj);
-      if (result) {
+      if (validateUser(allUsers, aUser, userObj)) {
         this.handleSubmit(allUsers, allAdminUsers, aUser);
-      } else {
-        this.setState({...this.state, error});
       }
     } catch(e) {
-      this.setState({...this.state, error: 'Network Issues: Please try again in 5 minutes'});
+      showMessage({
+        message: "Login failed, please try again",
+        description: "It is most likely, you have an incorrect club ID. Please check this and report the issue if it continues",
+        type: "danger"
+      })
     }
   }
 
@@ -94,7 +95,6 @@ class ntsScreen1 extends Component {
           <TextInput value={this.state.userObj.rePassword} onChange={el => this.formChange('rePassword', el.nativeEvent.text)}/>
           <Text>Club ID</Text>
           <TextInput value={this.state.userObj.clubId} onChange={el => this.formChange('clubID', el.nativeEvent.text)}/>
-          <Text style={{color: 'red'}}>{this.state.error}</Text>
           <Button title="Sign Up" onPress={this.fetchInfo}/>
         </View>
       </View>

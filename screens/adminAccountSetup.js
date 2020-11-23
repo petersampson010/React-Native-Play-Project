@@ -15,7 +15,6 @@ class AdminAccountSetupScreen extends Component {
       clubName: 'test',
       terms: false
     },
-    error: ''
   }
   
   formChange = (id, entry) => {
@@ -50,11 +49,19 @@ class AdminAccountSetupScreen extends Component {
     for (let i=0;i<allAdminUsers.length;i++) {
       let user = allAdminUsers[i];
       if (user.email===this.state.aUserObj.email) {
-        this.setState({...this.state, error: "Email already exists, please try again or go back and try to login using this email"});
+        showMessage({
+          message: "Email already exists, please try again or go back and try to login using this email",
+          description: "If you need a sub-section of error",
+          type: "warning"
+        });
         valid = false;
         break;
       } else if (user.club_name===this.state.aUserObj.clubName) {
-        this.setState({...this.state, error: "Club Name already in use, please try again or go back and try to login"});
+        showMessage({
+          message: "Club Name already in use, please try again or go back and try to login",
+          description: "If you need a sub-section of error",
+          type: "warning"
+        });
         valid = false;
         break;
       }
@@ -66,7 +73,11 @@ class AdminAccountSetupScreen extends Component {
     if (this.state.aUserObj.password===this.state.aUserObj.rePassword) {
       return true;
     } else {
-      this.setState({...this.state, error: "Passwords do not match, please try again!"});
+      showMessage({
+        message: "Passwords do not match, please try again!",
+        description: "If you need a sub-section of error",
+        type: "warning"
+      });
       return false;
     }
   }
@@ -114,7 +125,6 @@ class AdminAccountSetupScreen extends Component {
               <Switch 
               value={this.state.aUserObj.terms} 
               onValueChange={this.toggleSwitch}/>
-              <Text style={{color: 'red'}}>{this.state.error}</Text>
             </View>
             <Button title="Sign in" onPress={this.handleSubmit}/>
           </View>

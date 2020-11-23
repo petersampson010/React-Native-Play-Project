@@ -76,3 +76,13 @@ export const resetTeamPlayers = () => {
         type: 'RESETTEAMPLAYERS'
     }
 }
+
+export const nts2Login = (user, starters, subs, puJoiners) => {
+    return {
+        type: 'NTS2LOGIN',
+        user,
+        starters, 
+        subs,
+        puJoiners
+    }
+}

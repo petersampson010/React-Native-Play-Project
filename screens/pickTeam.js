@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, StyleSheet, Button, Picker, Modal, TouchableHighlight } from 'react-native';
-import { CheckBox } from 'react-native-elements';
 import { getCaptain, getVCaptain, positionString, fullName, playersObjToArray, getPuId } from '../functions/reusable';
 import { connect } from 'react-redux';
 import MyHeader from '../components/myHeader';
@@ -10,11 +9,12 @@ import {vw, vh} from 'react-native-expo-viewport-units';
 import { validatePickTeam } from '../functions/validity';
 import _ from 'lodash';
 import { patchPlayerUserJoinerSUBS, patchPlayerUserJoinerCAPTAINS } from '../functions/APIcalls';
+import { showMessage } from 'react-native-flash-message';
+import Pitch from '../components/pitch';
 
 
 class PickTeamScreen extends Component {
     state = {
-        error: '',
         team: {
             '1': this.props.starters.filter(x=>x.position==='1'),
             '2': this.props.starters.filter(x=>x.position==='2'),
@@ -47,7 +47,6 @@ class PickTeamScreen extends Component {
     }
 
     subIn = player => {
-        console.log('sub in')
         let position = player.position
         this.setState({
             ...this.state, 
@@ -60,7 +59,6 @@ class PickTeamScreen extends Component {
     }
 
     subOut = player => {
-        console.log('sub out')
         let position = player.position
         this.setState({
             ...this.state,
@@ -72,35 +70,9 @@ class PickTeamScreen extends Component {
         })
     }
 
-    renderSubs = () => {
-        return this.state.subs.map((player, i) => 
-        <PlayerGraphic player={player} key={i} num={i+7} 
-        clickFcn={this.transfer} openModal={this.openModal}
-        captain={this.state.captain===player}
-        vCaptain={this.state.vCaptain===player}/>)
-    }
 
     showState = () => {
         console.log(this.state)
-    }
-
-    openModal = player => {
-        this.setState({...this.state, 
-            modal: {
-                active: true,
-                player
-            }
-        })
-    }
-
-    renderPlayers = position => {
-        return this.state.team[position].map((player, i) => 
-        <PlayerGraphic player={player} key={i}
-        clickFcn={this.transfer}
-        openModal={this.openModal}
-        captain={this.state.captain===player}
-        vCaptain={this.state.vCaptain===player}/>
-        )
     }
 
     setCaptain = player => {
@@ -109,8 +81,10 @@ class PickTeamScreen extends Component {
                 captain: undefined
             })
         } else if (this.state.vCaptain===player) {
-            this.setState({...this.state, 
-                error: 'Player is already a Captain'})
+            showMessage({
+                message: "Player is already a captain",
+                type: 'warning'
+            })
         } else {
             this.setState({...this.state, 
                 captain: player
@@ -124,8 +98,10 @@ class PickTeamScreen extends Component {
                 vCaptain: undefined
             })
         } else if (this.state.captain===player) {
-            this.setState({...this.state, 
-            error: 'Player is already a Captain'})
+            showMessage({
+                message: "Player is already a captain",
+                type: 'warning'
+            })
         } else {
             this.setState({...this.state, 
                 vCaptain: player
@@ -134,7 +110,7 @@ class PickTeamScreen extends Component {
     }
 
     validateTeam = () => {
-        let { result, error } = validatePickTeam(this.state.team)
+        let { result } = validatePickTeam(this.state.team)
         if (result) {
             this.updateTeam();
         }
@@ -175,50 +151,17 @@ class PickTeamScreen extends Component {
         return ( 
             <ScrollView>
                 <MyHeader title='Pick Team' navigate={page=>this.props.navigation.navigate(page)}/>
-                <Button onPress={this.showState} title="show state"/>
-                <Text style={{color: 'red'}}>{this.state.error}</Text>
-                <View style={styles.pitch}>
-                    <View style={styles.starters}>
-                        <View style={styles.goalkeeper}>
-                            {this.renderPlayers('1')}
-                        </View>
-                        <View style={styles.defender}>
-                            {this.renderPlayers('2')}
-                        </View>
-                        <View style={styles.midfielder}>
-                            {this.renderPlayers('3')}
-                        </View>
-                        <View style={styles.forward}>
-                            {this.renderPlayers('4')}
-                        </View>
-                    </View>
-                    <Modal  
-                    transparent={true}
-                    visible={this.state.modal.active}
-                    >
-                        <View style={styles.modal}>
-                            <CheckBox title="Captain"
-                            checked={this.state.modal.player===this.state.captain}
-                            onPress={()=>this.setCaptain(this.state.modal.player)}
-                            />
-                            <CheckBox title="Vice Captain"
-                            checked={this.state.modal.player===this.state.vCaptain}
-                            onPress={()=>this.setVCaptain(this.state.modal.player)}
-                            />
-                            <Text>{fullName(this.state.modal.player)}</Text>
-                            <Text>{positionString(this.state.modal.player.position)}</Text>
-                            <Text>£{this.state.modal.player.price}m</Text>
-                            <Text>MAYBE SOME STATS AT SOME POINT</Text>
-                            <Button title="Close modal" onPress={()=>this.setState({...this.state, modal: {...this.state.modal, active: false}})}/>
-
-                        </View>
-                    </Modal>
-                </View>
-                <View style={styles.subs}>
-                    <Text>Pic of the user here (circular)</Text>
-                    {this.renderSubs()}
-                </View>
-                {this.teamChange() ? <Button title="Update Team" onPress={()=>this.validateTeam()}/> : null}
+                <Pitch
+                update={this.validateTeam}
+                budget={false}
+                team={this.state.team}
+                subs={this.state.subs}
+                clickFcn={this.transfer}
+                captain={this.state.captain}
+                vCaptain={this.state.vCaptain}
+                setCaptain={this.setCaptain}
+                setVCaptain={this.setVCaptain}
+                />
             </ScrollView>
          );
     }
@@ -241,47 +184,5 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(PickTeamScreen);
 
 const styles = StyleSheet.create({
-    pitch: {
-        flex: 1,
-        height: vh(60),
-        backgroundColor: 'green'
-    },
-    subs: {
-        height: vh(11),
-        backgroundColor: 'grey',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: "space-evenly"
-    },
-    modal: {
-        position: "absolute",
-        height: vh(30),
-        width: vw(60),
-        left: vw(15),
-        top: vh(20),
-        backgroundColor: 'red'
-    },
-    starters: {
-        flex: 1
-    },
-    goalkeeper: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-    },
-    defender: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-    },
-    midfielder: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-    },
-    forward: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-    }
+
 })

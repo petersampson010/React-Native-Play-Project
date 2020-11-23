@@ -27,10 +27,11 @@ class PlayerGraphic extends Component {
                 <View style={styles.container}>
                     <TouchableHighlight onPress={()=>this.props.clickFcn(this.props.player)}>
                         <View>
+                            <Text style={styles.num}>{this.props.num}</Text>
                             <Text style={styles.name}>{fullName(this.props.player) + '  ' + (this.props.captain ? '(C)' : '') + (this.props.vCaptain ? '(VC)' : '')}</Text>
                         </View>
                     </TouchableHighlight>
-                    <Button title="MORE INFO" onPress={()=>this.props.openModal(this.props.player)}/>
+                    <Button title="INFO" onPress={()=>this.props.openModal(this.props.player)}/>
                 </View>
              );
     }
@@ -47,5 +48,9 @@ export default connect(mapStateToProps)(PlayerGraphic);
 const styles = StyleSheet.create({
     container: {
         width: vw(20),
+    },
+    num: {
+        textAlign: 'center',
+        fontSize: 26
     }
 })

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Button, Switch } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import { TextInput } from 'react-native-gesture-handler';
 import { connect } from 'react-redux';
 import { loginUser, resetTeamPlayers } from '../actions';
@@ -19,7 +20,6 @@ class LoginScreen extends Component {
       email: 'G',
       password: 'G'
     },
-    error: '',
     admin: false,
     loginComplete: false
   }
@@ -81,8 +81,11 @@ class LoginScreen extends Component {
         this.props.navigation.navigate('Home');
       } else {
         this.setState({email: 'A',
-        password: 'A',
-        error: 'login failed, please try again!'});
+        password: 'A'});
+        showMessage({
+          message: "Login failed, please try again",
+          type: "danger"
+        })
       }
     } catch(e) {
       console.warn(e);
@@ -99,7 +102,6 @@ class LoginScreen extends Component {
               <TextInput value={this.state.userObj.email} onChange={el => this.formChange('email', el.nativeEvent.text)}/>
               <Text>Password</Text>
               <TextInput value={this.state.userObj.password} onChange={el => this.formChange('password', el.nativeEvent.text)}/>
-              <Text style={{color: 'red'}}>{this.state.error}</Text>
             </View>
             <Button title="Sign in" onPress={this.handleSubmit}/>
           </View>

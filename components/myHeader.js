@@ -18,7 +18,7 @@ class MyHeader extends Component {
     render() { 
         return ( 
             <Header
-                leftComponent={{text: this.props.title, color: '#fff'}}
+                leftComponent={{text: 'AppTitle/Logo', color: '#fff'}}
                 centerComponent={this.centerComponent()}
                 rightComponent={{onPress: () => this.props.navigate('Home'), icon: 'home', color: '#fff'}}
             />

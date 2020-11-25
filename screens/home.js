@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import MyHeader from '../components/myHeader';
 
@@ -7,9 +7,9 @@ class HomeScreen extends Component {
     state = {  }
     render() { 
         return ( 
-            <View>
+            <ScrollView>
                 <MyHeader title="title of APP" navigate={page=>this.props.navigation.navigate(page)}/> 
-            </View>
+            </ScrollView>
          );
     }
 }

@@ -13,6 +13,8 @@ import TransfersScreen from './screens/transfers';
 import LeagueScreen from './screens/league';
 import ClubSetupScreen from './screens/clubSetup';
 import PickTeamScreen from './screens/pickTeam';
+import AdminHomeScreen from './screens/adminHome';
+import GameEditorScreen from './screens/gameEditor';
 
 import PlayerGraphic from './components/playerGraphic'
 
@@ -33,6 +35,8 @@ function App() {
         <Stack.Screen name="League" component={LeagueScreen} />
         <Stack.Screen name="ClubSetup" component={ClubSetupScreen} />
         <Stack.Screen name="PickTeam" component={PickTeamScreen} />
+        <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
+        <Stack.Screen name="GameEditor" component={GameEditorScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>

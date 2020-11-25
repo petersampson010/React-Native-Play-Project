@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Switch } from 'react-native';
+import { View, Text, Button, Switch, TouchableHighlightBase } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { TextInput } from 'react-native-gesture-handler';
+import { Input } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { loginUser, resetTeamPlayers } from '../actions';
-import { fetchUserByEmail, fetchAdminUser, fetchAllPlayersByAdminUserId, fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId } from '../functions/APIcalls'; 
+import { loginUser, loginAdminUser, resetTeamPlayers } from '../actions';
+import { fetchUserByEmail, fetchAdminUserByEmail, fetchAllPlayersByAdminUserId, 
+  fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId, 
+  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId } 
+  from '../functions/APIcalls'; 
 
 
 class LoginScreen extends Component {
@@ -17,19 +20,19 @@ class LoginScreen extends Component {
   
   state = {
     userObj: {
-      email: 'G',
-      password: 'G'
+      email: '',
+      password: ''
     },
     admin: false,
     loginComplete: false
   }
   
   formChange = (id, entry) => {
-    if (id==='email') {
-      this.setState({...this.state, userObj: {...this.state.userObj, email: entry}})
-    } else if (id==='password') {
-      this.setState({...this.state, userObj: {...this.state.userObj, password: entry}})
-    }
+    this.setState({...this.state, 
+      userObj: {...this.state.userObj,
+        [id]: entry
+      }
+    })
   }
   
   toggleSwitch = () => {
@@ -44,18 +47,18 @@ class LoginScreen extends Component {
     })
   }
 
-  handleSubmit = ()  => {
+  handleSubmit = () => {
     if (this.state.admin) {
-      this.handleAdminSubmit()
+      this.handleAdminSubmit();
     } else {
-      this.handleUserSubmit()
+      this.handleUserSubmit();
     }
   }
 
   handleAdminSubmit = async() => {
     try {
-      let user = await fetchAdminUser(this.state.userObj);
-      this.handleReturn(user);
+      let aUser = await fetchAdminUserByEmail(this.state.userObj);
+      this.handleAdminReturn(aUser);
     } catch(e) {
       console.warn(e);
     }
@@ -64,24 +67,45 @@ class LoginScreen extends Component {
   handleUserSubmit = async() => {
     try {
       let user = await fetchUserByEmail(this.state.userObj);
-      this.handleReturn(user);
+      this.handleUserReturn(user);
     } catch(e) {
       console.warn(e);
     }
   }
     
-  handleReturn = async(user) => {
+  handleUserReturn = async(user) => {
     try {
       if (user !== undefined && user !== null) {
         let clubPlayers = await fetchAllPlayersByAdminUserId(user.admin_user_id)
         let starters = await fetchStartersByUserId(user.user_id);
         let subs = await fetchSubsByUserId(user.user_id);
         let puJoiners = await fetchAllPlayerUserJoinersByUserId(user.user_id);
-        this.props.loginUser(user, clubPlayers, starters, subs, puJoiners);
+        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners);
         this.props.navigation.navigate('Home');
       } else {
-        this.setState({email: 'A',
-        password: 'A'});
+        // this.setState({email: 'A',
+        // password: 'A'});
+        showMessage({
+          message: "Login failed, please try again",
+          type: "danger"
+        })
+      }
+    } catch(e) {
+      console.warn(e);
+    }
+  }
+
+  handleAdminReturn = async(aUser) => {
+    try {
+      if (aUser !== undefined && aUser !== null) {
+        let clubPlayers = await fetchAllPlayersByAdminUserId(aUser.admin_user_id);
+        let allUsers = await fetchAllUsersByAdminUserId(aUser.admin_user_id);
+        let games = await fetchAllGamesByAdminUserId(aUser.admin_user_id)
+        await this.props.loginAdminUser(aUser, clubPlayers, allUsers, games);
+        this.props.navigation.navigate('AdminHome');
+      } else {
+        // this.setState({email: 'A',
+        // password: 'A'});
         showMessage({
           message: "Login failed, please try again",
           type: "danger"
@@ -95,13 +119,23 @@ class LoginScreen extends Component {
     render() {
         return (
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Switch value={this.state.admin} onValueChange={this.toggleAdmin} />
             <Text>Login Screen</Text>
+            <Switch value={this.state.admin} onValueChange={this.toggleAdmin} />
             <View>
-              <Text>Email</Text>
-              <TextInput value={this.state.userObj.email} onChange={el => this.formChange('email', el.nativeEvent.text)}/>
-              <Text>Password</Text>
-              <TextInput value={this.state.userObj.password} onChange={el => this.formChange('password', el.nativeEvent.text)}/>
+              <Input value={this.state.userObj.email} 
+              onChangeText={value => this.formChange('email', value)}
+              placeholder="email@address.com"
+              leftIcon={{ type: 'font-awesome', name: 'envelope'}}
+              label="Your email address"
+              autoCapitalize="none"
+              />
+              <Input value={this.state.userObj.password} 
+              onChangeText={value => this.formChange('password', value)}
+              placeholder="Password"
+              leftIcon={{type:'font-awesome', name: 'lock'}}
+              label="Password"
+              autoCapitalize="none"
+              />
             </View>
             <Button title="Sign in" onPress={this.handleSubmit}/>
           </View>
@@ -118,9 +152,8 @@ class LoginScreen extends Component {
   const mapDispatchToProps = dispatch => {
     return {
       loginUser: (user, clubPlayers, starters, subs, puJoiners) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners)),
+      loginAdminUser: (aUser, clubPlayers, allUsers, games) => dispatch(loginAdminUser(aUser, clubPlayers, allUsers, games)),
       resetTeamPlayers: () => dispatch(resetTeamPlayers()),
-      // addSub: player => dispatch(addSub(player)),
-      // addStarter: player => dispatch(addStarter(player))
     }
   }
 

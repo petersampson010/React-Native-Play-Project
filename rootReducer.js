@@ -8,7 +8,10 @@ const initialState = {
     starters: [],
     subs: [],
     puJoiners: [],
-    loginComplete: false
+    allUsers: [],
+    games: [],
+    loginComplete: false,
+    gameweekId: null,
 }
 
 
@@ -21,6 +24,14 @@ const rootReducer = (state = initialState, action) => {
                 starters: action.starters,
                 subs: action.subs, 
                 puJoiners: action.puJoiners,
+                loginComplete: true
+            }
+        case 'LOGINADMINUSER':
+            return {...state, 
+                aUser: action.aUser, 
+                clubPlayers: action.clubPlayers,
+                allUsers: action.allUsers,
+                games: action.games,
                 loginComplete: true
             }
         case 'NTS2LOGIN':
@@ -42,6 +53,19 @@ const rootReducer = (state = initialState, action) => {
             return {...state, starters: [], subs: []};
         case 'PICKTEAMUPDATE':
             return {...state, starters: playersObjToArray(action.team), subs: action.subs}
+        case 'SETGAMEWEEKID':
+            return {...state, gameweekId: action.id}
+        case 'COMPLETEGAME':
+            let newGames = state.games.map(game=>{
+                if (game.gameweek_id===action.id) {
+                    return {...game, complete: true};
+                } else {
+                    return game;
+                }
+            });
+            return {...state, games: newGames};
+        case 'ADDGAME':
+            return {...state, games: [...state.games, action.game]};
         default:
             return state;
     }

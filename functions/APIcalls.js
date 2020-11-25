@@ -8,6 +8,10 @@ export const fetchUserById = id => {
     return fetch(`http://localhost:3000/users/${id}`)
     .then(res=>res.json())
 }
+export const fetchAllUsersByAdminUserId = id => {
+    return fetchAllUsers()
+    .then(x=>x.filter(x=>x.admin_user_id===id))
+}
 export const fetchUserByEmail = userObj => {
     return fetchAllUsers()
     .then(users=>users.find(x=>x.email===userObj.email))
@@ -32,7 +36,6 @@ export const postUser = (userObj) => {
     .then(res=>res.json())
 }
 export const patchUserBUDGET = (budget, user_id) => {
-    console.log(budget)
     let configObj = {
         method: "PATCH",
         headers: {
@@ -177,6 +180,93 @@ export const patchPlayerUserJoinerCAPTAINS = (captain, vice_captain, pu_id) => {
     .then(res=>res.json())
 }
 
+
+// GAMEWEEKS / EVENTS
+
+export const fetchAllGames = () => {
+    return fetch('http://localhost:3000/gameweeks')
+    .then(res=>res.jsoin())
+}
+export const fetchAllGamesByAdminUserId = id => {
+    return fetch(`http://localhost:3000/gameweeks/admin_user/${id}`)
+    .then(res=>res.json())
+}
+export const postGame = (game, aUserID) => {
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            date: game.date,
+            opponent: game.opponent,
+            complete: false,
+            admin_user_id: aUserID
+        })
+    };
+    return fetch(`http://localhost:3000/gameweeks`, configObj)
+    .then(res=>res.json())
+}
+export const patchGame = (game) => {
+    console.log(game);
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            date: game.date,
+            opponent: game.opponent
+        })
+    };
+    return fetch(`http://localhost:3000/gameweeks/${game.gameweek_id}`, configObj)
+    .then(res=>res.json())
+}
+export const completeGame = id => {
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            complete: true
+        })
+    };
+    return fetch(`http://localhost:3000/gameweeks/${id}`, configObj)
+    .then(res=>res.json())
+    .then(console.log)
+}
+
+
+// PLAYER-GAMEWEEK-JOINERS
+
+export const postPGJoiner = (joiner) => {
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            minutes: joiner.minutes,
+            assists: joiner.assists,
+            goals: joiner.goals,
+            own_goals: joiner.own_goals,
+            y_cards: joiner.y_cards,
+            r_cards: joiner.r_cards,
+            bonus: joiner.bonus,
+            penalty_miss: joiner.penalty_miss,
+            goals_conceded: joiner.goals_conceded,
+            player_id: joiner.player_id,
+            gameweek_id: joiner.gameweek_id
+        })
+    };
+    return fetch(`http://localhost:3000/player_gameweek_joiners`, configObj)
+    .then(res=>res.json())
+}
 
 
 

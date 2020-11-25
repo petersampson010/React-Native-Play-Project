@@ -21,6 +21,16 @@ export const loginUser = (user, clubPlayers, starters, subs, puJoiners) => {
     }
 }
 
+export const loginAdminUser = (aUser, clubPlayers, allUsers, games) => {
+    return {
+        type: 'LOGINADMINUSER',
+        aUser, 
+        clubPlayers,
+        allUsers,
+        games
+    }
+}
+
 export const setAdminUser = aUser => {
     return {
         type: 'SETADMINUSER',
@@ -84,5 +94,26 @@ export const nts2Login = (user, starters, subs, puJoiners) => {
         starters, 
         subs,
         puJoiners
+    }
+}
+
+export const setGameweekId = id =>{
+    return {
+        type: 'SETGAMEWEEKID',
+        id
+    }
+}
+
+export const completeGameState = id => {
+    return {
+        type: 'COMPLETEGAME',
+        id
+    }
+}
+
+export const addGameState = game => {
+    return {
+        type: 'ADDGAME',
+        game
     }
 }

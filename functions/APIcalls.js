@@ -123,6 +123,24 @@ export const postPlayer = (player, aUserId) => {
     return fetch('http://localhost:3000/players', configObj)
     .then(res=>res.json())
 }
+export const patchPlayer = player => {
+    let configObj = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            first_name: player.first_name,
+            last_name: player.last_name,
+            position: player.position,
+            price: parseInt(player.price),
+            availability: player.availability
+        })
+    }
+    fetch(`http://localhost:3000/players/${player.admin_user_id}`, configObj) 
+    .then(res=>res.json())
+}
 
 //PLAYER_USER_JOINER
 

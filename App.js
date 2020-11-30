@@ -15,8 +15,7 @@ import ClubSetupScreen from './screens/clubSetup';
 import PickTeamScreen from './screens/pickTeam';
 import AdminHomeScreen from './screens/adminHome';
 import GameEditorScreen from './screens/gameEditor';
-
-import PlayerGraphic from './components/playerGraphic'
+import AdminPlayerEditScreen from './screens/adminPlayerEdit';
 
 const Stack = createStackNavigator();
 
@@ -37,6 +36,8 @@ function App() {
         <Stack.Screen name="PickTeam" component={PickTeamScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
         <Stack.Screen name="GameEditor" component={GameEditorScreen} />
+        <Stack.Screen name="AdminPlayerEdit" component={AdminPlayerEditScreen} />
+
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -25,6 +25,19 @@ export const fullName = player => {
     }
 }
 
+export const availability = avail => {
+    switch(avail) {
+        // available
+        case 'a':
+            return true;
+        // unavailable
+        case 'u':
+            return false;
+        default: 
+            return true;
+    }
+}
+
 export const playersArrayToObj = arr => {
     let obj = {
         '1': [],
@@ -72,3 +85,8 @@ export const getPuId = (player, puJoiners) => {
 export const allSelectedPlayers = team => Object.values(team).flat(Infinity);
 
 export const allSelectedPlayerIds = team => allSelectedPlayers(team).map(x=>x.player_id);
+
+export const displayDate = date => {
+    let options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
+    return new Intl.DateTimeFormat('en-us', options).format(date);
+}

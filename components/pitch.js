@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Modal, Button } from 'react-native';
 import {vw, vh} from 'react-native-expo-viewport-units';
 import { fullName, positionString } from '../functions/reusable';
 import { CheckBox } from 'react-native-elements';
+import MyModal from './myModal';
 
 
 class Pitch extends Component {
@@ -76,26 +77,25 @@ class Pitch extends Component {
                             {this.props.team[4].length>0 ? this.renderPlayers('4', 10) : null}
                         </View>
                     </View>
-                    <Modal  
-                    transparent={true}
+                    <MyModal 
                     visible={this.state.modal.active}
-                    >
-                        <View style={styles.modal}>
-                            <Text>{fullName(this.state.modal.player)}</Text>
-                            <Text>{positionString(this.state.modal.player.position)}</Text>
-                            <Text>£{this.state.modal.player.price}m</Text>
-                            <Text>MAYBE SOME STATS AT SOME POINT</Text>
-                            {this.state.budget ? <CheckBox
-                            checked={this.props.captain===this.state.modal.player}
-                            title="Captain"
-                            onPress={()=>this.props.setCaptain(this.state.modal.player)} /> : null}
-                            {this.state.budget ? <CheckBox
-                            checked={this.props.vCaptain===this.state.modal.player}
-                            title="Vice - Captain"
-                            onPress={()=>this.props.setVCaptain(this.state.modal.player)} /> : null}
-                            <Button title="Close modal" onPress={()=>this.setState({modal: {...this.state.modal, active: false}})}/>
-                        </View>
-                    </Modal>
+                    closeModalFcn={()=>this.setState({modal: {...this.state.modal, active: false}})}
+                    jsx={<View>
+                        <Text>{fullName(this.state.modal.player)}</Text>
+                        <Text>{positionString(this.state.modal.player.position)}</Text>
+                        <Text>£{this.state.modal.player.price}m</Text>
+                        <Text>MAYBE SOME STATS AT SOME POINT</Text>
+                        {this.state.budget ? <CheckBox
+                        checked={this.props.captain===this.state.modal.player}
+                        title="Captain"
+                        onPress={()=>this.props.setCaptain(this.state.modal.player)} /> : null}
+                        {this.state.budget ? <CheckBox
+                        checked={this.props.vCaptain===this.state.modal.player}
+                        title="Vice - Captain"
+                        onPress={()=>this.props.setVCaptain(this.state.modal.player)} /> : null}
+                    </View>}
+                    buttonOptions={[]}
+                    />
                 </View>
                 {this.props.subs ? <View style={styles.subs}>
                     {this.renderSubs(12)}

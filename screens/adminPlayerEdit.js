@@ -5,6 +5,7 @@ import MyModal from '../components/myModal';
 import PlayersList from '../components/playersList';
 import {vw, vh} from 'react-native-expo-viewport-units';
 import { availability, fullName, positionString } from '../functions/reusable';
+import { patchPlayer } from '../functions/APIcalls';
 
 class AdminPlayerEditScreen extends Component {
     state = { 
@@ -36,8 +37,8 @@ class AdminPlayerEditScreen extends Component {
         })
     }
 
-    updatePrice = text => {
-        if (text.match('^[0-9]{1,2}$')) {
+    updatePrice = entry => {
+        if (entry.match('(^[0-9]{1,2}$|^$)')) {
             this.setState({
                 ...this.state, 
                 modal: {...this.state.modal,
@@ -62,7 +63,18 @@ class AdminPlayerEditScreen extends Component {
 
     updatePlayer = async() => {
         try {
-            await patchPlayer
+            await patchPlayer(this.state.player);
+            this.setState({...this.state, modal: {active: false, player: {
+                "player_id": 1,
+                "first_name": "G",
+                "last_name": "H",
+                "position": "1",
+                "price": 1,
+                "availability": "a",
+                "admin_user_id": 1,
+                "created_at": "2020-11-23T13:03:11.328Z",
+                "updated_at": "2020-11-23T13:03:11.328Z"
+                }}})
         } catch(e) {
             console.warn(e);
         }
@@ -99,7 +111,7 @@ class AdminPlayerEditScreen extends Component {
                     label="Last Name"
                     autoCapitalize="words"
                     />
-                    <Input value={this.state.modal.player.last_name}
+                    <Input value={this.state.modal.player.price.toString()}
                     onChangeText={value=>this.updatePrice(value)}
                     label="Price"
                     />

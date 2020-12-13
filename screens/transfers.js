@@ -25,9 +25,9 @@ class TransfersScreen extends Component {
         budget: this.props.budget,
     }
 
-    componentDidMount() {
-        // console.log(typeof this.props.budget)
-    }
+    // componentDidMount() {
+    //     // console.log(typeof this.props.budget)
+    // }
 
 
     transfer = player => {

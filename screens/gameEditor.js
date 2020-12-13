@@ -4,7 +4,7 @@ import { showMessage } from 'react-native-flash-message';
 import Dialog, { DialogButton, DialogContent } from 'react-native-popup-dialog';
 import { Table, Row } from 'react-native-table-component';
 import { connect } from 'react-redux';
-import { postPGJoiner, completeGame } from '../functions/APIcalls';
+import { postPGJoiner, completeGame, postUGJoiner } from '../functions/APIcalls';
 import { validatePlayerScore } from '../functions/validity';
 import { completeGameState } from '../actions';
 
@@ -119,17 +119,25 @@ class GameEditorScreen extends Component {
             })
         }
     }
-
+    
     postPGJoiners = async(postArr) => {
         try{
+            await completeGame(this.props.gameweekId);
             for (let i=0;i<postArr.length;i++) {
                 await postPGJoiner(postArr[i]);
             }
-            completeGame(this.props.gameweekId);
+            await this.postUGJoiners()
             this.props.completeGameState(this.props.gameweekId);
             this.props.navigation.navigate('AdminHome');
         } catch(e) {
             console.warn(e);
+        }
+    }
+
+    postUGJoiners = async() => {
+        let { allUsers, gameweekId } = this.props
+        for (let i=0;i<allUsers.length;i++) {
+            await postUGJoiner(allUsers[i].user_id, gameweekId);
         }
     }
     
@@ -165,7 +173,9 @@ class GameEditorScreen extends Component {
 const mapStateToProps = state => {
     return {
         clubPlayers: state.clubPlayers,
-        gameweekId: state.gameweekId
+        gameweekId: state.gameweekId,
+        aUser: state.aUser,
+        allUsers: state.allUsers
     }
 }
 

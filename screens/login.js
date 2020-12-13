@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { loginUser, loginAdminUser, resetTeamPlayers } from '../actions';
 import { fetchUserByEmail, fetchAdminUserByEmail, fetchAllPlayersByAdminUserId, 
   fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId, 
-  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId } 
+  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId, fetchLeague } 
   from '../functions/APIcalls'; 
 
 
@@ -80,7 +80,8 @@ class LoginScreen extends Component {
         let starters = await fetchStartersByUserId(user.user_id);
         let subs = await fetchSubsByUserId(user.user_id);
         let puJoiners = await fetchAllPlayerUserJoinersByUserId(user.user_id);
-        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners);
+        let league = await fetchLeague(user.admin_user_id);
+        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league);
         this.props.navigation.navigate('Home');
       } else {
         // this.setState({email: 'A',
@@ -100,7 +101,7 @@ class LoginScreen extends Component {
       if (aUser !== undefined && aUser !== null) {
         let clubPlayers = await fetchAllPlayersByAdminUserId(aUser.admin_user_id);
         let allUsers = await fetchAllUsersByAdminUserId(aUser.admin_user_id);
-        let games = await fetchAllGamesByAdminUserId(aUser.admin_user_id)
+        let games = await fetchAllGamesByAdminUserId(aUser.admin_user_id);
         await this.props.loginAdminUser(aUser, clubPlayers, allUsers, games);
         this.props.navigation.navigate('AdminHome');
       } else {
@@ -151,7 +152,7 @@ class LoginScreen extends Component {
 
   const mapDispatchToProps = dispatch => {
     return {
-      loginUser: (user, clubPlayers, starters, subs, puJoiners) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners)),
+      loginUser: (user, clubPlayers, starters, subs, puJoiners, league) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners, league)),
       loginAdminUser: (aUser, clubPlayers, allUsers, games) => dispatch(loginAdminUser(aUser, clubPlayers, allUsers, games)),
       resetTeamPlayers: () => dispatch(resetTeamPlayers()),
     }

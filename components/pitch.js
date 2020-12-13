@@ -52,7 +52,7 @@ class Pitch extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.budget);
+        console.log(this.props.budget);
     }
 
     render() { 
@@ -79,20 +79,24 @@ class Pitch extends Component {
                     </View>
                     <MyModal 
                     visible={this.state.modal.active}
+                    height={vh(70)}
+                    width={vw(60)}
                     closeModalFcn={()=>this.setState({modal: {...this.state.modal, active: false}})}
                     jsx={<View>
                         <Text>{fullName(this.state.modal.player)}</Text>
                         <Text>{positionString(this.state.modal.player.position)}</Text>
                         <Text>£{this.state.modal.player.price}m</Text>
                         <Text>MAYBE SOME STATS AT SOME POINT</Text>
-                        {this.state.budget ? <CheckBox
+                        {!this.props.budget ? <CheckBox
                         checked={this.props.captain===this.state.modal.player}
                         title="Captain"
-                        onPress={()=>this.props.setCaptain(this.state.modal.player)} /> : null}
-                        {this.state.budget ? <CheckBox
+                        onPress={()=>this.props.setCaptain(this.state.modal.player)} 
+                        /> : null}
+                        {!this.props.budget ? <CheckBox
                         checked={this.props.vCaptain===this.state.modal.player}
                         title="Vice - Captain"
-                        onPress={()=>this.props.setVCaptain(this.state.modal.player)} /> : null}
+                        onPress={()=>this.props.setVCaptain(this.state.modal.player)} 
+                        /> : null}
                     </View>}
                     buttonOptions={[]}
                     />
@@ -117,14 +121,6 @@ const styles = StyleSheet.create({
         flex: 1,
         height: vh(60),
         backgroundColor: 'green'
-    },
-    modal: {
-        position: "absolute",
-        height: vh(30),
-        width: vw(60),
-        left: vw(15),
-        top: vh(20),
-        backgroundColor: 'red'
     },
     starters: {
         flex: 1

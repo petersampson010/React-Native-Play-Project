@@ -54,7 +54,7 @@ class AdminHomeScreen extends Component {
         >
             <ListItem.Content>
                 <ListItem.Title style={styles.listTitle}>{game.opponent}</ListItem.Title>
-                <ListItem.Subtitle style={styles.listSub}>{displayDate(game.date)}</ListItem.Subtitle>
+                {/* <ListItem.Subtitle style={styles.listSub}>{displayDate(game.date)}</ListItem.Subtitle> */}
             </ListItem.Content>
         </ListItem>
         )
@@ -127,6 +127,8 @@ class AdminHomeScreen extends Component {
                 </ScrollView>
                 <MyModal
                 visible={this.state.modal.active}
+                height={vh(60)}
+                width={vw(80)}
                 closeModalFcn={()=>
                     this.setState({...this.state, modal: {...this.state.modal, 
                         active: false
@@ -146,6 +148,8 @@ class AdminHomeScreen extends Component {
                 />
                 <MyModal 
                 visible={this.state.modal2.active}
+                height={vh(60)}
+                width={vw(70)}
                 closeModalFcn={()=>
                     this.setState({...this.state, modal2: {active: false,
                     game: {
@@ -154,7 +158,9 @@ class AdminHomeScreen extends Component {
                     }
                     }})
                 }
-                jsx={this.state.modal2.game.complete ? <Text>This game has been completed, you are unable to edit the player statistics</Text> : <View><Text>Edit game or update stats</Text><Text>Remember... when entering player stats and completing a game, all changes are final so be sure to double check your entries!</Text></View>}
+                jsx={this.state.modal2.game.complete ? <Text>This game has been completed, you are unable to edit the player statistics</Text> 
+                    : 
+                    <View><Text>Edit game or update stats</Text><Text>Remember... when entering player stats and completing a game, all changes are final so be sure to double check your entries!</Text></View>}
                 buttonOptions={this.state.modal2.game.complete ? [] : [{text: 'Submit Game Stats', fcn: ()=>{this.setState({...this.state, modal2: {...this.state.modal2, active: false}});this.props.navigation.navigate('GameEditor')}},
                 {text: 'Edit Game', fcn: ()=>this.setState({...this.state, modal: {active: true, update: true,
                     game: this.state.modal2.game}, modal2: {...this.state.modal2, active: false}})}]}
@@ -181,14 +187,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(mapStateToProps, mapDispatchToProps)(AdminHomeScreen);
 
 const styles = StyleSheet.create({
-    modal: {
-        position: "absolute",
-        height: vh(60),
-        width: vw(90),
-        left: vw(5),
-        top: vh(20),
-        backgroundColor: 'grey'
-    },
+    
     listItem: {
         borderRadius: 17,
         marginBottom: 10,
@@ -201,15 +200,5 @@ const styles = StyleSheet.create({
         color: 'white',
 
     },
-    modal2: {
-        position: "absolute",
-        height: vh(20),
-        width: vw(50),
-        left: vw(25),
-        top: vh(20),
-        backgroundColor: 'grey',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    }
+    
 })

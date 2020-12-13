@@ -1,6 +1,6 @@
 import { isCaptain, isVCaptain } from "./functions/reusable"
 
-export const loginUser = (user, clubPlayers, starters, subs, puJoiners) => {
+export const loginUser = (user, clubPlayers, starters, subs, puJoiners, league) => {
     let captain, vCaptain;
     for (let i=0;i<starters.length;i++) {
         if (isCaptain(starters[i], puJoiners)) {
@@ -17,7 +17,8 @@ export const loginUser = (user, clubPlayers, starters, subs, puJoiners) => {
         subs,
         puJoiners,
         captain,
-        vCaptain
+        vCaptain,
+        league
     }
 }
 

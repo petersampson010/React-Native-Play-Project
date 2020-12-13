@@ -47,7 +47,7 @@ class ClubSetupScreen extends Component {
     }
 
     updatePrice = (text, i) => {
-        if (text.match('^[0-9]{1,2}$')) {
+        if (text.match('(^[0-9]{1,2}$|^$)')) {
             this.setState({...this.state, averagePrice: this.state.totalPrice, players: {...this.state.players, [i]: {...this.state.players[i], price: text}}})
         // } else if (text.match('^[0-9]{3,}$')) {
             // this.setState({...this.state, players: {...this.state.players, [i]: {...this.state.players[i], price: text.substring(0,2)}}})

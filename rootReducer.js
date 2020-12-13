@@ -10,6 +10,7 @@ const initialState = {
     puJoiners: [],
     allUsers: [],
     games: [],
+    league: [],
     loginComplete: false,
     gameweekId: null,
 }
@@ -24,6 +25,7 @@ const rootReducer = (state = initialState, action) => {
                 starters: action.starters,
                 subs: action.subs, 
                 puJoiners: action.puJoiners,
+                leauge: action.league,
                 loginComplete: true
             }
         case 'LOGINADMINUSER':

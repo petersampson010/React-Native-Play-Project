@@ -132,9 +132,9 @@ class ntsScreen2 extends Component {
         }
     }
 
-    componentDidMount() {
-        // console.log(allSelectedPlayers(this.state.team))
-    }
+    // componentDidMount() {
+    //     // console.log(allSelectedPlayers(this.state.team))
+    // }
     
     render() { 
         return ( 

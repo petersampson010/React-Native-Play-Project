@@ -81,6 +81,11 @@ export const postAdminUser = aUser => {
     return fetch('http://localhost:3000/admin_users', configObj)
     .then(res=>res.json())
 }
+export const fetchLeague = id => {
+    return fetch(`http://localhost:3000/admin_users/${id}/league`) 
+    .then(res=>res.json())
+
+}
 
 //PLAYER
 
@@ -115,7 +120,7 @@ export const postPlayer = (player, aUserId) => {
             first_name: player.name.split(' ')[0],
             last_name: player.name.split(' ')[1],
             position: player.position,
-            price: parseInt(player.price),
+            price: (player.price),
             availability: 'a',
             admin_user_id: aUserId
         })
@@ -134,7 +139,7 @@ export const patchPlayer = player => {
             first_name: player.first_name,
             last_name: player.last_name,
             position: player.position,
-            price: parseInt(player.price),
+            price: (player.price),
             availability: player.availability
         })
     }
@@ -227,7 +232,6 @@ export const postGame = (game, aUserID) => {
     .then(res=>res.json())
 }
 export const patchGame = (game) => {
-    console.log(game);
     let configObj = {
         method: "PATCH",
         headers: {
@@ -255,7 +259,6 @@ export const completeGame = id => {
     };
     return fetch(`http://localhost:3000/gameweeks/${id}`, configObj)
     .then(res=>res.json())
-    .then(console.log)
 }
 
 
@@ -286,7 +289,73 @@ export const postPGJoiner = (joiner) => {
     .then(res=>res.json())
 }
 
+export const fetchPGJoinersFromUserIdAndGameweekId = (userId, gameweekId) => {
+    return fetch(`http://localhost:3000/users/${userId}/${gameweekId}/pg_joiners`)
+    .then(res=>res.json())
+}
 
+
+// USER-GAMEWEEK JOINERS
+
+export const postUGJoiner = async(userId, gameweekId) => {
+    let PGJoiners = await fetchPGJoinersFromUserIdAndGameweekId(userId, gameweekId);
+    let score = 0;
+    for (let i=0;i<PGJoiners.length;i++) {
+        let player = fetchPlayerById(PGJoiners[i].player_id)
+        let { minutes, assists, goals, own_goals, y_cards, r_cards, bonus, penalty_miss, goals_conceded } = PGJoiners[i];
+        console.log(typeof minutes)
+        switch(player.position) {
+            case 4: 
+                score += (Math.floor(minutes/30) + assists*3 + goals*4 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3);
+                break;
+            case 3:
+                score += (Math.floor(minutes/30) + assists*3 + goals*5 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3);
+                break;
+            default:
+                if (goals_conceded===0 || goals_conceded==="") {
+                    score += (Math.floor(minutes/30) + assists*3 + goals*5 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3 + 5);
+                    break;
+                } else {
+                    score += (Math.floor(minutes/30) + assists*3 + goals*5 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3 + Math.floor(goals_conceded*-0.5));
+                    break;
+                }
+        }
+    }
+    console.log(score);
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify({
+            total_points: score,
+            user_id: userId,
+            gameweek_id: gameweekId
+        })
+    };
+    await fetch(`http://localhost:3000/user_gameweek_joiners`, configObj)
+    .then(res=>res.json())
+}
+
+// export const createUserGameweekJoiners = async(aUser, gameweek_id) => {
+//     try {
+//         let configObj = {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json",
+//                 "Accept": "application/json"
+//             },
+//             body: JSON.stringify({
+//                 totalPoints: 
+//             })
+//         };
+//     } catch(e) {
+
+//     }
+//     console.log('hit')
+//     fetch(`http://localhost:3000/create_ug/${aUser.admin_user_id}/${gameweek_id}`)
+// }
 
 
 

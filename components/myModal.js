@@ -12,9 +12,9 @@ class MyModal extends Component {
             <Text style={{textAlign: 'center'}}>{x.text}</Text>
         </TouchableOpacity>})
     }
-    componentDidMount() {
-        console.log('rendering');
-    }
+    // componentDidMount() {
+
+    // }
     render() { 
         return ( 
             <Modal visible={this.props.visible} 

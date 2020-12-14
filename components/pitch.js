@@ -51,9 +51,9 @@ class Pitch extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log(this.props.budget);
-    }
+    // componentDidMount() {
+    //     console.log(this.props.budget);
+    // }
 
     render() { 
         return ( 

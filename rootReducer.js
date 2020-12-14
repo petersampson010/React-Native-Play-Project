@@ -29,6 +29,7 @@ const rootReducer = (state = initialState, action) => {
                 loginComplete: true
             }
         case 'LOGINADMINUSER':
+            // console.log(action.clubPlayers)
             return {...state, 
                 aUser: action.aUser, 
                 clubPlayers: action.clubPlayers,

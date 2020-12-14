@@ -95,9 +95,10 @@ class GameEditorScreen extends Component {
         let outcome = true;
         let postArr = [];
         let updatedState = this.state
+        // console.log(this.props.clubPlayers)
         for (let i=0;i<this.props.clubPlayers.length;i++) {
             let playerID = this.props.clubPlayers[i].player_id
-            let { result, post } =  validatePlayerScore(this.state[playerID])
+            let { result, post } = validatePlayerScore(this.state[playerID])
             if (!result) {
                 updatedState = ({...updatedState, 
                     [playerID]: {...updatedState[playerID],
@@ -121,6 +122,7 @@ class GameEditorScreen extends Component {
     }
     
     postPGJoiners = async(postArr) => {
+        // console.log(postArr)
         try{
             await completeGame(this.props.gameweekId);
             for (let i=0;i<postArr.length;i++) {
@@ -136,6 +138,7 @@ class GameEditorScreen extends Component {
 
     postUGJoiners = async() => {
         let { allUsers, gameweekId } = this.props
+        console.log(allUsers)
         for (let i=0;i<allUsers.length;i++) {
             await postUGJoiner(allUsers[i].user_id, gameweekId);
         }

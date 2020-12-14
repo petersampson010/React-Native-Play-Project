@@ -153,6 +153,10 @@ export const fetchAllPlayerUserJoinersByUserId = id => {
     return fetch(`http://localhost:3000/users/${id}/player_user_joiners`)
     .then(res=>res.json())
 }
+export const fetchPlayerUserJoinerByUserIdAndPlayerId = (userId, playerId) => {
+    return fetchAllPlayerUserJoinersByUserId(userId)
+    .then(data=>data.filter(x=>x.player_id===playerId))
+}
 export const postPlayerUserJoiner = (player, userId, count) => {
     let configObj = {
         method: "POST",
@@ -301,27 +305,31 @@ export const postUGJoiner = async(userId, gameweekId) => {
     let PGJoiners = await fetchPGJoinersFromUserIdAndGameweekId(userId, gameweekId);
     let score = 0;
     for (let i=0;i<PGJoiners.length;i++) {
+        console.log(score)
         let player = fetchPlayerById(PGJoiners[i].player_id)
         let { minutes, assists, goals, own_goals, y_cards, r_cards, bonus, penalty_miss, goals_conceded } = PGJoiners[i];
-        console.log(typeof minutes)
-        switch(player.position) {
-            case 4: 
-                score += (Math.floor(minutes/30) + assists*3 + goals*4 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3);
-                break;
-            case 3:
-                score += (Math.floor(minutes/30) + assists*3 + goals*5 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3);
-                break;
-            default:
-                if (goals_conceded===0 || goals_conceded==="") {
-                    score += (Math.floor(minutes/30) + assists*3 + goals*5 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3 + 5);
+        let pu_joiner = fetchPlayerUserJoinerByUserIdAndPlayerId(userId, PGJoiners[i].player_id)
+        // console.log(typeof minutes)
+        if (!pu_joiner.sub) {
+            switch(player.position) {
+                case 4: 
+                    score += ((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
                     break;
-                } else {
-                    score += (Math.floor(minutes/30) + assists*3 + goals*5 + own_goals*-3 + y_cards*-1 + r_cards*-3 + bonus + penalty_miss*-3 + Math.floor(goals_conceded*-0.5));
+                case 3:
+                    score += ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
                     break;
-                }
+                default:
+                    if (goals_conceded===0 || goals_conceded===null) {
+                        score += ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
+                        break;
+                    } else {
+                        score += ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
+                        break;
+                    }
+            }
         }
     }
-    console.log(score);
+    // console.log(score);
     let configObj = {
         method: "POST",
         headers: {

@@ -82,7 +82,7 @@ class GameEditorScreen extends Component {
         />];
 
     updateScore = (playerID, value, attr) => {
-        if (value.match('^[0-9]{1,2}$')) {
+        if (value.match('^[0-9]{1,2}$') || value==="") {
             this.setState({...this.state, 
                 [playerID]: {...this.state[playerID],
                     [attr]: value
@@ -138,7 +138,6 @@ class GameEditorScreen extends Component {
 
     postUGJoiners = async() => {
         let { allUsers, gameweekId } = this.props
-        console.log(allUsers)
         for (let i=0;i<allUsers.length;i++) {
             await postUGJoiner(allUsers[i].user_id, gameweekId);
         }

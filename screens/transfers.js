@@ -68,6 +68,7 @@ class TransfersScreen extends Component {
             <ScrollView>
                 <MyHeader title='Transfers' navigate={page=>this.props.navigation.navigate(page)}/>
                 <Pitch 
+                type="transfers"
                 update={this.confirmUpdates}
                 budget={this.state.budget}
                 team={this.state.team}

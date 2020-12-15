@@ -134,7 +134,6 @@ class PickTeamScreen extends Component {
                 await patchPlayerUserJoinerCAPTAINS(false, true, getPuId(this.state.vCaptain, this.props.puJoiners));
                 await patchPlayerUserJoinerCAPTAINS(false, false, getPuId(prevVCaptain, this.props.puJoiners));
             }
-            console.log('complete');
         } catch(e) {
             console.warn(e);
         }
@@ -152,6 +151,7 @@ class PickTeamScreen extends Component {
             <ScrollView>
                 <MyHeader title='Pick Team' navigate={page=>this.props.navigation.navigate(page)}/>
                 <Pitch
+                type="pickTeam"
                 update={this.validateTeam}
                 budget={false}
                 team={this.state.team}

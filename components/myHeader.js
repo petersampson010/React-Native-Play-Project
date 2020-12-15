@@ -10,7 +10,7 @@ class MyHeader extends Component {
          return (
             <View style={styles.nav}>
                 <Text onPress={()=>this.props.navigate('Transfers')}>Transfers</Text>
-                <Text onPress={()=>this.props.navigate('League')}>League</Text>
+                <Text onPress={()=>this.props.navigate('Points')}>Points</Text>
                 <Text onPress={()=>this.props.navigate('PickTeam')}>Pick Team</Text>
             </View>
          )

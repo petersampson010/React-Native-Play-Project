@@ -60,7 +60,6 @@ class PlayersList extends Component {
                 style={{opacity: (this.playerSelected(player) ? 0.3 : 1)}}
                 />)   
             default: 
-                console.log('no no no no no');
                 break;
         }
     }

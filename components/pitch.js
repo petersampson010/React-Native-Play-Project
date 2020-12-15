@@ -51,16 +51,17 @@ class Pitch extends Component {
         })
     }
 
-    // componentDidMount() {
-    //     console.log(this.props.budget);
-    // }
+    componentDidMount() {
+        console.log('got ya');
+        console.log(this.props.team)
+    }
 
     render() { 
         return ( 
             <View>
                 <View style={styles.subHead}>
                     {this.props.budget ? <Text style={{color: (this.props.budget>=0 ? 'green' : 'red')}}>Budget: {this.props.budget}m</Text> : null}
-                    <Button title="Confirm" onPress={this.props.update}/>
+                    {this.props.type==="points" ? <Text></Text> : <Button title="Confirm" onPress={this.props.update}/>}
                 </View>
                 <View style={styles.pitch}>
                     <View style={styles.starters}>
@@ -87,12 +88,12 @@ class Pitch extends Component {
                         <Text>{positionString(this.state.modal.player.position)}</Text>
                         <Text>£{this.state.modal.player.price}m</Text>
                         <Text>MAYBE SOME STATS AT SOME POINT</Text>
-                        {!this.props.budget ? <CheckBox
+                        {this.props.type==="pickTeam" ? <CheckBox
                         checked={this.props.captain===this.state.modal.player}
                         title="Captain"
                         onPress={()=>this.props.setCaptain(this.state.modal.player)} 
                         /> : null}
-                        {!this.props.budget ? <CheckBox
+                        {this.props.type==="pickTeam" ? <CheckBox
                         checked={this.props.vCaptain===this.state.modal.player}
                         title="Vice - Captain"
                         onPress={()=>this.props.setVCaptain(this.state.modal.player)} 

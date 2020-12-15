@@ -10,7 +10,7 @@ import ntsScreen2 from './screens/newTeamSetup/nts2';
 import ContactUsScreen from './screens/contactUs';
 import HomeScreen from './screens/home';
 import TransfersScreen from './screens/transfers';
-import LeagueScreen from './screens/league';
+import PointsScreen from './screens/points';
 import ClubSetupScreen from './screens/clubSetup';
 import PickTeamScreen from './screens/pickTeam';
 import AdminHomeScreen from './screens/adminHome';
@@ -31,7 +31,7 @@ function App() {
         <Stack.Screen name="ContactUs" component={ContactUsScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Transfers" component={TransfersScreen} />
-        <Stack.Screen name="League" component={LeagueScreen} />
+        <Stack.Screen name="Points" component={PointsScreen} />
         <Stack.Screen name="ClubSetup" component={ClubSetupScreen} />
         <Stack.Screen name="PickTeam" component={PickTeamScreen} />
         <Stack.Screen name="AdminHome" component={AdminHomeScreen} />

@@ -81,7 +81,9 @@ class LoginScreen extends Component {
         let subs = await fetchSubsByUserId(user.user_id);
         let puJoiners = await fetchAllPlayerUserJoinersByUserId(user.user_id);
         let league = await fetchLeague(user.admin_user_id);
-        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league);
+        let gameweek = await fetchLatestGameweekFromAdminUserId(user.admin_user_id);
+        
+        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek);
         this.props.navigation.navigate('Home');
       } else {
         // this.setState({email: 'A',

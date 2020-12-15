@@ -65,6 +65,10 @@ export const fetchAdminUserByEmail = aUser => {
     return fetchAllAdminUsers()
     .then(aUsers=>aUsers.find(x=>x.email===aUser.email))
 }
+export const fetchLatestGameweekFromAdminUserId = id => {
+    return fetch(`http://localhost:3000/admin_users/${id}/latest_gw`)
+    .then(res=>res.json())
+}
 export const postAdminUser = aUser => {
     let configObj = {
         method: "POST",
@@ -268,29 +272,65 @@ export const completeGame = id => {
 
 // PLAYER-GAMEWEEK-JOINERS
 
-export const postPGJoiner = (joiner) => {
-    let configObj = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-            minutes: joiner.minutes,
-            assists: joiner.assists,
-            goals: joiner.goals,
-            own_goals: joiner.own_goals,
-            y_cards: joiner.y_cards,
-            r_cards: joiner.r_cards,
-            bonus: joiner.bonus,
-            penalty_miss: joiner.penalty_miss,
-            goals_conceded: joiner.goals_conceded,
-            player_id: joiner.player_id,
-            gameweek_id: joiner.gameweek_id
-        })
-    };
-    return fetch(`http://localhost:3000/player_gameweek_joiners`, configObj)
-    .then(res=>res.json())
+export const postPGJoiner = async(joiner) => {
+    try{
+        let newObj = {}
+        for (let key in joiner) {
+            if (joiner[key]==="") {
+                newObj[key] = 0
+            } else {
+                newObj[key] = parseInt(joiner[key])
+            }
+        }
+        let { minutes, assists, goals, own_goals, y_cards, r_cards, bonus, penalty_miss, goals_conceded } = newObj
+        let player = await fetchPlayerById(joiner.player_id)
+        let score;
+        switch(player.position) {
+            case '4': 
+            console.log((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
+                score = ((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
+                break;
+            case '3':
+                console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
+                score = ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
+                break;
+            default:
+                if (goals_conceded===0 || goals_conceded===null) {
+                    console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
+                    score = ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
+                    break;
+                } else {
+                    console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
+                    score = ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
+                    break;
+                }
+        }
+        let configObj = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                minutes: joiner.minutes,
+                assists: joiner.assists,
+                goals: joiner.goals,
+                own_goals: joiner.own_goals,
+                y_cards: joiner.y_cards,
+                r_cards: joiner.r_cards,
+                bonus: joiner.bonus,
+                penalty_miss: joiner.penalty_miss,
+                goals_conceded: joiner.goals_conceded,
+                total_points: score,
+                player_id: joiner.player_id,
+                gameweek_id: joiner.gameweek_id
+            })
+        };
+        return fetch(`http://localhost:3000/player_gameweek_joiners`, configObj)
+        .then(res=>res.json());
+    } catch(e) {
+        console.warn(e);
+    }
 }
 
 export const fetchPGJoinersFromUserIdAndGameweekId = (userId, gameweekId) => {
@@ -305,31 +345,11 @@ export const postUGJoiner = async(userId, gameweekId) => {
     let PGJoiners = await fetchPGJoinersFromUserIdAndGameweekId(userId, gameweekId);
     let score = 0;
     for (let i=0;i<PGJoiners.length;i++) {
-        console.log(score)
-        let player = fetchPlayerById(PGJoiners[i].player_id)
-        let { minutes, assists, goals, own_goals, y_cards, r_cards, bonus, penalty_miss, goals_conceded } = PGJoiners[i];
-        let pu_joiner = fetchPlayerUserJoinerByUserIdAndPlayerId(userId, PGJoiners[i].player_id)
-        // console.log(typeof minutes)
+        let pu_joiner = await fetchPlayerUserJoinerByUserIdAndPlayerId(userId, PGJoiners[i].player_id)
         if (!pu_joiner.sub) {
-            switch(player.position) {
-                case 4: 
-                    score += ((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
-                    break;
-                case 3:
-                    score += ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
-                    break;
-                default:
-                    if (goals_conceded===0 || goals_conceded===null) {
-                        score += ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
-                        break;
-                    } else {
-                        score += ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
-                        break;
-                    }
-            }
+            score += PGJoiners[i].total_points
         }
     }
-    // console.log(score);
     let configObj = {
         method: "POST",
         headers: {
@@ -345,26 +365,6 @@ export const postUGJoiner = async(userId, gameweekId) => {
     await fetch(`http://localhost:3000/user_gameweek_joiners`, configObj)
     .then(res=>res.json())
 }
-
-// export const createUserGameweekJoiners = async(aUser, gameweek_id) => {
-//     try {
-//         let configObj = {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 "Accept": "application/json"
-//             },
-//             body: JSON.stringify({
-//                 totalPoints: 
-//             })
-//         };
-//     } catch(e) {
-
-//     }
-//     console.log('hit')
-//     fetch(`http://localhost:3000/create_ug/${aUser.admin_user_id}/${gameweek_id}`)
-// }
-
 
 
 

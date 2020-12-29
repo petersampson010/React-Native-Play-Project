@@ -88,5 +88,5 @@ export const allSelectedPlayerIds = team => allSelectedPlayers(team).map(x=>x.pl
 
 export const displayDate = date => {
     let options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-    return new Intl.DateTimeFormat('en-us', options).format(date);
+    return new Intl.DateTimeFormat('en-us', options).format(Date.parse(date));
 }

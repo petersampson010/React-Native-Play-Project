@@ -16,11 +16,17 @@ class PlayerGraphic extends Component {
             return '';
         }
     }
-    
-    // componentDidMount() {
-    //     console.log(this.props.player)
-    // }
 
+    points = () => {
+        let PG = this.props.playerPG;
+        if (PG===undefined) {
+            return '0';
+        } else if (!PG)  {
+            return '';
+        } else {
+            return this.props.playerPG.total_points;
+        }
+    }
 
     render() {
         return ( 
@@ -29,6 +35,7 @@ class PlayerGraphic extends Component {
                         <View>
                             <Text style={styles.num}>{this.props.num}</Text>
                             <Text style={styles.name}>{fullName(this.props.player) + '  ' + (this.props.captain ? '(C)' : '') + (this.props.vCaptain ? '(VC)' : '')}</Text>
+                            <Text>{this.points()}</Text>
                         </View>
                     </TouchableHighlight>
                     <Button title="INFO" onPress={()=>this.props.openModal(this.props.player)}/>

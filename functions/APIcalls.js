@@ -1,5 +1,7 @@
 // USER
 
+import gameEditor from "../screens/gameEditor";
+
 export const fetchAllUsers = () => {
     return fetch('http://localhost:3000/users')
     .then(res=>res.json());
@@ -64,10 +66,6 @@ export const fetchAdminUserById = id => {
 export const fetchAdminUserByEmail = aUser => {
     return fetchAllAdminUsers()
     .then(aUsers=>aUsers.find(x=>x.email===aUser.email))
-}
-export const fetchLatestGameweekFromAdminUserId = id => {
-    return fetch(`http://localhost:3000/admin_users/${id}/latest_gw`)
-    .then(res=>res.json())
 }
 export const postAdminUser = aUser => {
     let configObj = {
@@ -269,6 +267,13 @@ export const completeGame = id => {
     .then(res=>res.json())
 }
 
+export const fetchLatestGameweekFromAdminUserId = auId => {
+    return fetchAllGamesByAdminUserId(auId)
+    .then(games => games.filter(g=>g.complete===true))
+    .then(games => games.sort((a,b)=>Date.parse(b.date)-Date.parse(a.date)))
+    .then(games => games[0])
+}
+
 
 // PLAYER-GAMEWEEK-JOINERS
 
@@ -287,20 +292,20 @@ export const postPGJoiner = async(joiner) => {
         let score;
         switch(player.position) {
             case '4': 
-            console.log((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
+            // console.log((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
                 score = ((Math.floor(minutes/30)) + (assists*3) + (goals*4) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
                 break;
             case '3':
-                console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
+                // console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
                 score = ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3));
                 break;
             default:
                 if (goals_conceded===0 || goals_conceded===null) {
-                    console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
+                    // console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
                     score = ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3 + 5));
                     break;
                 } else {
-                    console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
+                    // console.log((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
                     score = ((Math.floor(minutes/30)) + (assists*3) + (goals*5) + (own_goals*-3) + (y_cards*-1) + (r_cards*-3) + (bonus) + (penalty_miss*-3) + (Math.floor(goals_conceded*-0.5)));
                     break;
                 }
@@ -363,6 +368,12 @@ export const postUGJoiner = async(userId, gameweekId) => {
         })
     };
     await fetch(`http://localhost:3000/user_gameweek_joiners`, configObj)
+    .then(res=>res.json())
+}
+
+export const fetchUGJoiner = (userId, gameweekId) => {
+    console.log(userId);
+    return fetch(`http://localhost:3000/user_gameweek_joiners/${userId}/${gameweekId}`)
     .then(res=>res.json())
 }
 

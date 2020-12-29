@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { loginUser, loginAdminUser, resetTeamPlayers } from '../actions';
 import { fetchUserByEmail, fetchAdminUserByEmail, fetchAllPlayersByAdminUserId, 
   fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId, 
-  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId, fetchLeague } 
+  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId, fetchLeague, fetchLatestGameweekFromAdminUserId, fetchPGJoinersFromUserIdAndGameweekId, fetchUGJoiner } 
   from '../functions/APIcalls'; 
 
 
@@ -82,8 +82,11 @@ class LoginScreen extends Component {
         let puJoiners = await fetchAllPlayerUserJoinersByUserId(user.user_id);
         let league = await fetchLeague(user.admin_user_id);
         let gameweek = await fetchLatestGameweekFromAdminUserId(user.admin_user_id);
-        
-        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek);
+        // console.log(gameweek);
+        let pgJoiners = await fetchPGJoinersFromUserIdAndGameweekId(user.user_id, gameweek.gameweek_id);
+        let latestUG = await fetchUGJoiner(user.user_id, gameweek.gameweek_id);
+        // console.log(latestUG);
+        this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, latestUG);
         this.props.navigation.navigate('Home');
       } else {
         // this.setState({email: 'A',
@@ -154,7 +157,7 @@ class LoginScreen extends Component {
 
   const mapDispatchToProps = dispatch => {
     return {
-      loginUser: (user, clubPlayers, starters, subs, puJoiners, league) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners, league)),
+      loginUser: (user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, latestUG) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, latestUG)),
       loginAdminUser: (aUser, clubPlayers, allUsers, games) => dispatch(loginAdminUser(aUser, clubPlayers, allUsers, games)),
       resetTeamPlayers: () => dispatch(resetTeamPlayers()),
     }

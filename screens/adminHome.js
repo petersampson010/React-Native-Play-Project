@@ -10,7 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { postGame, patchGame } from '../functions/APIcalls';
 import { showMessage } from 'react-native-flash-message';
 import TouchableScale from 'react-native-touchable-scale'
-import { setGameweekId, addGameState } from '../actions';
+import { setGwSelectId, addGameState } from '../actions';
 import { displayDate } from '../functions/reusable';
 import MyModal from '../components/myModal';
 
@@ -36,12 +36,12 @@ class AdminHomeScreen extends Component {
      }
 
     renderGames = () => {
-        let sortedArr = this.props.games.map(x=>{return {...x, date: Date.parse(x.date)}}).sort((a,b)=>b.date-a.date);
+        let sortedArr = this.props.games.sort((a,b)=>Date.parse(b.date)-Date.parse(a.date));
         return sortedArr.map((game,i) => 
         <ListItem key={i} style={styles.listItem}
         onPress={()=>{
             this.setState({...this.state, modal2: {active: true, game}})
-            this.props.setGameweekId(game.gameweek_id)}}
+            this.props.setGwSelectId(game.gameweek_id)}}
         Component={TouchableScale}
         friction={90} //
         tension={100} // These props are passed to the parent component (here TouchableScale)
@@ -54,7 +54,7 @@ class AdminHomeScreen extends Component {
         >
             <ListItem.Content>
                 <ListItem.Title style={styles.listTitle}>{game.opponent}</ListItem.Title>
-                {/* <ListItem.Subtitle style={styles.listSub}>{displayDate(game.date)}</ListItem.Subtitle> */}
+                <ListItem.Subtitle style={styles.listSub}>{displayDate(game.date)}</ListItem.Subtitle>
             </ListItem.Content>
         </ListItem>
         )
@@ -79,7 +79,7 @@ class AdminHomeScreen extends Component {
                         active: false,
                         game: {
                             opponent: '',
-                            date: new Date()
+                            date: ''
                         }
                     }
                 });
@@ -102,7 +102,7 @@ class AdminHomeScreen extends Component {
                         active: false,
                         game: {
                             opponent: '',
-                            date: new Date()
+                            date: ''
                         }
                     }
                 })
@@ -179,7 +179,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setGameweekId: id => dispatch(setGameweekId(id)),
+        setGwSelectId: id => dispatch(setGwSelectId(id)),
         addGameState: game => dispatch(addGameState(game))
     }
 }

@@ -1,24 +1,38 @@
 import { playersObjToArray } from "./functions/reusable";
 
 const initialState = {
-    admin: false,
-    user: {},
-    aUser: {},
-    clubPlayers: [],
-    starters: [],
-    subs: [],
-    puJoiners: [],
-    allUsers: [],
-    games: [],
+    endUser: {
+        adminUser: {
+            active: false,
+            aUser: {},  
+            allUsers: [],
+        },
+        user: {},
+    },
+    players: {
+        clubPlayers: [],
+        starters: [],
+        subs: []
+    },
+    joiners: {
+        puJoiners: [],
+        pgJoiners: [],
+        latestUG: null,
+    },
+    gameweek: {
+        games: [],
+        gwSelectId: null,
+        gwLatest: null,
+    },
     league: [],
     loginComplete: false,
-    gameweekId: null,
 }
 
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGINUSER':
+            // console.log(action.pgJoiners);
             return {...state, 
                 user: action.user, 
                 clubPlayers: action.clubPlayers, 
@@ -26,7 +40,10 @@ const rootReducer = (state = initialState, action) => {
                 subs: action.subs, 
                 puJoiners: action.puJoiners,
                 leauge: action.league,
-                loginComplete: true
+                loginComplete: true,
+                gwLatest: action.gameweek,
+                pgJoiners: action.pgJoiners,
+                latestUG: action.latestUG
             }
         case 'LOGINADMINUSER':
             // console.log(action.clubPlayers)
@@ -56,8 +73,8 @@ const rootReducer = (state = initialState, action) => {
             return {...state, starters: [], subs: []};
         case 'PICKTEAMUPDATE':
             return {...state, starters: playersObjToArray(action.team), subs: action.subs}
-        case 'SETGAMEWEEKID':
-            return {...state, gameweekId: action.id}
+        case 'SETGWSELECTID':
+            return {...state, gwSelectId: action.id}
         case 'COMPLETEGAME':
             let newGames = state.games.map(game=>{
                 if (game.gameweek_id===action.id) {

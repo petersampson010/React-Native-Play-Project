@@ -5,6 +5,9 @@ import {vw, vh} from 'react-native-expo-viewport-units';
 import { fullName, positionString } from '../functions/reusable';
 import { CheckBox } from 'react-native-elements';
 import MyModal from './myModal';
+import { connect } from 'react-redux';
+import PitchHead from '../components/pitchHead';
+
 
 
 class Pitch extends Component {
@@ -21,7 +24,9 @@ class Pitch extends Component {
                 admin_user_id: 1
             }
         },
-     }
+    }
+
+    playerPG = (playerId) => this.props.type==="points" ? this.props.pgJoiners.filter(pg=>pg.player_id===playerId)[0] : false;
 
     renderPlayers = (position, j) => {
         return this.props.team[position].map((player, i) => 
@@ -29,8 +34,9 @@ class Pitch extends Component {
         clickFcn={this.props.clickFcn}
         openModal={this.openModal}
         captain={this.props.captain===player}
-        vCaptain={this.props.vCaptain===player}/>
-        )
+        vCaptain={this.props.vCaptain===player}
+        playerPG={this.playerPG(player.player_id)}
+        />)
     }
 
     renderSubs = j => {
@@ -51,18 +57,15 @@ class Pitch extends Component {
         })
     }
 
-    componentDidMount() {
-        console.log('got ya');
-        console.log(this.props.team)
-    }
 
     render() { 
         return ( 
             <View>
-                <View style={styles.subHead}>
-                    {this.props.budget ? <Text style={{color: (this.props.budget>=0 ? 'green' : 'red')}}>Budget: {this.props.budget}m</Text> : null}
-                    {this.props.type==="points" ? <Text></Text> : <Button title="Confirm" onPress={this.props.update}/>}
-                </View>
+                <PitchHead
+                budget={this.props.budget}
+                type={this.props.type}
+                update={this.props.update}
+                />
                 <View style={styles.pitch}>
                     <View style={styles.starters}>
                         <View style={styles.goalkeeper}>
@@ -109,8 +112,14 @@ class Pitch extends Component {
          );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        pgJoiners: state.pgJoiners
+    }
+}
  
-export default Pitch;
+export default connect(mapStateToProps)(Pitch);
 
 const styles = StyleSheet.create({
     subHead: {

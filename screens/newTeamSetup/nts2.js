@@ -160,8 +160,8 @@ class ntsScreen2 extends Component {
 
 const mapStateToProps = state => {
     return {
-        clubPlayers: state.clubPlayers,
-        user: state.user
+        clubPlayers: state.players.clubPlayers,
+        user: state.endUser.user
     }
 }
 

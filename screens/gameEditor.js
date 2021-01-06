@@ -174,7 +174,7 @@ class GameEditorScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        clubPlayers: state.clubPlayers,
+        clubPlayers: state.players.clubPlayers,
         gameweekId: state.gameweekId,
         aUser: state.aUser,
         allUsers: state.allUsers

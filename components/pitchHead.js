@@ -7,9 +7,9 @@ import { connect } from 'react-redux';
 class PitchHead extends Component {
     state = {  }
 
-    componentDidMount() {
-        console.log(this.props.latestUG);
-    }
+    // componentDidMount() {
+    //     console.log(this.props.latestUG);
+    // }
 
     comp1 = () => {
         switch(this.props.type) {
@@ -49,7 +49,7 @@ class PitchHead extends Component {
 
 const mapStateToProps = state => {
     return {
-        latestUG: state.latestUG
+        latestUG: state.joiners.latestUG
     }
 }
  

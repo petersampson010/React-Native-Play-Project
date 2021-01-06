@@ -31,9 +31,10 @@ class PointsScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        subs: state.subs,
-        starters: state.starters,
-        puJoiners: state.puJoiners
+        subs: state.players.subs,
+        starters: state.players.starters,
+        puJoiners: state.joiners.puJoiners,
+        league: state.league
     }
 }
  

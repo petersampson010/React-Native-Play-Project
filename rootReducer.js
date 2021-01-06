@@ -24,7 +24,11 @@ const initialState = {
         gwSelectId: null,
         gwLatest: null,
     },
-    league: [],
+    homeGraphics: {
+        league: [],
+        topPlayer: {},
+        topUser: {}
+    },
     loginComplete: false,
 }
 
@@ -32,21 +36,35 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGINUSER':
-            // console.log(action.pgJoiners);
+            console.log(action.ugJoiners);
             return {...state, 
-                user: action.user, 
-                clubPlayers: action.clubPlayers, 
-                starters: action.starters,
-                subs: action.subs, 
-                puJoiners: action.puJoiners,
-                leauge: action.league,
+                endUser: {
+                    ...state.endUser,
+                    user: action.user,
+                },
+                players: {
+                    clubPlayers: action.clubPlayers, 
+                    starters: action.starters,
+                    subs: action.subs, 
+                },
+                joiners: {
+                    puJoiners: action.puJoiners,
+                    pgJoiners: action.pgJoiners,
+                    ugJoiners: action.ugJoiners,
+                    latestUG: action.latestUG,
+                },
+                gameweek: {
+                    ...state.gameweeks,
+                    gwLatest: action.gameweek,
+                },
+                homeGraphics: {
+                    league: action.league,
+                    topPlayer: action.topPlayer,
+                    topUser: action.topUser
+                },
                 loginComplete: true,
-                gwLatest: action.gameweek,
-                pgJoiners: action.pgJoiners,
-                latestUG: action.latestUG
             }
         case 'LOGINADMINUSER':
-            // console.log(action.clubPlayers)
             return {...state, 
                 aUser: action.aUser, 
                 clubPlayers: action.clubPlayers,

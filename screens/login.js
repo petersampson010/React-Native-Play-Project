@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { loginUser, loginAdminUser, resetTeamPlayers } from '../actions';
 import { fetchUserByEmail, fetchAdminUserByEmail, fetchAllPlayersByAdminUserId, 
   fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId, 
-  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId, fetchLeague, fetchLatestGameweekFromAdminUserId, fetchPGJoinersFromUserIdAndGameweekId, fetchUGJoiner } 
+  fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId, fetchLeague, fetchLatestGameweekFromAdminUserId, fetchPGJoinersFromUserIdAndGameweekId, fetchUGJoiner, fetchUGJoiners, fetchPlayerById, fetchUserById } 
   from '../functions/APIcalls'; 
 
 
@@ -84,9 +84,20 @@ class LoginScreen extends Component {
         let gameweek = await fetchLatestGameweekFromAdminUserId(user.admin_user_id);
         // console.log(gameweek);
         let pgJoiners = await fetchPGJoinersFromUserIdAndGameweekId(user.user_id, gameweek.gameweek_id);
+        let ugJoiners = await fetchUGJoiners(user.admin_user_id, gameweek.gameweek_id);
         let latestUG = await fetchUGJoiner(user.user_id, gameweek.gameweek_id);
         // console.log(latestUG);
-        this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, latestUG);
+        let pg = pgJoiners.sort((a,b)=>a.total_points-b.total_points)[0];
+        let topPlayer = {
+          pg,
+          player: await fetchPlayerById(pg.player_id)
+        };
+        let ug = ugJoiners.sort((a,b)=>a.total_points-b.total_points)[0];
+        let topUser = {
+          ug,
+          user: await fetchUserById(ug.user_id)
+        };
+        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, ugJoiners, latestUG, topPlayer, topUser);
         this.props.navigation.navigate('Home');
       } else {
         // this.setState({email: 'A',
@@ -157,7 +168,7 @@ class LoginScreen extends Component {
 
   const mapDispatchToProps = dispatch => {
     return {
-      loginUser: (user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, latestUG) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, latestUG)),
+      loginUser: (user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, ugJoiners, latestUG, topPlayer, topUser) => dispatch(loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, ugJoiners, latestUG, topPlayer, topUser)),
       loginAdminUser: (aUser, clubPlayers, allUsers, games) => dispatch(loginAdminUser(aUser, clubPlayers, allUsers, games)),
       resetTeamPlayers: () => dispatch(resetTeamPlayers()),
     }

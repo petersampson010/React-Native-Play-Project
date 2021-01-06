@@ -88,9 +88,9 @@ class TransfersScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        teamPlayers: state.starters.concat(state.subs),
-        clubPlayers: state.clubPlayers,
-        budget: state.user.budget
+        teamPlayers: state.players.starters.concat(state.players.subs),
+        clubPlayers: state.players.clubPlayers,
+        budget: state.endUser.user.budget
     }
 }
  

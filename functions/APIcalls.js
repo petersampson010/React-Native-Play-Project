@@ -372,10 +372,13 @@ export const postUGJoiner = async(userId, gameweekId) => {
 }
 
 export const fetchUGJoiner = (userId, gameweekId) => {
-    console.log(userId);
     return fetch(`http://localhost:3000/user_gameweek_joiners/${userId}/${gameweekId}`)
     .then(res=>res.json())
 }
 
+export const fetchUGJoiners = (auId, gameweekId) => {
+    return fetch(`http://localhost:3000/admin_users/ug_joiners/${auId}/${gameweekId}`)
+    .then(res=>res.json())
+}
 
 

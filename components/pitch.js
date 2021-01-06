@@ -115,7 +115,7 @@ class Pitch extends Component {
 
 const mapStateToProps = state => {
     return {
-        pgJoiners: state.pgJoiners
+        pgJoiners: state.joiners.pgJoiners
     }
 }
  

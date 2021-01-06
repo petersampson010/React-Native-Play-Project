@@ -94,7 +94,7 @@ class PlayersList extends Component {
 
 const mapStateToProps = state => {
     return {
-        clubPlayers: state.clubPlayers
+        clubPlayers: state.players.clubPlayers
     }
 }
  

@@ -46,7 +46,7 @@ class PlayerGraphic extends Component {
 
 const mapStateToProps = state => {
     return {
-        puJoiners: state.puJoiners
+        puJoiners: state.joiners.puJoiners
     }
 }
  

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, StyleSheet, Modal, Button, Picker } from 'react-native';
 import { connect } from 'react-redux';
-import MyHeader from '../components/myHeader';
+import Header from '../components/header/header';
 import { Table, Row } from 'react-native-table-component';
 import {vw, vh} from 'react-native-expo-viewport-units';
 import { allSelectedPlayerIds, fullName, positionString } from '../functions/reusable';
@@ -9,6 +9,7 @@ import PlayerGraphic from '../components/playerGraphic';
 import Pitch from '../components/pitch';
 import PlayersList from '../components/playersList';
 import { showMessage } from 'react-native-flash-message';
+import BottomNav from '../components/bottomNav/bottomNav';
 
 
 
@@ -66,7 +67,7 @@ class TransfersScreen extends Component {
     render() { 
         return ( 
             <ScrollView>
-                <MyHeader title='Transfers' navigate={page=>this.props.navigation.navigate(page)}/>
+                <Header title='Transfers' navigate={page=>this.props.navigation.navigate(page)}/>
                 <Pitch 
                 type="transfers"
                 update={this.confirmUpdates}
@@ -81,6 +82,7 @@ class TransfersScreen extends Component {
                 allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
                 clickFcn={this.transfer}
                 />
+                <BottomNav navigate={this.props.navigation.navigate}/>
             </ScrollView>
          );
     }

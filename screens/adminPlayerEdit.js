@@ -139,7 +139,6 @@ class AdminPlayerEditScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        // clubPlayers: state.clubPlayers
     }
 }
  

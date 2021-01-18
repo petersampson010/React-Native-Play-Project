@@ -17,6 +17,12 @@ class PlayerGraphic extends Component {
         }
     }
 
+    renderPoints = () => {
+        if (this.props.type!='pickTeam') {
+            return <Text>{this.points()}</Text>
+        }
+    }
+
     points = () => {
         let PG = this.props.playerPG;
         if (PG===undefined) {
@@ -35,7 +41,7 @@ class PlayerGraphic extends Component {
                         <View>
                             <Text style={styles.num}>{this.props.num}</Text>
                             <Text style={styles.name}>{fullName(this.props.player) + '  ' + (this.props.captain ? '(C)' : '') + (this.props.vCaptain ? '(VC)' : '')}</Text>
-                            <Text>{this.points()}</Text>
+                            {this.renderPoints()}
                         </View>
                     </TouchableHighlight>
                     <Button title="INFO" onPress={()=>this.props.openModal(this.props.player)}/>

@@ -4,7 +4,7 @@ import { View, Text, ScrollView, Button, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { fetchAdminUserById, fetchAllAdminUsers, fetchAllPlayersByAdminUserId, fetchAllUsers, postUser } from '../../functions/APIcalls';
 import { validateUser } from '../../functions/validity';
-import MyHeader from '../../components/myHeader';
+import Header from '../../components/header/header';
 import { setAdminUser, setClubPlayers, setUser } from '../../actions';
 import { showMessage } from 'react-native-flash-message';
 
@@ -83,7 +83,7 @@ class ntsScreen1 extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <MyHeader title='Create Account'/>
+        <Header title='Create Account'/>
         <View style={styles.formContainer}>
           <Text>Email</Text>
           <TextInput value={this.state.userObj.email} onChange={el => this.formChange('email', el.nativeEvent.text)}/>

@@ -8,7 +8,7 @@ import AdminAccountSetupScreen from './screens/adminAccountSetup';
 import ntsScreen1 from './screens/newTeamSetup/nts1';
 import ntsScreen2 from './screens/newTeamSetup/nts2';
 import ContactUsScreen from './screens/contactUs';
-import HomeScreen from './screens/home';
+import HomeScreen from './screens/home/home';
 import TransfersScreen from './screens/transfers';
 import PointsScreen from './screens/points';
 import ClubSetupScreen from './screens/clubSetup';

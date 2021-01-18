@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import MyHeader from '../components/myHeader';
 import { ListItem } from 'react-native-elements';
 import { Button, ScrollView, View, StyleSheet, Text } from 'react-native';
 import { Input } from 'react-native-elements';
@@ -79,7 +78,7 @@ class AdminHomeScreen extends Component {
                         active: false,
                         game: {
                             opponent: '',
-                            date: ''
+                            date: new Date()
                         }
                     }
                 });
@@ -102,7 +101,7 @@ class AdminHomeScreen extends Component {
                         active: false,
                         game: {
                             opponent: '',
-                            date: ''
+                            date: new Date()
                         }
                     }
                 })
@@ -119,7 +118,6 @@ class AdminHomeScreen extends Component {
     render() { 
         return ( 
             <ScrollView>
-                {/* <MyHeader title="" navigate={page=>this.props.navigation.navigate(page)}/> */}
                 <Button title="Add Event/Game" onPress={()=>this.setState({...this.state, modal: {...this.state.modal, active: true}})}/>
                 <Button title="Add/Remove/Edit Player(s)" onPress={()=>this.props.navigation.navigate('AdminPlayerEdit')} />
                 <ScrollView>
@@ -172,8 +170,8 @@ class AdminHomeScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        games: state.games,
-        aUser: state.aUser
+        games: state.gameweek.games,
+        aUser: state.endUser.adminUser.aUser
     }
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, Text, View, StyleSheet, Button, Picker, Modal, TouchableHighlight } from 'react-native';
 import { getCaptain, getVCaptain, positionString, fullName, playersObjToArray, getPuId } from '../functions/reusable';
 import { connect } from 'react-redux';
-import MyHeader from '../components/myHeader';
+import Header from '../components/header/header';
 import PlayerGraphic from '../components/playerGraphic';
 import { pickTeamUpdate } from '../actions';
 import {vw, vh} from 'react-native-expo-viewport-units';
@@ -11,6 +11,7 @@ import _ from 'lodash';
 import { patchPlayerUserJoinerSUBS, patchPlayerUserJoinerCAPTAINS } from '../functions/APIcalls';
 import { showMessage } from 'react-native-flash-message';
 import Pitch from '../components/pitch';
+import BottomNav from '../components/bottomNav/bottomNav';
 
 
 class PickTeamScreen extends Component {
@@ -149,7 +150,7 @@ class PickTeamScreen extends Component {
     render() { 
         return ( 
             <ScrollView>
-                <MyHeader title='Pick Team' navigate={page=>this.props.navigation.navigate(page)}/>
+                <Header title='Pick Team' navigate={page=>this.props.navigation.navigate(page)}/>
                 <Pitch
                 type="pickTeam"
                 update={this.validateTeam}
@@ -162,6 +163,7 @@ class PickTeamScreen extends Component {
                 setCaptain={this.setCaptain}
                 setVCaptain={this.setVCaptain}
                 />
+                <BottomNav navigate={this.props.navigation.navigate}/>
             </ScrollView>
          );
     }

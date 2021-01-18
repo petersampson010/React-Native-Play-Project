@@ -32,7 +32,7 @@ class OpenerScreen extends Component {
     }
   }
 
-export default OpenerScreen
+export default OpenerScreen;
 
 const styles = StyleSheet.create({
     optionContainer: {

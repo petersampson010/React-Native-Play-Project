@@ -26,8 +26,8 @@ const initialState = {
     },
     homeGraphics: {
         league: [],
-        topPlayer: {},
-        topUser: {}
+        topPlayer: null,
+        topUser: null
     },
     loginComplete: false,
 }
@@ -37,7 +37,8 @@ const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGINUSER':
             console.log(action.ugJoiners);
-            return {...state, 
+            return {
+                ...state, 
                 endUser: {
                     ...state.endUser,
                     user: action.user,
@@ -63,47 +64,123 @@ const rootReducer = (state = initialState, action) => {
                     topUser: action.topUser
                 },
                 loginComplete: true,
-            }
+            };
         case 'LOGINADMINUSER':
-            return {...state, 
-                aUser: action.aUser, 
-                clubPlayers: action.clubPlayers,
-                allUsers: action.allUsers,
-                games: action.games,
+            return {
+                ...state, 
+                endUser: {
+                    ...state.endUser,
+                    adminUser: {
+                        ...state.endUser.adminUser,
+                        aUser: action.aUser,
+                        allUsers: action.allUsers
+                    }
+                },
+                players: {
+                    ...state.players,
+                    clubPlayers: action.clubPlayers
+                },
+                gameweek: {
+                    ...state.gameweek,
+                    games: action.games,
+                },
                 loginComplete: true
-            }
+            };
         case 'NTS2LOGIN':
-            return {...state,
-                user: action.user,
-                starters: action.starters,
-                subs: action.subs,
-                puJoiners: action.puJoiners
-            }
-        case 'LOGINADMINUSER':
-            return;
+            return {
+                ...state,
+                endUser: {
+                    ...state.endUser,
+                    user: action.user
+                },
+                players: {
+                    ...state.players,
+                    starters: action.starters,
+                    subs: action.subs
+                },
+                joiners: {
+                    ...state.joiners,
+                    puJoiners: action.puJoiners
+                }
+            };
         case 'SETADMINUSER':
-            return {...state, aUser: action.aUser};
+            console.log('HHHIIITTTT here blud');
+            console.log(action.aUser);
+            return {
+                ...state, 
+                endUser: {
+                    ...state.endUser,
+                    adminUser: {
+                        ...state.endUser.adminUser,
+                        aUser: action.aUser
+                    }
+                }
+            };
         case 'SETCLUBPLAYERS':
-            return {...state, clubPlayers: action.players};
+            return {
+                ...state, 
+                players: {
+                    ...state.players,
+                    clubPlayers: action.players
+                }
+            };
         case 'SETUSER':
-            return {...state, user: action.user};
+            return {
+                ...state, 
+                endUser: {
+                    ...state.endUser, 
+                    user: action.user
+                }
+            };
         case 'RESETTEAMPLAYERS':
-            return {...state, starters: [], subs: []};
+            return {
+                ...state, 
+                players: {
+                    ...state.players,
+                    starters: [], 
+                    subs: []
+                }
+            };
         case 'PICKTEAMUPDATE':
-            return {...state, starters: playersObjToArray(action.team), subs: action.subs}
+            return {
+                ...state, 
+                players: {
+                    ...state.players,
+                    starters: playersObjToArray(action.team), 
+                    subs: action.subs
+                }
+            };
         case 'SETGWSELECTID':
-            return {...state, gwSelectId: action.id}
+            return {
+                ...state, 
+                gameweek: {
+                    ...state.gameweek,
+                    gwSelectId: action.id
+                }
+            };
         case 'COMPLETEGAME':
-            let newGames = state.games.map(game=>{
+            let newGames = state.gameweek.games.map(game=>{
                 if (game.gameweek_id===action.id) {
                     return {...game, complete: true};
                 } else {
                     return game;
                 }
             });
-            return {...state, games: newGames};
+            return {
+                ...state, 
+                gameweek: {
+                    ...state.gameweek,
+                    games: newGames
+                }
+            };
         case 'ADDGAME':
-            return {...state, games: [...state.games, action.game]};
+            return {
+                ...state, 
+                gameweek: {
+                    ...state.gameweek,
+                    games: [...state.gameweek.games, action.game]
+                }
+            };
         default:
             return state;
     }

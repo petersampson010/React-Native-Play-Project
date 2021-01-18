@@ -82,22 +82,25 @@ class LoginScreen extends Component {
         let puJoiners = await fetchAllPlayerUserJoinersByUserId(user.user_id);
         let league = await fetchLeague(user.admin_user_id);
         let gameweek = await fetchLatestGameweekFromAdminUserId(user.admin_user_id);
-        // console.log(gameweek);
-        let pgJoiners = await fetchPGJoinersFromUserIdAndGameweekId(user.user_id, gameweek.gameweek_id);
-        let ugJoiners = await fetchUGJoiners(user.admin_user_id, gameweek.gameweek_id);
-        let latestUG = await fetchUGJoiner(user.user_id, gameweek.gameweek_id);
-        // console.log(latestUG);
-        let pg = pgJoiners.sort((a,b)=>a.total_points-b.total_points)[0];
-        let topPlayer = {
-          pg,
-          player: await fetchPlayerById(pg.player_id)
-        };
-        let ug = ugJoiners.sort((a,b)=>a.total_points-b.total_points)[0];
-        let topUser = {
-          ug,
-          user: await fetchUserById(ug.user_id)
-        };
-        await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, ugJoiners, latestUG, topPlayer, topUser);
+        console.log(gameweek);
+        if (gameweek) {
+          let pgJoiners = await fetchPGJoinersFromUserIdAndGameweekId(user.user_id, gameweek.gameweek_id);
+          let ugJoiners = await fetchUGJoiners(user.admin_user_id, gameweek.gameweek_id);
+          let latestUG = await fetchUGJoiner(user.user_id, gameweek.gameweek_id);
+          let pg = pgJoiners.sort((a,b)=>a.total_points-b.total_points)[0];
+          let topPlayer = {
+            pg,
+            player: await fetchPlayerById(pg.player_id)
+          };
+          let ug = ugJoiners.sort((a,b)=>a.total_points-b.total_points)[0];
+          let topUser = {
+            ug,
+            user: await fetchUserById(ug.user_id)
+          };
+          await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, gameweek, pgJoiners, ugJoiners, latestUG, topPlayer, topUser);
+        } else {
+          await this.props.loginUser(user, clubPlayers, starters, subs, puJoiners, league, null, [], [], null, null, null);
+        }
         this.props.navigation.navigate('Home');
       } else {
         // this.setState({email: 'A',

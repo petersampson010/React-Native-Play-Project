@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MyHeader from '../../components/myHeader';
+import Header from '../../components/header/header';
 import { ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { patchUserBUDGET, postPlayerUserJoiner } from '../../functions/APIcalls';
@@ -8,6 +8,7 @@ import Pitch from '../../components/pitch';
 import PlayersList from '../../components/playersList';
 import { showMessage } from 'react-native-flash-message';
 import { allSelectedPlayerIds, allSelectedPlayers } from '../../functions/reusable';
+import pitchHead from '../../components/pitchHead';
 
 class ntsScreen2 extends Component {
     state = { 
@@ -139,7 +140,7 @@ class ntsScreen2 extends Component {
     render() { 
         return ( 
             <ScrollView style={styles.container}>
-                <MyHeader style={styles.header} title='Team Selection'/>
+                <Header style={styles.header} title='Team Selection'/>
                 <Pitch
                 update={this.submitTeam}
                 budget={this.state.budget}
@@ -148,6 +149,7 @@ class ntsScreen2 extends Component {
                 clickFcn={this.clickFcn}
                 captain={false}
                 vCaptain={false}
+                type='transfers'
                 />
                 <PlayersList
                 allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}

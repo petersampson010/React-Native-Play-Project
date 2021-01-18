@@ -36,6 +36,7 @@ class Pitch extends Component {
         captain={this.props.captain===player}
         vCaptain={this.props.vCaptain===player}
         playerPG={this.playerPG(player.player_id)}
+        type={this.props.type}
         />)
     }
 
@@ -45,7 +46,9 @@ class Pitch extends Component {
         clickFcn={this.props.clickFcn} 
         openModal={this.openModal}
         captain={this.props.captain===player}
-        vCaptain={this.props.vCaptain===player}/>)
+        vCaptain={this.props.vCaptain===player}
+        type={this.props.type}
+        />)
     }
 
     openModal = player => {

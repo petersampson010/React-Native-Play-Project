@@ -139,7 +139,7 @@ class ClubSetupScreen extends Component {
 
 const mapStateToProps = state => {
     return {
-        aUserId: state.aUser.admin_user_id
+        aUserId: state.endUser.adminUser.aUser.admin_user_id
     }
 }
 

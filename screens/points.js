@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import MyHeader from '../components/myHeader';
+import Header from '../components/header/header';
 import Pitch from '../components/pitch';
 import { getCaptain, getVCaptain, playersArrayToObj } from '../functions/reusable';
+import BottomNav from '../components/bottomNav/bottomNav';
 
 
 class PointsScreen extends Component {
@@ -13,7 +14,8 @@ class PointsScreen extends Component {
     render() { 
         return ( 
             <ScrollView>
-                <MyHeader title='Points' navigate={page=>this.props.navigation.navigate(page)}/>
+                <Header title='Points' navigate={page=>this.props.navigation.navigate(page)}/>
+                {this.props.latestGw ? 
                 <Pitch
                 type="points"
                 update={()=>console.log('do nothing')}
@@ -23,7 +25,8 @@ class PointsScreen extends Component {
                 clickFcn={()=>console.log('do nothing')}
                 captain={getCaptain(this.props.starters, this.props.puJoiners)}
                 vCaptain={getVCaptain(this.props.starters, this.props.puJoiners)}
-                />
+                /> : <Text>No Games played yet, come back soon!</Text>}
+                <BottomNav navigate={this.props.navigation.navigate}/>
             </ScrollView>
          );
     }
@@ -34,7 +37,7 @@ const mapStateToProps = state => {
         subs: state.players.subs,
         starters: state.players.starters,
         puJoiners: state.joiners.puJoiners,
-        league: state.league
+        league: state.homeGraphics.league
     }
 }
  

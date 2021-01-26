@@ -8,7 +8,9 @@ import MyModal from '../myModal';
 import { connect } from 'react-redux';
 import PitchHead from '../pitchHead';
 import MenuDrawer from 'react-native-side-drawer';
-import { defender, forward, goalkeeper, midfielder, pitch, pitchContainer, starters, subs } from './style';
+import { defender, forward, goalkeeper, menuDrawerContainer, midfielder, pitch, pitchContainer, slideButton, slideButtonContainer, starters, subs } from './style';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import playersList from '../playersList/playersList';
 
 
 
@@ -25,8 +27,7 @@ class Pitch extends Component {
                 availability: "a",
                 admin_user_id: 1
             }
-        },
-        slideDrawer: false,
+        }
     }
 
     playerPG = (playerId) => this.props.type==="points" ? this.props.pgJoiners.filter(pg=>pg.player_id===playerId)[0] : false;
@@ -63,12 +64,6 @@ class Pitch extends Component {
         })
     }
 
-    drawerContent = () => {
-        return (<View style={{backgroundColor: 'red'}}>
-            <Button title="close drawer" onPress={()=>this.setState({...this.state, slideDrawer: false})}/>
-        </View>)
-    }
-
 
     render() { 
         return ( 
@@ -80,16 +75,16 @@ class Pitch extends Component {
                 />
                 <View style={pitchContainer}>
                     <MenuDrawer
-                        open={this.state.slideDrawer}
-                        drawerContent={this.drawerContent()}
-                        drawerPercentage={45}
+                        open={this.props.slideDrawerActive}
+                        drawerContent={this.props.drawerContent}
+                        drawerPercentage={100}
                         animationTime={250}
                         overlay={true}
                         opacity={0.7}
                         position="right"
                     >
                         <View style={{flex: 1, flexDirection: 'row'}}>
-                            <View style={pitch}>
+                            <View style={pitch} onPress={()=>{console.log('hit');this.setState({...this.state, slideDrawer: false})}}>
                                 <View style={starters}>
                                     <View style={goalkeeper}>
                                         {this.props.team[1].length>0 ? this.renderPlayers('1', 1) : null}
@@ -129,7 +124,12 @@ class Pitch extends Component {
                             </View>}
                             buttonOptions={[]}
                             />
-                            <Button title="open drawer" onPress={()=>this.setState({...this.state, slideDrawer: true})}/>
+                            <View style={slideButtonContainer}>
+                                <TouchableOpacity
+                                onPress={this.props.toggleSlideDrawer}>
+                                    <View style={slideButton}></View>
+                                </TouchableOpacity>
+                            </View>
 
                         </View>
 

@@ -7,8 +7,9 @@ import PlayersList from '../../components/playersList/playersList.js';
 import { showMessage } from 'react-native-flash-message';
 import BottomNav from '../../components/bottomNav/bottomNav.js';
 import FadeInView from '../../components/fadeInView.js';
-import { pitchContainer, playersMenu, quickView } from './style.js';
+import { pitchContainer, playersMenu, quickView, menuDrawerContainer, leftDrawerComp, rightDrawerComp, closeDrawer } from './style.js';
 import { screenContainer } from '../../styles/global.js';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 class TransfersScreen extends Component {
@@ -22,6 +23,7 @@ class TransfersScreen extends Component {
 
         positionFilter: '0',
         budget: this.props.budget,
+        slideDrawerActive: false
     }
 
 
@@ -63,6 +65,31 @@ class TransfersScreen extends Component {
         this.fade.animateButton();
     }
 
+    toggleSlideDrawer = () => {
+        this.setState({
+            ...this.state,
+            slideDrawerActive: !this.state.slideDrawerActive
+        })
+    }
+    
+    drawerContent = () => {
+        return (
+        <View style={menuDrawerContainer}>
+            <View style={leftDrawerComp}>
+                <TouchableWithoutFeedback onPress={this.toggleSlideDrawer}>
+                    <View style={closeDrawer}></View>
+                </TouchableWithoutFeedback>
+            </View>
+            <View style={rightDrawerComp}>
+                <Button title="close drawer" onPress={this.toggleSlideDrawer}/>
+                <PlayersList
+                    allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
+                    clickFcn={this.transfer}
+                    />
+            </View>
+        </View>)
+    }
+
     render() { 
         return ( 
             <View style={screenContainer}>
@@ -76,6 +103,9 @@ class TransfersScreen extends Component {
                     subs={false}
                     captain={false}
                     vCaptain={false}
+                    drawerContent={this.drawerContent()}
+                    slideDrawerActive={this.state.slideDrawerActive}
+                    toggleSlideDrawer={this.toggleSlideDrawer}
                     />
                     
                     

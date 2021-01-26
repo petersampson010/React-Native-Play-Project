@@ -10,11 +10,11 @@ export const pickerItem = {
 }
 
 export const slidable = {
-    position: 'absolute',
-    top: vh(5),
-    right: 0,
-    backgroundColor: 'red',
-    width: vw(50),
-    height: vh(90),
-    zIndex: 1
+    // position: 'absolute',
+    // top: vh(5),
+    // right: 0,
+    // backgroundColor: 'red',
+    // width: vw(50),
+    // height: vh(90),
+    // zIndex: 1
 }

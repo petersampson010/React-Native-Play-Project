@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { ScrollView, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { allSelectedPlayerIds, fullName, positionString } from '../../functions/reusable';
-import Pitch from '../../components/pitch.js';
+import Pitch from '../../components/Pitch/pitch.js';
 import PlayersList from '../../components/playersList/playersList.js';
 import { showMessage } from 'react-native-flash-message';
 import BottomNav from '../../components/bottomNav/bottomNav.js';
 import FadeInView from '../../components/fadeInView.js';
-import { playersMenu } from './style.js';
+import { pitchContainer, playersMenu, quickView } from './style.js';
 import { screenContainer } from '../../styles/global.js';
 
 
@@ -66,7 +66,7 @@ class TransfersScreen extends Component {
     render() { 
         return ( 
             <View style={screenContainer}>
-                <View>
+                <ScrollView style={pitchContainer}>
                     <Pitch 
                     type="transfers"
                     update={this.confirmUpdates}
@@ -77,16 +77,9 @@ class TransfersScreen extends Component {
                     captain={false}
                     vCaptain={false}
                     />
-                    {/* <FadeInView
-                    style={playersMenu}
-                    ref={ani => this.fade = ani}
-                    >
-                        <PlayersList
-                allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
-                clickFcn={this.transfer}
-                />
-                    </FadeInView> */}
-                </View>
+                    
+                    
+                </ScrollView> 
                 <Button title="increase" onPress={this.animateButton}/>
                 <BottomNav navigate={this.props.navigation.navigate}/>
             </View>

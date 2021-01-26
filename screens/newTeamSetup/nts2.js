@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { patchUserBUDGET, postPlayerUserJoiner } from '../../functions/APIcalls';
 import { nts2Login } from '../../actions';
-import Pitch from '../../components/pitch';
+import Pitch from '../../components/Pitch/pitch';
 import PlayersList from '../../components/playersList/playersList';
 import { showMessage } from 'react-native-flash-message';
 import { allSelectedPlayerIds, allSelectedPlayers } from '../../functions/reusable';

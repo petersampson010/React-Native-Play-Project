@@ -10,7 +10,7 @@ import { validatePickTeam } from '../functions/validity';
 import _ from 'lodash';
 import { patchPlayerUserJoinerSUBS, patchPlayerUserJoinerCAPTAINS } from '../functions/APIcalls';
 import { showMessage } from 'react-native-flash-message';
-import Pitch from '../components/pitch';
+import Pitch from '../components/Pitch/pitch';
 import BottomNav from '../components/bottomNav/bottomNav';
 
 

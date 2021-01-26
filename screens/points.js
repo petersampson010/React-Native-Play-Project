@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Header from '../components/header/header';
-import Pitch from '../components/pitch';
+import Pitch from '../components/Pitch/pitch';
 import { getCaptain, getVCaptain, playersArrayToObj } from '../functions/reusable';
 import BottomNav from '../components/bottomNav/bottomNav';
 

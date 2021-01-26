@@ -2,20 +2,21 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import OpenerScreen from './screens/opener';
-import LoginScreen from './screens/login';
-import AdminAccountSetupScreen from './screens/adminAccountSetup';
-import ntsScreen1 from './screens/newTeamSetup/nts1';
+import OpenerScreen from './screens/opener/opener';
+import LoginScreen from './screens/login/login';
+import AdminAccountSetupScreen from './screens/login/adminAccountSetup';
+import ntsScreen1 from './screens/login/nts1';
 import ntsScreen2 from './screens/newTeamSetup/nts2';
 import ContactUsScreen from './screens/contactUs';
 import HomeScreen from './screens/home/home';
-import TransfersScreen from './screens/transfers';
+import TransfersScreen from './screens/transfers/transfers';
 import PointsScreen from './screens/points';
 import ClubSetupScreen from './screens/clubSetup';
 import PickTeamScreen from './screens/pickTeam';
 import AdminHomeScreen from './screens/adminHome';
 import GameEditorScreen from './screens/gameEditor';
 import AdminPlayerEditScreen from './screens/adminPlayerEdit';
+import { $darkBlue } from './styles/global';
 
 const Stack = createStackNavigator();
 
@@ -23,20 +24,104 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Opener">
-        <Stack.Screen name="Opener" component={OpenerScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="AdminAccountSetup" component={AdminAccountSetupScreen} />
-        <Stack.Screen name="nts1" component={ntsScreen1} />
-        <Stack.Screen name="nts2" component={ntsScreen2} />
-        <Stack.Screen name="ContactUs" component={ContactUsScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Transfers" component={TransfersScreen} />
-        <Stack.Screen name="Points" component={PointsScreen} />
-        <Stack.Screen name="ClubSetup" component={ClubSetupScreen} />
-        <Stack.Screen name="PickTeam" component={PickTeamScreen} />
-        <Stack.Screen name="AdminHome" component={AdminHomeScreen} />
-        <Stack.Screen name="GameEditor" component={GameEditorScreen} />
-        <Stack.Screen name="AdminPlayerEdit" component={AdminPlayerEditScreen} />
+        <Stack.Screen name="Opener" component={OpenerScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="Login" component={LoginScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="AdminAccountSetup" component={AdminAccountSetupScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="nts1" component={ntsScreen1} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="nts2" component={ntsScreen2} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="ContactUs" component={ContactUsScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="Home" component={HomeScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="Transfers" component={TransfersScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="Points" component={PointsScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="ClubSetup" component={ClubSetupScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="PickTeam" component={PickTeamScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="AdminHome" component={AdminHomeScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="GameEditor" component={GameEditorScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
+        <Stack.Screen name="AdminPlayerEdit" component={AdminPlayerEditScreen} 
+        options={{
+          title: 'Sunday',
+          headerStyle: {backgroundColor: $darkBlue}
+        , headerTitleStyle: {
+          color: 'white'
+        }}}/>
 
 
       </Stack.Navigator>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, View, Picker, Switch } from 'react-native';
 import { Input } from 'react-native-elements';
 import MyModal from '../components/myModal';
-import PlayersList from '../components/playersList';
+import PlayersList from '../components/playersList/playersList';
 import {vw, vh} from 'react-native-expo-viewport-units';
 import { availability, fullName, positionString } from '../functions/reusable';
 import { patchPlayer } from '../functions/APIcalls';

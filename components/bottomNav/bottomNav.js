@@ -21,16 +21,3 @@ class BottomNav extends Component {
 }
  
 export default BottomNav;
-
-// const styles = StyleSheet.create({
-//     navContainer: {
-//         flex: 1,
-//         flexDirection: 'row',
-//         justifyContent: 'space-between',
-//         position: 'absolute',
-//         height: vh(9),
-//         width: vw(100),
-//         backgroundColor: 'red',
-//         top: vh(82)
-//     }
-// })

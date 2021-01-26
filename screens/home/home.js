@@ -27,8 +27,7 @@ class HomeScreen extends Component {
 
     render() { 
         return ( 
-            <ScrollView style={screenContainer}>
-                <Header title="title of APP" navigate={page=>this.props.navigation.navigate(page)}/> 
+            <View style={screenContainer}>
                 {this.props.gwLatest ? 
                 <View>
                     <GwScore />
@@ -48,7 +47,7 @@ class HomeScreen extends Component {
                     </Table>
                 </ScrollView>
                 <BottomNav navigate={this.props.navigation.navigate}/>
-            </ScrollView>
+            </View>
          );
     }
 }

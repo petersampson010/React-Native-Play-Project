@@ -19,9 +19,13 @@ export const $skobeloff = '#297373';
 export const $arylideYellow = '#E9D758';
 
 
+export const $darkBlue = '#152032';
+export const $luminousGreen = '#82ff66';
+export const $inputBlue = '#3d4151';
+export const $seaBlue = '#0072d2';
 //screen format
 
 export const screenContainer = {
     height: vh(100),
-    backgroundColor: $onyx
+    backgroundColor: $darkBlue,
 }

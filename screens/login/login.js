@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, Button, Switch, TouchableHighlightBase } from 'react-native';
+import { View, Text, Button, Switch, TouchableHighlightBase, TextInput } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Input } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { loginUser, loginAdminUser, resetTeamPlayers } from '../actions';
+import { loginUser, loginAdminUser, resetTeamPlayers } from '../../actions';
 import { fetchUserByEmail, fetchAdminUserByEmail, fetchAllPlayersByAdminUserId, 
   fetchStartersByUserId, fetchSubsByUserId, fetchAllPlayerUserJoinersByUserId, 
   fetchAllUsersByAdminUserId, fetchAllGamesByAdminUserId, fetchLeague, fetchLatestGameweekFromAdminUserId, fetchPGJoinersFromUserIdAndGameweekId, fetchUGJoiner, fetchUGJoiners, fetchPlayerById, fetchUserById } 
-  from '../functions/APIcalls'; 
+  from '../../functions/APIcalls'; 
+import { screenContainer } from '../../styles/global';
+import { input, inputField, inputFieldsContainer, loginHead, switchText, textLabel } from './style';
 
 
 class LoginScreen extends Component {
@@ -138,26 +139,35 @@ class LoginScreen extends Component {
 
     render() {
         return (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Login Screen</Text>
-            <Switch value={this.state.admin} onValueChange={this.toggleAdmin} />
-            <View>
-              <Input value={this.state.userObj.email} 
-              onChangeText={value => this.formChange('email', value)}
-              placeholder="email@address.com"
-              leftIcon={{ type: 'font-awesome', name: 'envelope'}}
-              label="Your email address"
-              autoCapitalize="none"
-              />
-              <Input value={this.state.userObj.password} 
-              onChangeText={value => this.formChange('password', value)}
-              placeholder="Password"
-              leftIcon={{type:'font-awesome', name: 'lock'}}
-              label="Password"
-              autoCapitalize="none"
-              />
+          <View style={screenContainer}>
+            <View style={inputFieldsContainer}>
+              <Text style={loginHead}>{this.state.admin ? 'Admin Account Login' : 'User Account Login'}</Text>
+              <Switch value={this.state.admin} onValueChange={this.toggleAdmin} />
+              <Text style={switchText}>Switch Admin/User Login</Text>
+              <Text style={textLabel}>Enter your email address</Text>
+              <View style={inputField}>
+                <TextInput style={input}
+                value={this.state.userObj.email} 
+                onChangeText={value => this.formChange('email', value)}
+                placeholder="email@address.com"
+                placeholderTextColor='#d1d2d6'
+                autoCapitalize="none"
+                />
+              </View>
+              <Text style={textLabel}>Enter your password</Text>
+              <View style={inputField}>
+                <TextInput style={input}
+                value={this.state.userObj.password} 
+                onChangeText={value => this.formChange('password', value)}
+                placeholder="Password"
+                placeholderTextColor='#d1d2d6'
+                autoCapitalize="none"
+                secureTextEntry={true}
+                />
+              </View>
+              
+              <Button title="Sign in" onPress={this.handleSubmit}/>
             </View>
-            <Button title="Sign in" onPress={this.handleSubmit}/>
           </View>
         );
     }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Picker } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { connect } from 'react-redux';
-import { positionString } from '../functions/reusable';
+import { positionString } from '../../functions/reusable';
 import { Table, Row } from 'react-native-table-component';
 import {vw, vh} from 'react-native-expo-viewport-units';
+import { pickerItem, positionPicker, slidable } from './style';
 
 
 
@@ -68,11 +70,11 @@ class PlayersList extends Component {
         return ( 
             <View>
                 <View style={styles.filter}>
-                    <Picker style={styles.picker} 
+                    <Picker style={positionPicker} 
                     selectedValue={this.state.positionFilter} 
                     onValueChange={value=>this.setState({...this.state, positionFilter: value})}>
-                        <Picker.Item label="ANY" value='0'/>
-                        <Picker.Item label="GK" value='1'/>
+                        <Picker.Item style={pickerItem} label="ANY" value='0'/>
+                        <Picker.Item style={pickerItem} label="GK" value='1'/>
                         <Picker.Item label="DEF" value='2'/>
                         <Picker.Item label="MID" value='3'/>
                         <Picker.Item label="FWD" value='4'/>

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { patchUserBUDGET, postPlayerUserJoiner } from '../../functions/APIcalls';
 import { nts2Login } from '../../actions';
 import Pitch from '../../components/pitch';
-import PlayersList from '../../components/playersList';
+import PlayersList from '../../components/playersList/playersList';
 import { showMessage } from 'react-native-flash-message';
 import { allSelectedPlayerIds, allSelectedPlayers } from '../../functions/reusable';
 import pitchHead from '../../components/pitchHead';

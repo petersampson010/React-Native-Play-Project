@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { ScrollView, View, Text, StyleSheet, Modal, Button, Picker } from 'react-native';
+import { ScrollView, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
-import Header from '../components/header/header';
-import { Table, Row } from 'react-native-table-component';
 import {vw, vh} from 'react-native-expo-viewport-units';
-import { allSelectedPlayerIds, fullName, positionString } from '../functions/reusable';
-import PlayerGraphic from '../components/playerGraphic';
-import Pitch from '../components/pitch';
-import PlayersList from '../components/playersList';
+import { allSelectedPlayerIds, fullName, positionString } from '../../functions/reusable';
+import Pitch from '../../components/pitch.js';
+import PlayersList from '../../components/playersList/playersList.js';
 import { showMessage } from 'react-native-flash-message';
-import BottomNav from '../components/bottomNav/bottomNav';
-
+import BottomNav from '../../components/bottomNav/bottomNav.js';
+import FadeInView from '../../components/fadeInView.js';
+import { playersMenu } from './style.js';
+import { screenContainer } from '../../styles/global.js';
 
 
 class TransfersScreen extends Component {
@@ -26,9 +25,6 @@ class TransfersScreen extends Component {
         budget: this.props.budget,
     }
 
-    // componentDidMount() {
-    //     // console.log(typeof this.props.budget)
-    // }
 
 
     transfer = player => {
@@ -64,26 +60,38 @@ class TransfersScreen extends Component {
         return allSelectedPlayerIds(this.state.team).includes(player.player_id);
     };
 
+    animateButton = () => {
+        this.fade.animateButton();
+    }
+
     render() { 
         return ( 
-            <ScrollView>
-                <Header title='Transfers' navigate={page=>this.props.navigation.navigate(page)}/>
-                <Pitch 
-                type="transfers"
-                update={this.confirmUpdates}
-                budget={this.state.budget}
-                team={this.state.team}
-                clickFcn={this.transfer}
-                subs={false}
-                captain={false}
-                vCaptain={false}
-                />
-                <PlayersList
+            <View style={screenContainer}>
+                <View>
+                    <Pitch 
+                    type="transfers"
+                    update={this.confirmUpdates}
+                    budget={this.state.budget}
+                    team={this.state.team}
+                    clickFcn={this.transfer}
+                    subs={false}
+                    captain={false}
+                    vCaptain={false}
+                    />
+                    <FadeInView
+                    style={playersMenu}
+                    ref={ani => this.fade = ani}
+                    >
+
+                    </FadeInView>
+                </View>
+                <Button title="increase" onPress={this.animateButton}/>
+                {/* <PlayersList
                 allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
                 clickFcn={this.transfer}
-                />
+                />  */}
                 <BottomNav navigate={this.props.navigation.navigate}/>
-            </ScrollView>
+            </View>
          );
     }
 }
@@ -97,6 +105,3 @@ const mapStateToProps = state => {
 }
  
 export default connect(mapStateToProps)(TransfersScreen);
-
-const styles = StyleSheet.create({
-})

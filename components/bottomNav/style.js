@@ -1,31 +1,35 @@
+import { faBold } from '@fortawesome/free-solid-svg-icons';
 import { vh, vw } from 'react-native-expo-viewport-units';
-import { $arylideYellow, $baseBlue, $chocolateBlack, $coral, $onyx, $platinum, $sage, $skobeloff } from '../../styles/global';
+import { $arylideYellow, $baseBlue, $chocolateBlack, $coral, $darkBlue, $darkElectricBlue, $onyx, $platinum, $sage, $seaBlue, $skobeloff } from '../../styles/global';
 
 export const navContainer = {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     position: 'absolute',
-    height: vh(3.5),
+    height: vh(7),
     width: vw(100),
-    backgroundColor: $platinum,
-    top: vh(84)
+    backgroundColor: $seaBlue,
+    top: vh(83)
 }
 
 export const navText = {
     margin: 4,
     paddingHorizontal: 6,
     textAlign: "center",
-    // backgroundColor: "white",
-    color: $skobeloff,
-    fontSize: 19
+    color: 'white',
+    fontSize: 19,
+    fontWeight: '500',
+    fontFamily: 'Avenir Next',
 }
 
 export const navSectionContainer = {
-    // backgroundColor: "white",
+    flex: 1,
+    justifyContent: 'center',
+    height: vh(7),
     width: vw(25),
-    borderLeftWidth: 1,
-    borderLeftColor: $skobeloff,
-    borderRightWidth: 1,
-    borderRightColor: $skobeloff
+    borderRightWidth: 0.2,
+    borderRightColor: $darkBlue,
+    borderLeftWidth: 0.2,
+    borderLeftColor: $darkBlue
 }

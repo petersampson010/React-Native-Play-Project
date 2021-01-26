@@ -9,7 +9,7 @@ import ntsScreen1 from './screens/login/nts1';
 import ntsScreen2 from './screens/newTeamSetup/nts2';
 import ContactUsScreen from './screens/contactUs';
 import HomeScreen from './screens/home/home';
-import TransfersScreen from './screens/transfers/transfers';
+import TransfersScreen from './screens/Transfers/transfers.js';
 import PointsScreen from './screens/points';
 import ClubSetupScreen from './screens/clubSetup';
 import PickTeamScreen from './screens/pickTeam';

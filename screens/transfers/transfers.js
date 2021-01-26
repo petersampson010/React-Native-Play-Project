@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, View, Text, Button } from 'react-native';
 import { connect } from 'react-redux';
-import {vw, vh} from 'react-native-expo-viewport-units';
 import { allSelectedPlayerIds, fullName, positionString } from '../../functions/reusable';
 import Pitch from '../../components/pitch.js';
 import PlayersList from '../../components/playersList/playersList.js';
@@ -78,18 +77,17 @@ class TransfersScreen extends Component {
                     captain={false}
                     vCaptain={false}
                     />
-                    <FadeInView
+                    {/* <FadeInView
                     style={playersMenu}
                     ref={ani => this.fade = ani}
                     >
-
-                    </FadeInView>
-                </View>
-                <Button title="increase" onPress={this.animateButton}/>
-                {/* <PlayersList
+                        <PlayersList
                 allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
                 clickFcn={this.transfer}
-                />  */}
+                />
+                    </FadeInView> */}
+                </View>
+                <Button title="increase" onPress={this.animateButton}/>
                 <BottomNav navigate={this.props.navigation.navigate}/>
             </View>
          );

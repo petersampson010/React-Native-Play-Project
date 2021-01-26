@@ -10,8 +10,9 @@ class BottomNav extends Component {
         const pages = ['Home', 'PickTeam', 'Points', 'Transfers'];
         return ( 
             <View style={navContainer}>
-                {pages.map(p=>
+                {pages.map((p,i)=>
                 <NavSection 
+                key={i}
                 navigate={this.props.navigate} 
                 page={p}/>
                 )}

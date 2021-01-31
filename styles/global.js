@@ -23,6 +23,8 @@ export const $darkBlue = '#152032';
 export const $luminousGreen = '#82ff66';
 export const $inputBlue = '#3d4151';
 export const $seaBlue = '#0072d2';
+
+export const $pitchGreen = '#417505';
 //screen format
 
 export const screenContainer = {

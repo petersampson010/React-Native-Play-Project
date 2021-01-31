@@ -81,7 +81,6 @@ class TransfersScreen extends Component {
                 </TouchableWithoutFeedback>
             </View>
             <View style={rightDrawerComp}>
-                <Button title="close drawer" onPress={this.toggleSlideDrawer}/>
                 <PlayersList
                     allSelectedPlayerIds={allSelectedPlayerIds(this.state.team)}
                     clickFcn={this.transfer}

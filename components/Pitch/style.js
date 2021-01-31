@@ -1,5 +1,5 @@
 import {vw, vh} from 'react-native-expo-viewport-units';
-import { $luminousGreen } from '../../styles/global';
+import { $pitchGreen } from '../../styles/global';
 
 export const subHead= {
     flex: 1,
@@ -20,33 +20,18 @@ export const pitchContainer = {
 export const pitch = {
     flex: 14,
     flexDirection: 'row',
-    height: vh(60),
-    // width: vw(90),
-    backgroundColor: 'green'
+    height: vh(77),
+    marginTop: vh(1)
 }
 export const starters = {
     flex: 1
 }
-export const goalkeeper = {
+export const positionRow = {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-evenly'
 }
-export const defender = {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-}
-export const midfielder = {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-}
-export const forward = {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-}
+
 export const subs = {
     height: vh(11),
     backgroundColor: 'grey',
@@ -61,7 +46,7 @@ export const slideButton = {
     borderWidth: 1,
     borderRadius: 20,
     marginLeft: 20,
-    backgroundColor: $luminousGreen
+    // backgroundColor: $luminousGreen
 }
 
 export const slideButtonContainer = {
@@ -72,5 +57,73 @@ export const slideButtonContainer = {
     backgroundColor: 'green',
     // alignItems: 'right',
 }
+
+export const fullPitch = {
+    top: 0,
+    left: 0,
+    width: 397,
+    height: 622,
+    position: "absolute",
+    backgroundColor: $pitchGreen,
+    borderWidth: 3,
+    borderColor: "rgba(255,255,255,1)"
+  }
+
+export const halfwayLine = {
+    top: 44,
+    left: 0,
+    width: 393,
+    height: 3,
+    position: "absolute",
+    backgroundColor: "rgba(255,255,255,1)"
+  }
+
+  export const semiCircle = {
+    top: 0,
+    left: 140,
+    width: 110,
+    height: 95,
+    position: "absolute"
+  }
+
+  export const rect4Stack = {
+    width: 337,
+    height: 95,
+    marginTop: 171
+  }
+
+  export const ellipse2 = {
+    top: 0,
+    left: 100,
+    width: 73,
+    height: 43,
+    position: "absolute"
+  } 
+  
+  export const penBox = {
+    top: 24,
+    left: 27,
+    width: 221,
+    height: 95,
+    position: "absolute",
+    borderWidth: 3,
+    borderColor: "rgba(255,255,255,1)",
+    backgroundColor: $pitchGreen
+  }
+  export const ellipse2Stack = {
+    width: 221,
+    height: 122,
+    marginTop: 234,
+    marginLeft: 58
+  }
+  export const smallPenBox = {
+    top: 579,
+    left: 150,
+    width: 96,
+    height: 43,
+    position: "absolute",
+    borderWidth: 3,
+    borderColor: "rgba(255,255,255,1)"
+  }
 
 

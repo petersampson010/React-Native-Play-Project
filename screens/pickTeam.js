@@ -3,7 +3,6 @@ import { ScrollView, Text, View, StyleSheet, Button, Picker, Modal, TouchableHig
 import { getCaptain, getVCaptain, positionString, fullName, playersObjToArray, getPuId } from '../functions/reusable';
 import { connect } from 'react-redux';
 import Header from '../components/header/header';
-import PlayerGraphic from '../components/playerGraphic';
 import { pickTeamUpdate } from '../actions';
 import {vw, vh} from 'react-native-expo-viewport-units';
 import { validatePickTeam } from '../functions/validity';

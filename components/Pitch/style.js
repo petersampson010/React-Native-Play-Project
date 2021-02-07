@@ -1,5 +1,5 @@
 import {vw, vh} from 'react-native-expo-viewport-units';
-import { $pitchGreen } from '../../styles/global';
+import { $darkBlue, $pitchGreen } from '../../styles/global';
 
 export const subHead= {
     flex: 1,
@@ -7,20 +7,25 @@ export const subHead= {
     justifyContent: 'space-between'
 }
 
+export const scrollContainer = {
+    height: vh(150)
+}
+
 export const pitchContainer = {
     flex: 1,
     width: vw(100),
-    backgroundColor: "#fff",
+    height: vh(75),
+    backgroundColor: $darkBlue,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 37,
     zIndex: 0
 }
 
 export const pitch = {
     flex: 14,
     flexDirection: 'row',
-    height: vh(77),
+    height: vh(70),
     marginTop: vh(1)
 }
 export const starters = {
@@ -33,6 +38,7 @@ export const positionRow = {
 }
 
 export const subs = {
+    position: 'relative',
     height: vh(11),
     backgroundColor: 'grey',
     flex: 1,

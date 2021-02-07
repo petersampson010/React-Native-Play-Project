@@ -36,7 +36,6 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'LOGINUSER':
-            console.log(action.ugJoiners);
             return {
                 ...state, 
                 endUser: {
@@ -104,8 +103,6 @@ const rootReducer = (state = initialState, action) => {
                 }
             };
         case 'SETADMINUSER':
-            console.log('HHHIIITTTT here blud');
-            console.log(action.aUser);
             return {
                 ...state, 
                 endUser: {

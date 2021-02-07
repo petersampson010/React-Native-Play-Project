@@ -8,7 +8,7 @@ import Pitch from '../../components/Pitch/pitch';
 import PlayersList from '../../components/playersList/playersList';
 import { showMessage } from 'react-native-flash-message';
 import { allSelectedPlayerIds, allSelectedPlayers } from '../../functions/reusable';
-import pitchHead from '../../components/pitchHead';
+import pitchHead from '../../components/PitchHead/pitchHead';
 
 class ntsScreen2 extends Component {
     state = { 

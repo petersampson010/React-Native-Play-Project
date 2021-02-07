@@ -5,6 +5,7 @@ import { isCaptain, isVCaptain, fullName } from '../../functions/reusable';
 import Svg, { Ellipse } from "react-native-svg";
 import Shirt from '../Shirt/shirt';
 import { container } from './style';
+import { TouchableHighlightBase } from 'react-native';
 
 
 class PlayerGraphic extends Component {
@@ -37,21 +38,20 @@ class PlayerGraphic extends Component {
     }
 
     componentDidMount()  {
-        console.log(this.props.captain);
-        console.log(this.props.vCaptain);
+        // console.log(this.props.captain);
+        // console.log(this.props.vCaptain);
     }
 
     render() {
-        return ( 
-            <View style={container}>
-                    <Shirt
-                    player={this.props.player}
-                    openModal={this.props.openModal}
-                    captain={this.props.captain}
-                    vCaptain={this.props.vCaptain}/>
-                      <Button title="TRANSFER/SUB" onPress={()=>{this.props.clickFcn(this.props.player);this.props.toggleSlideDrawer();}}/>
-                </View>
-             );
+      return ( 
+        <View style={container}>
+          <Shirt
+          player={this.props.player}
+          openModal={this.props.openModal}
+          captain={this.props.captain}
+          vCaptain={this.props.vCaptain}/>
+        </View>
+      );
     }
 }
 

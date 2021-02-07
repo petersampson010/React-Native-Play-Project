@@ -10,6 +10,7 @@ import FadeInView from '../../components/fadeInView.js';
 import { pitchContainer, playersMenu, quickView, menuDrawerContainer, leftDrawerComp, rightDrawerComp, closeDrawer } from './style.js';
 import { screenContainer } from '../../styles/global.js';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { validateTransfers } from '../../functions/validity';
 
 
 class TransfersScreen extends Component {
@@ -29,16 +30,27 @@ class TransfersScreen extends Component {
 
 
     transfer = player => {
+        console.log('hit');
+        console.log(player);
         let { player_id, position, price } = player;
         let newBudget = this.state.budget;
         if (this.playerSelected(player)) {
+            console.log('hit');
             newBudget += price;
             this.setState({...this.state,
-                team: {...this.state.team,
+                team: {
+                    ...this.state.team,
                     [position]: this.state.team[position].filter(x=>x.player_id!==player_id)
                 },
                 budget: newBudget
             })
+            console.log({
+                team: {
+                    ...this.state.team,
+                    [position]: this.state.team[position].filter(x=>x.player_id!==player_id)
+                },
+                budget: newBudget
+            });
         } else {
             if (this.state.team[position].length>3) {
                 showMessage({
@@ -72,8 +84,7 @@ class TransfersScreen extends Component {
         })
     }
     
-    drawerContent = () => {
-        return (
+    drawerContent = () => 
         <View style={menuDrawerContainer}>
             <View style={leftDrawerComp}>
                 <TouchableWithoutFeedback onPress={this.toggleSlideDrawer}>
@@ -86,7 +97,12 @@ class TransfersScreen extends Component {
                     clickFcn={this.transfer}
                     />
             </View>
-        </View>)
+        </View>
+
+    confirmUpdates = () => {
+        if (validateTransfers()) {
+
+        }
     }
 
     render() { 
@@ -108,8 +124,7 @@ class TransfersScreen extends Component {
                     />
                     
                     
-                </ScrollView> 
-                <Button title="increase" onPress={this.animateButton}/>
+                </ScrollView>
                 <BottomNav navigate={this.props.navigation.navigate}/>
             </View>
          );

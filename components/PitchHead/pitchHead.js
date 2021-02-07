@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Modal, Button } from 'react-native';
-import { vw } from 'react-native-expo-viewport-units';
+import { vh, vw } from 'react-native-expo-viewport-units';
 import { connect } from 'react-redux';
+import { pitchHead } from './style';
 
 
 class PitchHead extends Component {
@@ -39,7 +40,7 @@ class PitchHead extends Component {
 
     render() { 
         return ( 
-            <View style={styles.pitchHead}>
+            <View style={pitchHead}>
                 {this.comp1()}
                 {this.comp2()}
             </View>
@@ -54,13 +55,3 @@ const mapStateToProps = state => {
 }
  
 export default connect(mapStateToProps)(PitchHead);
-
-const styles = StyleSheet.create({
-    pitchHead: {
-        flex: 1,
-        width: vw(100),
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end'
-    }
-})

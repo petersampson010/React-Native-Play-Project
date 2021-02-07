@@ -11,7 +11,7 @@ import { showMessage } from 'react-native-flash-message';
 import TouchableScale from 'react-native-touchable-scale'
 import { setGwSelectId, addGameState } from '../actions';
 import { displayDate } from '../functions/reusable';
-import MyModal from '../components/myModal';
+import MyModal from '../components/Modal/myModal';
 
 class AdminHomeScreen extends Component {
     state = { 

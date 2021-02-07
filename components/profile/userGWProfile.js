@@ -9,10 +9,10 @@ import { Image } from 'react-native';
 class UserGWProfile extends Component {
     state = {  }
 
-    componentDidMount() {
-        console.log('here');
-        console.log(this.props.user);
-    }
+    // componentDidMount() {
+    //     console.log('here');
+    //     console.log(this.props.user);
+    // }
     render() { 
         const { user } = this.props;
         return ( 

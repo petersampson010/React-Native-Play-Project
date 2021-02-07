@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, View, StyleSheet, Button, Picker, Modal, TouchableHighlight } from 'react-native';
-import { getCaptain, getVCaptain, positionString, fullName, playersObjToArray, getPuId } from '../functions/reusable';
+import { getCaptain, getVCaptain, positionString, fullName, playersObjToArray, getPuId } from '../../functions/reusable';
 import { connect } from 'react-redux';
-import Header from '../components/header/header';
-import { pickTeamUpdate } from '../actions';
+import Header from '../../components/header/header';
+import { pickTeamUpdate } from '../../actions';
 import {vw, vh} from 'react-native-expo-viewport-units';
-import { validatePickTeam } from '../functions/validity';
+import { validatePickTeam } from '../../functions/validity';
 import _ from 'lodash';
-import { patchPlayerUserJoinerSUBS, patchPlayerUserJoinerCAPTAINS } from '../functions/APIcalls';
+import { patchPlayerUserJoinerSUBS, patchPlayerUserJoinerCAPTAINS } from '../../functions/APIcalls';
 import { showMessage } from 'react-native-flash-message';
-import Pitch from '../components/Pitch/pitch';
-import BottomNav from '../components/bottomNav/bottomNav';
+import Pitch from '../../components/Pitch/pitch';
+import BottomNav from '../../components/bottomNav/bottomNav';
+import { screenContainer } from '../../styles/global';
+import PlayerProfile from '../../components/profile/playerProile';
+import { pitchContainer, playersMenu, quickView, menuDrawerContainer, leftDrawerComp, rightDrawerComp, closeDrawer } from './style.js';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
 
 
 class PickTeamScreen extends Component {
@@ -24,7 +29,7 @@ class PickTeamScreen extends Component {
         subs: this.props.subs,
         captain: getCaptain(this.props.starters, this.props.puJoiners),
         vCaptain: getVCaptain(this.props.starters, this.props.puJoiners),
-        modal: {
+        slideDrawer: {
             active: false,
             player: {
                 player_id: 1,
@@ -146,24 +151,48 @@ class PickTeamScreen extends Component {
         ) ?
         false : true;
 
+    toggleSlideDrawer = () => {
+        this.setState({
+            ...this.state,
+            slideDrawer: {
+                ...this.state.slideDrawer,
+                active: !this.state.slideDrawer.active
+            }
+        })
+    }
+
+    drawerContent = () => 
+        <View style={menuDrawerContainer}>
+            <View style={leftDrawerComp}>
+                <TouchableWithoutFeedback onPress={this.toggleSlideDrawer}>
+                    <View style={closeDrawer}></View>
+                </TouchableWithoutFeedback>
+            </View>
+            <View style={rightDrawerComp}>
+                <PlayerProfile />
+            </View>
+        </View>
+        
     render() { 
         return ( 
-            <ScrollView>
-                <Header title='Pick Team' navigate={page=>this.props.navigation.navigate(page)}/>
-                <Pitch
-                type="pickTeam"
-                update={this.validateTeam}
-                budget={false}
-                team={this.state.team}
-                subs={this.state.subs}
-                clickFcn={this.transfer}
-                captain={this.state.captain}
-                vCaptain={this.state.vCaptain}
-                setCaptain={this.setCaptain}
-                setVCaptain={this.setVCaptain}
-                />
+            <View style={screenContainer}>
+                        <Pitch
+                        type="pickTeam"
+                        update={this.validateTeam}
+                        budget={false}
+                        team={this.state.team}
+                        subs={this.state.subs}
+                        clickFcn={this.transfer}
+                        captain={this.state.captain}
+                        vCaptain={this.state.vCaptain}
+                        setCaptain={this.setCaptain}
+                        setVCaptain={this.setVCaptain}
+                        drawerContent={this.drawerContent()}
+                        slideDrawerActive={this.state.slideDrawer.active}
+                        toggleSlideDrawer={this.toggleSlideDrawer}
+                        />
                 <BottomNav navigate={this.props.navigation.navigate}/>
-            </ScrollView>
+            </View>
          );
     }
 }

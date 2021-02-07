@@ -65,3 +65,23 @@ export const validatePlayerScore = playerScore => {
         return { result: true, post: false }
     }
 }
+
+export const validateTransfers = (budget, team) => {
+    if (budget>=0) {
+        if (playersObjToArray(team).length===8) {
+            return true;
+        } else {
+            showMessage({
+                type: 'warning',
+                message: "you need 8 players on your team"
+            });
+            return false;
+        }
+    } else {
+        showMessage({
+            type: 'warning',
+            message: "Not enough funds for these transfers"
+        });
+        return false;
+    }
+}

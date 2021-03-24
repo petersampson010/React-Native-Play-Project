@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import OpenerScreen from './screens/opener/opener';
 import LoginScreen from './screens/login/login';
 import AdminAccountSetupScreen from './screens/login/adminAccountSetup';

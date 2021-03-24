@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 import App from './App';
 import rootReducer from './rootReducer';
 import FlashMessage from 'react-native-flash-message';
+import OpenerScreen from './screens/opener/opener';
 
 
 

@@ -13,7 +13,7 @@ class OpenerScreen extends Component {
                     <Text style={optionHead}>Sign In</Text>
                     <Text style={optionText}>Sign in to your account here</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={optionContainer} onPress={()=>this.props.navigation.navigate('AdminAccountSetup')}>
+                {/* <TouchableOpacity style={optionContainer} onPress={()=>this.props.navigation.navigate('AdminAccountSetup')}>
                     <Text style={optionHead}>Account Setup</Text>
                     <Text style={optionText}>Dont have an account for your club, set up a new admin account and team for your players to join</Text>
                 </TouchableOpacity>
@@ -24,7 +24,7 @@ class OpenerScreen extends Component {
                 <TouchableOpacity style={optionUsContainer}>
                     <Text style={optionHead}>Contact Us</Text>
                     <Text style={optionText}>Please get in touch, we want to here from you</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
           </View>
         );

@@ -187,4 +187,4 @@ class LoginScreen extends Component {
     }
   }
 
-export default connect(null, mapDispatchToProps)(LoginScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
